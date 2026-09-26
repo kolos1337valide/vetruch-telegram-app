@@ -2,79 +2,233 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моё мини-приложение</title>
-    <!-- Подключаем скрипт Телеграма -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Vetruch Farm</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
         body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--tg-theme-bg-color, #181818);
-            color: var(--tg-theme-text-color, #ffffff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* ========== ЭКРАН ЗАГРУЗКИ (PRELOADER) ========== */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        /* Светящийся жёлтый круг с иконкой */
+        .logo-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid #ffcc00;
+            box-shadow: 0 0 25px rgba(255, 204, 0, 0.4), inset 0 0 15px rgba(255, 204, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.98); box-shadow: 0 0 15px rgba(255, 204, 0, 0.3); }
+            100% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 204, 0, 0.6); }
+        }
+
+        .loader-title {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        /* Полоса прогресса */
+        .progress-bar-container {
+            width: 160px;
+            height: 5px;
+            background-color: #222222;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ffcc00;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ffcc00;
+            transition: width 0.1s linear;
+        }
+
+        .loading-text {
+            color: #666666;
+            font-size: 13px;
+        }
+
+        .bottom-tag {
+            position: absolute;
+            bottom: 25px;
+            color: #444444;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* ========== ОСНОВНОЕ ПРИЛОЖЕНИЕ ========== */
+        #app {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+            width: 100%;
+            max-width: 360px;
+            padding: 20px;
             text-align: center;
         }
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 24px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            width: 80%;
-            max-width: 320px;
+
+        .header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #888888;
         }
-        h2 { margin-top: 0; }
-        .score { font-size: 48px; font-weight: bold; margin: 15px 0; color: #f5a623; }
-        .btn {
-            background-color: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 10px;
+
+        .header span {
+            color: #ffffff;
+        }
+
+        .coin-btn {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffe169 0%, #d49a00 100%);
+            border: 6px solid #ffcc00;
+            box-shadow: 0 0 35px rgba(255, 204, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            font-weight: bold;
+            margin-bottom: 30px;
+            transition: transform 0.08s ease;
         }
-        .btn:active { transform: scale(0.97); }
+
+        .coin-btn:active {
+            transform: scale(0.92);
+        }
+
+        .score-display {
+            font-size: 42px;
+            font-weight: 900;
+            color: #ffcc00;
+            margin-bottom: 40px;
+        }
+
+        .save-btn {
+            background-color: #ffcc00;
+            color: #000000;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2);
+        }
+
+        .save-btn:active {
+            transform: scale(0.97);
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>Привет, <span id="username">друг</span>! 👋</h2>
-        <p>Кликай по монете:</p>
-        <div class="score" id="counter">0</div>
-        
-        <button class="btn" onclick="addScore()">🪙 Тапнуть!</button>
-        <button class="btn" style="background: #2ea043; margin-top: 15px;" onclick="sendDataToBot()">✅ Сохранить результат</button>
+    <!-- ЭКРАН ЗАГРУЗКИ -->
+    <div id="preloader">
+        <div class="logo-circle">🐻</div>
+        <div class="loader-title">VETRUCH FARM</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div class="loading-text" id="status">загружаем фарм...</div>
+        <div class="bottom-tag">@kolos_bot</div>
+    </div>
+
+    <!-- САМА ИГРА -->
+    <div id="app">
+        <div class="header">Игрок: <span id="username">kolos</span></div>
+        <div class="coin-btn" onclick="tapCoin()">🪙</div>
+        <div class="score-display" id="score">0</div>
+        <button class="save-btn" onclick="saveProgress()">СОХРАНИТЬ РЕЗУЛЬТАТ</button>
     </div>
 
     <script>
-        // Инициализируем Telegram WebApp
-        let tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем окно на весь экран
+        const tg = window.Telegram.WebApp;
+        tg.expand();
 
-        // Получаем имя пользователя из Телеграма
+        // Подставляем имя юзера
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
         }
 
-        let count = 0;
-        function addScore() {
-            count++;
-            document.getElementById('counter').innerText = count;
+        // Анимация загрузки
+        let progress = 0;
+        const progressBar = document.getElementById('progress');
+        const preloader = document.getElementById('preloader');
+
+        const interval = setInterval(() => {
+            progress += 3;
+            progressBar.style.width = progress + '%';
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                // Плавно скрываем экран загрузки
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        }, 30); // 30ms * ~33 шага = около 1 секунды загрузки
+
+        // Логика тапалки
+        let score = 0;
+        function tapCoin() {
+            score++;
+            document.getElementById('score').innerText = score;
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light'); // Вибрация на телефоне при тапе!
+            }
         }
 
-        // Отправка данных обратно в чат с ботом
-        function sendDataToBot() {
-            let data = JSON.stringify({ score: count });
-            tg.sendData(data); // Отправляет боту строку и закрывает приложение
+        function saveProgress() {
+            tg.sendData(JSON.stringify({ score: score }));
         }
     </script>
 </body>
