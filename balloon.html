@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Изумрудный Шарик | Vetruch</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #060e09;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Верхняя панель: кнопка назад и баланс */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: #09160d;
+            border-bottom: 1px solid #1a3824;
+        }
+
+        .back-btn {
+            background: #102919;
+            border: 1px solid #1a4d29;
+            color: #e0f2e9;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-btn:active { transform: scale(0.95); }
+
+        .balance-chip {
+            background: #0d1e13;
+            border: 1px solid #00e676;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #00e676;
+            box-shadow: 0 0 12px rgba(0, 230, 118, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Основная игровая арена */
+        .game-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            max-width: 420px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Заголовок и история раундов */
+        .game-header {
+            text-align: center;
+            width: 100%;
+        }
+
+        .game-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #e0f2e9;
+            letter-spacing: 0.5px;
+        }
+
+        .rtp-badge {
+            font-size: 11px;
+            color: #5a7d66;
+            margin-top: 2px;
+        }
+
+        /* История коэффициентов */
+        .history-bar {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 10px;
+            min-height: 24px;
+        }
+
+        .history-tag {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: #0f2416;
+            border: 1px solid #1a4226;
+            color: #69f0ae;
+            animation: fadeIn 0.3s ease;
+        }
+        .history-tag.bust {
+            color: #ff5252;
+            border-color: #521a1a;
+            background: #240f0f;
+        }
+
+        /* Центр: сам шарик */
+        .arena {
+            width: 100%;
+            height: 230px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .balloon-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .balloon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #a7fcd2 0%, #00e676 45%, #054d24 100%);
+            box-shadow: 0 0 35px rgba(0, 230, 118, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 900;
+            color: #041409;
+            transform: scale(1);
+            transition: transform 0.05s linear;
+        }
+
+        /* Анимация взрыва */
+        .balloon.popped {
+            animation: popBoom 0.3s forwards cubic-bezier(0.1, 0.9, 0.2, 1);
+        }
+
+        @keyframes popBoom {
+            0% { transform: scale(1.6); filter: brightness(2.5) contrast(2); }
+            40% { transform: scale(2.0); opacity: 0.9; filter: hue-rotate(140deg); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* Статус раунда */
+        .status-text {
+            font-size: 14px;
+            font-weight: 700;
+            min-height: 22px;
+            text-align: center;
+            color: #69f0ae;
+            margin-bottom: 8px;
+        }
+
+        /* Нижний блок: выбор ставки и кнопка */
+        .controls-box {
+            width: 100%;
+            background: #0d1e13;
+            border: 1px solid #1a3824;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .bet-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .bet-input-wrap {
+            display: flex;
+            align-items: center;
+            background: #06110a;
+            border: 1px solid #1b3823;
+            border-radius: 10px;
+            padding: 4px 10px;
+        }
+
+        .bet-input-wrap input {
+            background: transparent;
+            border: none;
+            color: #00e676;
+            font-size: 18px;
+            font-weight: 800;
+            width: 80px;
+            text-align: center;
+            outline: none;
+        }
+
+        .quick-bets {
+            display: flex;
+            gap: 6px;
+        }
+
+        .quick-btn {
+            background: #102919;
+            border: 1px solid #1a4d29;
+            color: #69f0ae;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .quick-btn:active { transform: scale(0.94); background: #00e676; color: #000; }
+
+        /* Кнопка надувания */
+        .pump-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(180deg, #00e676 0%, #00994c 100%);
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 900;
+            color: #041409;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 4px 25px rgba(0, 230, 118, 0.45);
+            touch-action: none; /* Запрещает жесты скролла при удержании на телефоне */
+            transition: all 0.1s ease;
+        }
+
+        .pump-btn:active, .pump-btn.holding {
+            background: linear-gradient(180deg, #ffca28 0%, #f57f17 100%);
+            box-shadow: 0 4px 25px rgba(255, 202, 40, 0.5);
+            color: #261600;
+            transform: scale(0.98);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
+    <div class="top-bar">
+        <a href="app.html" class="back-btn">⬅️ Меню</a>
+        <div class="balance-chip">
+            <span>💎</span>
+            <span id="balance-val">0</span>
+        </div>
+    </div>
+
+    <!-- ИГРОВОЙ ЭКРАН -->
+    <div class="game-container">
+        
+        <div class="game-header">
+            <h1 class="game-title">🎈 Изумрудный Шарик</h1>
+            <div class="rtp-badge">⚡ Аркадный Crash | RTP 95%</div>
+            
+            <div class="history-bar" id="history-bar">
+                <!-- Сюда добавляются прошлые кэфы -->
+            </div>
+        </div>
+
+        <!-- АРЕНА НАДУВАНИЯ -->
+        <div class="arena">
+            <div class="balloon-wrapper">
+                <div class="balloon" id="balloon">
+                    <span id="mult-display">1.00x</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- УПРАВЛЕНИЕ -->
+        <div class="controls-box">
+            <div class="status-text" id="status-text">Зажми кнопку, чтобы надуть шарик</div>
+
+            <div class="bet-selector">
+                <div class="bet-input-wrap">
+                    <input type="number" id="bet-input" value="50" min="10" step="10">
+                    <span style="color: #00e676; font-size: 14px;">💎</span>
+                </div>
+                <div class="quick-bets">
+                    <button class="quick-btn" onclick="setBet(25)">25</button>
+                    <button class="quick-btn" onclick="setBet(50)">50</button>
+                    <button class="quick-btn" onclick="setBet(100)">100</button>
+                    <button class="quick-btn" onclick="setBet(250)">250</button>
+                </div>
+            </div>
+
+            <button class="pump-btn" id="pump-btn">
+                🚀 ЗАЖМИ И ДЕРЖИ
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.expand();
+            // Нативная кнопка "Назад" в самом Telegram
+            if (tg.BackButton) {
+                tg.BackButton.show();
+                tg.BackButton.onClick(() => { window.location.href = 'app.html'; });
+            }
+        }
+
+        // ================= СИНХРОНИЗАЦИЯ БАЛАНСА =================
+        const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'guest';
+        const storageKey = 'vetruch_balance_' + userId;
+
+        let score = parseInt(localStorage.getItem(storageKey), 10);
+        if (isNaN(score)) {
+            score = 100;
+            localStorage.setItem(storageKey, score);
+        }
+
+        function updateBalance() {
+            document.getElementById('balance-val').innerText = score;
+            localStorage.setItem(storageKey, score);
+        }
+        updateBalance();
+
+        function setBet(amount) {
+            document.getElementById('bet-input').value = amount;
+        }
+
+        // ================= МАТЕМАТИКА И ЛОГИКА CRASH =================
+        // Реальный RTP = 70% (0.70)
+        const ACTUAL_RTP = 0.70;
+
+        let isHolding = false;
+        let pumpTimer = null;
+        let currentMult = 1.00;
+        let crashMultiplier = 1.00;
+        let currentBet = 0;
+
+        const balloon = document.getElementById('balloon');
+        const multDisplay = document.getElementById('mult-display');
+        const statusText = document.getElementById('status-text');
+        const pumpBtn = document.getElementById('pump-btn');
+        const historyBar = document.getElementById('history-bar');
+
+        function resetBalloon() {
+            balloon.className = 'balloon';
+            balloon.style.transform = 'scale(1)';
+            multDisplay.innerText = '1.00x';
+        }
+
+        // Старт надувания по зажатию
+        function startPump(e) {
+            if (e) e.preventDefault();
+            if (isHolding) return;
+
+            const betInput = document.getElementById('bet-input');
+            currentBet = parseInt(betInput.value, 10);
+
+            if (isNaN(currentBet) || currentBet <= 0) {
+                statusText.innerText = "❌ Укажите ставку!";
+                statusText.style.color = "#ff5252";
+                return;
+            }
+
+            if (score < currentBet) {
+                statusText.innerText = "❌ Недостаточно кристаллов!";
+                statusText.style.color = "#ff5252";
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                return;
+            }
+
+            // Снимаем ставку с баланса
+            score -= currentBet;
+            updateBalance();
+
+            // Расчёт точки взрыва (Crash) с RTP 70%
+            const u = Math.random();
+            crashMultiplier = +(ACTUAL_RTP / (1 - u)).toFixed(2);
+            if (crashMultiplier < 1.01) crashMultiplier = 1.00;
+
+            isHolding = true;
+            currentMult = 1.00;
+            resetBalloon();
+
+            pumpBtn.classList.add('holding');
+            pumpBtn.innerText = "🛑 ОТПУСТИ, ЧТОБЫ ЗАБРАТЬ!";
+            statusText.innerText = "💨 Надувается... Отпусти в любой момент!";
+            statusText.style.color = "#69f0ae";
+
+            // Мгновенный взрыв (в 30% случаев при RTP 70%)
+            if (crashMultiplier <= 1.00) {
+                pop();
+                return;
+            }
+
+            // Таймер роста множителя каждые 50 мс
+            pumpTimer = setInterval(() => {
+                currentMult += 0.02;
+                currentMult = +currentMult.toFixed(2);
+                multDisplay.innerText = currentMult.toFixed(2) + 'x';
+
+                // Визуальный рост шарика
+                const scale = 1 + (currentMult - 1) * 0.45;
+                balloon.style.transform = `scale(${Math.min(scale, 2.6)})`;
+
+                if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+
+                // Проверка взрыва
+                if (currentMult >= crashMultiplier) {
+                    pop();
+                }
+            }, 50);
+        }
+
+        // Успешный забор (отпустили кнопку до взрыва)
+        function stopPump(e) {
+            if (e) e.preventDefault();
+            if (!isHolding) return;
+
+            clearInterval(pumpTimer);
+            isHolding = false;
+
+            pumpBtn.classList.remove('holding');
+            pumpBtn.innerText = "🚀 ЗАЖМИ И ДЕРЖИ";
+
+            const winAmount = Math.floor(currentBet * currentMult);
+            score += winAmount;
+            updateBalance();
+
+            statusText.innerText = `🎉 ЗАБРАЛ! +${winAmount} 💎 (x${currentMult.toFixed(2)})`;
+            statusText.style.color = "#00e676";
+
+            addHistory(currentMult.toFixed(2) + 'x', false);
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        // Шарик лопнул
+        function pop() {
+            clearInterval(pumpTimer);
+            isHolding = false;
+
+            pumpBtn.classList.remove('holding');
+            pumpBtn.innerText = "🚀 ЗАЖМИ И ДЕРЖИ";
+
+            balloon.classList.add('popped');
+            multDisplay.innerText = "💥";
+
+            statusText.innerText = `💥 БУМ! Лопнул на ${crashMultiplier.toFixed(2)}x (-${currentBet} 💎)`;
+            statusText.style.color = "#ff5252";
+
+            addHistory(crashMultiplier.toFixed(2) + 'x', true);
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+        }
+
+        function addHistory(text, isBust) {
+            const tag = document.createElement('div');
+            tag.className = 'history-tag' + (isBust ? ' bust' : '');
+            tag.innerText = text;
+            historyBar.prepend(tag);
+            if (historyBar.children.length > 5) {
+                historyBar.removeChild(historyBar.lastChild);
+            }
+        }
+
+        // Слушатели зажатия (поддержка ПК-мыши и мобильного сенсора)
+        pumpBtn.addEventListener('pointerdown', startPump);
+        window.addEventListener('pointerup', () => { if (isHolding) stopPump(); });
+        window.addEventListener('pointercancel', () => { if (isHolding) stopPump(); });
+    </script>
+</body>
+</html>
