@@ -145,6 +145,9 @@
             border-radius: 8px;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(0, 230, 118, 0.25);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
         .card-btn:active { transform: scale(0.96); }
 
@@ -316,6 +319,7 @@
         <div class="tab-page" id="tab-games">
             <div id="games-list-view" style="width: 100%;">
                 <h2 style="margin-bottom: 20px; color: #e0f2e9;">🎮 Игры</h2>
+                
                 <div class="card">
                     <div>
                         <b>Зелёная Рулетка</b>
@@ -323,12 +327,22 @@
                     </div>
                     <button class="card-btn">Скоро</button>
                 </div>
+
                 <div class="card">
                     <div>
                         <b>Крипто-Кости (2–12)</b>
                         <p style="font-size: 12px; color: #5a7d66;">Равномерный рандом | RTP 93%</p>
                     </div>
                     <button class="card-btn" onclick="openDiceGame()">Играть</button>
+                </div>
+
+                <!-- КАРТОЧКА ИГРЫ В ШАРИК -->
+                <div class="card">
+                    <div>
+                        <b>Изумрудный Шарик 🎈</b>
+                        <p style="font-size: 12px; color: #5a7d66;">Зажимай и надувай | RTP 95%</p>
+                    </div>
+                    <a href="balloon.html" class="card-btn">Играть</a>
                 </div>
             </div>
 
@@ -483,30 +497,31 @@
             btnElement.classList.add('active');
         }
 
-       // Баланс и кликер с автосохранением в памяти
-const userId = (tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'guest';
-const storageKey = 'vetruch_balance_' + userId;
+        // Баланс и кликер с автосохранением в памяти
+        const userId = (tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'guest';
+        const storageKey = 'vetruch_balance_' + userId;
 
-// Загружаем сохранённый баланс, если есть, иначе даём стартовые 100
-let score = parseInt(localStorage.getItem(storageKey), 10);
-if (isNaN(score)) {
-    score = 100;
-    localStorage.setItem(storageKey, score);
-}
+        // Загружаем сохранённый баланс, если есть, иначе даём стартовые 100
+        let score = parseInt(localStorage.getItem(storageKey), 10);
+        if (isNaN(score)) {
+            score = 100;
+            localStorage.setItem(storageKey, score);
+        }
 
-function updateUI() {
-    document.getElementById('score').innerText = score;
-    document.getElementById('totalScore').innerText = score;
-    // Сохраняем в память устройства при каждом изменении
-    localStorage.setItem(storageKey, score);
-}
-updateUI();
+        function updateUI() {
+            document.getElementById('score').innerText = score;
+            document.getElementById('totalScore').innerText = score;
+            // Сохраняем в память устройства при каждом изменении
+            localStorage.setItem(storageKey, score);
+        }
+        updateUI();
 
-function tapCoin() {
-    score++;
-    updateUI();
-    if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-}
+        function tapCoin() {
+            score++;
+            updateUI();
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+        }
+
         function saveProgress() {
             tg.sendData(JSON.stringify({ score: score }));
         }
