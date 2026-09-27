@@ -24,7 +24,6 @@
             overflow: hidden;
         }
 
-        /* Верхняя панель */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -64,7 +63,6 @@
             gap: 6px;
         }
 
-        /* Арена */
         .game-container {
             flex: 1;
             display: flex;
@@ -78,18 +76,9 @@
             overflow-y: auto;
         }
 
-        .game-header {
-            text-align: center;
-            width: 100%;
-        }
+        .game-header { text-align: center; width: 100%; }
+        .game-title { font-size: 20px; font-weight: 900; color: #e0f2e9; }
 
-        .game-title {
-            font-size: 20px;
-            font-weight: 900;
-            color: #e0f2e9;
-        }
-
-        /* Лестница коэффициентов */
         .ladder-steps {
             display: flex;
             gap: 8px;
@@ -113,7 +102,6 @@
             box-shadow: 0 0 12px rgba(0, 230, 118, 0.4);
         }
 
-        /* Карточная сцена */
         .arena {
             width: 100%;
             height: 190px;
@@ -139,10 +127,7 @@
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
-
-        .playing-card.flipped {
-            transform: rotateY(180deg);
-        }
+        .playing-card.flipped { transform: rotateY(180deg); }
 
         .card-face {
             position: absolute;
@@ -156,7 +141,6 @@
             justify-content: center;
         }
 
-        /* Рубашка */
         .card-back {
             background: repeating-linear-gradient(45deg, #0e2b19, #0e2b19 8px, #144227 8px, #144227 16px);
             border: 2px solid #00e676;
@@ -165,7 +149,6 @@
             box-shadow: inset 0 0 15px rgba(0, 230, 118, 0.3);
         }
 
-        /* Лицевая сторона */
         .card-front {
             background: #ffffff;
             border: 2px solid #ffffff;
@@ -186,7 +169,6 @@
             margin-top: 8px;
         }
 
-        /* Панель управления */
         .controls-box {
             width: 100%;
             background: #0d1e13;
@@ -203,10 +185,7 @@
             margin-bottom: 10px;
         }
 
-        .bet-chips {
-            display: flex;
-            gap: 6px;
-        }
+        .bet-chips { display: flex; gap: 6px; }
         .chip {
             padding: 6px 10px;
             background: #102919;
@@ -265,17 +244,16 @@
 
         .ranks-scroll {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 6px;
-            max-height: 120px;
-            overflow-y: auto;
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
 
-    <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
     <div class="top-bar">
+        <!-- Ссылка строго на profile.html, чтобы не скидывало на старый экран -->
         <a href="profile.html" class="back-btn">⬅️ Меню</a>
         <div class="balance-chip">
             <span>💎</span>
@@ -283,9 +261,7 @@
         </div>
     </div>
 
-    <!-- ИГРОВОЙ ЭКРАН -->
     <div class="game-container">
-        
         <div class="game-header">
             <h1 class="game-title">🃏 Угадай Карту</h1>
             <div class="ladder-steps">
@@ -295,7 +271,6 @@
             </div>
         </div>
 
-        <!-- АРЕНА КАРТЫ -->
         <div class="arena">
             <div class="card-box">
                 <div class="playing-card" id="cardElement">
@@ -309,9 +284,7 @@
             <div class="status-text" id="status-text">Выберите цвет карты</div>
         </div>
 
-        <!-- УПРАВЛЕНИЕ -->
         <div class="controls-box">
-            
             <div class="bet-selector" id="bet-row">
                 <span style="font-size: 12px; color: #5a7d66;">Ставка: <b id="current-bet-display" style="color: #00e676;">50</b> 💎</span>
                 <div class="bet-chips">
@@ -322,10 +295,8 @@
                 </div>
             </div>
 
-            <!-- ДИНАМИЧЕСКИЕ КНОПКИ ВЫБОРА -->
             <div id="controls-container"></div>
         </div>
-
     </div>
 
     <script>
@@ -338,7 +309,6 @@
             }
         }
 
-        // ================= СИНХРОНИЗАЦИЯ БАЛАНСА И ТРАНЗАКЦИЙ =================
         const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'player';
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
@@ -371,7 +341,6 @@
             localStorage.setItem(STORAGE_TX_KEY, JSON.stringify(txs));
         }
 
-        // ================= КОЛОДА И СОСТОЯНИЕ =================
         const SUITS = [
             { name: 'hearts', symbol: '♥', color: 'red' },
             { name: 'diamonds', symbol: '♦', color: 'red' },
@@ -383,7 +352,7 @@
         let currentBet = 50;
         let gameActive = false;
         let secretCard = null;
-        let currentStep = 1; // 1 = цвет, 2 = масть, 3 = карта
+        let currentStep = 1;
         let currentMultiplier = 1.0;
 
         function setBet(amount, el) {
@@ -409,7 +378,7 @@
                 betRow.style.display = 'flex';
                 updateStepPills();
                 container.innerHTML = `
-                    <div style="font-size: 12px; color: #5a7d66; margin-bottom: 6px;">Шаг 1: Угадай цвет рубашки (x1.2)</div>
+                    <div style="font-size: 12px; color: #5a7d66; margin-bottom: 6px; text-align: center;">Шаг 1: Угадай цвет (x1.2)</div>
                     <div class="action-grid">
                         <button class="btn-choice red-btn" onclick="makeGuess('color', 'red')">🔴 Красный</button>
                         <button class="btn-choice black-btn" onclick="makeGuess('color', 'black')">⚫ Чёрный</button>
@@ -422,13 +391,134 @@
                 container.innerHTML = `
                     <div class="action-grid">
                         <button class="cashout-btn" onclick="takeCashout()">💰 ЗАБРАТЬ ${takeAmount} 💎 (x1.2)</button>
-                        <button class="btn-choice red-btn" onclick="makeGuess('suit', 'hearts')">♥ Черви (x2)</button>
-                        <button class="btn-choice red-btn" onclick="makeGuess('suit', 'diamonds')">♦ Буби (x2)</button>
-                        <button class="btn-choice black-btn" onclick="makeGuess('suit', 'clubs')">♣ Крести (x2)</button>
-                        <button class="btn-choice black-btn" onclick="makeGuess('suit', 'spades')">♠ Пики (x2)</button>
+                        <button class="btn-choice red-btn" onclick="makeGuess('suit', 'hearts')">♥ Черви</button>
+                        <button class="btn-choice red-btn" onclick="makeGuess('suit', 'diamonds')">♦ Буби</button>
+                        <button class="btn-choice black-btn" onclick="makeGuess('suit', 'clubs')">♣ Крести</button>
+                        <button class="btn-choice black-btn" onclick="makeGuess('suit', 'spades')">♠ Пики</button>
                     </div>
                 `;
             } else if (currentStep === 3) {
                 betRow.style.display = 'none';
                 updateStepPills();
-                const takeAmount = Math.floor(currentBet * currentMultip
+                const takeAmount = Math.floor(currentBet * currentMultiplier);
+                let rankBtns = '';
+                RANKS.forEach(r => {
+                    rankBtns += `<button class="btn-choice" style="padding: 10px 4px;" onclick="makeGuess('rank', '${r}')">${r}</button>`;
+                });
+                container.innerHTML = `
+                    <button class="cashout-btn" style="margin-bottom: 8px; width: 100%;" onclick="takeCashout()">💰 ЗАБРАТЬ ${takeAmount} 💎 (x2.0)</button>
+                    <div style="font-size: 11px; color: #5a7d66; margin-bottom: 6px; text-align: center;">Угадай точную карту (x5.0):</div>
+                    <div class="ranks-scroll">${rankBtns}</div>
+                `;
+            }
+        }
+        renderControls();
+
+        function startNewRound() {
+            const randomSuit = SUITS[Math.floor(Math.random() * SUITS.length)];
+            const randomRank = RANKS[Math.floor(Math.random() * RANKS.length)];
+            secretCard = { suit: randomSuit, rank: randomRank };
+
+            const cardEl = document.getElementById('cardElement');
+            const cardFront = document.getElementById('cardFront');
+            cardEl.classList.remove('flipped');
+            cardFront.className = 'card-face card-front ' + randomSuit.color;
+            document.getElementById('cardRank').innerText = randomRank;
+            document.getElementById('cardSuit').innerText = randomSuit.symbol;
+        }
+
+        function makeGuess(type, value) {
+            const statusEl = document.getElementById('status-text');
+
+            if (!gameActive) {
+                if (score < currentBet) {
+                    statusEl.innerText = "❌ Недостаточно кристаллов!";
+                    statusEl.style.color = "#ff5252";
+                    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                    return;
+                }
+                score -= currentBet;
+                updateBalanceUI();
+                startNewRound();
+                gameActive = true;
+            }
+
+            if (type === 'color') {
+                if (secretCard.suit.color === value) {
+                    currentMultiplier = 1.2;
+                    currentStep = 2;
+                    statusEl.style.color = "#00e676";
+                    statusEl.innerText = "✅ Цвет угадан! Забрать или рисковать дальше?";
+                    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+                    renderControls();
+                } else {
+                    revealAndLose("Цвет не совпал!");
+                }
+            } else if (type === 'suit') {
+                if (secretCard.suit.name === value) {
+                    currentMultiplier = 2.0;
+                    currentStep = 3;
+                    statusEl.style.color = "#00e676";
+                    statusEl.innerText = "🔥 Масть угадана! Угадай карту ради x5.0!";
+                    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
+                    renderControls();
+                } else {
+                    revealAndLose("Масть не совпала!");
+                }
+            } else if (type === 'rank') {
+                if (secretCard.rank === value) {
+                    currentMultiplier = 5.0;
+                    const winAmount = Math.floor(currentBet * currentMultiplier);
+                    score += winAmount;
+                    updateBalanceUI();
+                    revealCard();
+                    statusEl.style.color = "#00e676";
+                    statusEl.innerText = `👑 ДЖЕКПОТ! Вы угадали карту! +${winAmount} 💎`;
+                    addTransaction(`Победа в картах (${secretCard.rank}${secretCard.suit.symbol})`, winAmount, 'plus');
+                    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                    resetToStart();
+                } else {
+                    revealAndLose("Карта не совпала!");
+                }
+            }
+        }
+
+        function takeCashout() {
+            if (!gameActive) return;
+            const winAmount = Math.floor(currentBet * currentMultiplier);
+            score += winAmount;
+            updateBalanceUI();
+            revealCard();
+
+            const statusEl = document.getElementById('status-text');
+            statusEl.style.color = "#00e676";
+            statusEl.innerText = `💰 Вы забрали +${winAmount} 💎 (x${currentMultiplier})`;
+            addTransaction(`Забрал в картах (x${currentMultiplier})`, winAmount, 'plus');
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+            resetToStart();
+        }
+
+        function revealCard() {
+            document.getElementById('cardElement').classList.add('flipped');
+        }
+
+        function revealAndLose(msg) {
+            revealCard();
+            const statusEl = document.getElementById('status-text');
+            statusEl.style.color = "#ff5252";
+            statusEl.innerText = `💀 ${msg} Карта была: ${secretCard.rank}${secretCard.suit.symbol}`;
+            addTransaction(`Проигрыш в картах`, currentBet, 'minus');
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+            resetToStart();
+        }
+
+        function resetToStart() {
+            gameActive = false;
+            currentStep = 1;
+            currentMultiplier = 1.0;
+            renderControls();
+        }
+    </script>
+</body>
+</html>
