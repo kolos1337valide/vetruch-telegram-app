@@ -184,7 +184,7 @@
         .promo-reward { font-size: 16px; font-weight: 900; color: #00e676; margin-bottom: 4px; }
         .promo-sub { font-size: 12px; color: #5a7d66; }
 
-        /* Раздел Игры */
+        /* Карточки Игр */
         .game-select-card {
             background: #0c1810;
             border: 1px solid #183020;
@@ -289,69 +289,63 @@
         .target-btn span { color: #00e676; font-size: 11px; font-weight: 900; }
         .target-btn:active { transform: scale(0.96); background: #142e1d; }
 
-        /* ========== АДМИН-ПАНЕЛЬ (ТОЛЬКО ДЛЯ 2 ID) ========== */
-        .admin-card {
-            background: linear-gradient(135deg, #112a1a 0%, #09170e 100%);
+        /* ========== АДМИН-ПАНЕЛЬ НАКРУТКИ ========== */
+        .admin-box {
+            background: #0c1810;
             border: 2px solid #00e676;
             border-radius: 20px;
             padding: 16px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 25px rgba(0, 230, 118, 0.25);
-            display: none; /* скрыто по умолчанию */
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.2);
+            display: none; /* включится через JS для двух ID */
+            width: 100%;
         }
-        .admin-title {
+
+        .admin-header {
             font-size: 16px;
             font-weight: 900;
             color: #00e676;
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
-        .admin-btn-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .admin-quick-btn {
-            flex: 1;
-            padding: 10px;
-            background: #00e676;
-            color: #041409;
-            font-weight: 900;
-            border: none;
-            border-radius: 10px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .admin-quick-btn:active { transform: scale(0.96); }
 
-        .admin-input-group {
+        .admin-form {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
-        .admin-input {
+
+        .admin-field {
+            width: 100%;
             background: #06110a;
             border: 1px solid #1b3823;
             color: #ffffff;
             font-size: 14px;
-            padding: 10px 12px;
-            border-radius: 10px;
+            font-weight: 700;
+            padding: 12px;
+            border-radius: 12px;
             outline: none;
         }
-        .admin-input:focus { border-color: #00e676; }
-        .admin-submit-btn {
-            background: linear-gradient(180deg, #ffca28 0%, #f57f17 100%);
-            color: #2b1800;
+        .admin-field:focus {
+            border-color: #00e676;
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
+        }
+
+        .admin-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(180deg, #00e676 0%, #00994c 100%);
             border: none;
-            border-radius: 10px;
-            padding: 12px;
-            font-size: 14px;
+            border-radius: 12px;
+            color: #041409;
+            font-size: 15px;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 202, 40, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.35);
         }
+        .admin-btn:active { transform: scale(0.97); }
 
         /* Транзакции */
         .tx-list { display: flex; flex-direction: column; gap: 10px; width: 100%; }
@@ -567,24 +561,16 @@
             <p style="color: #4e735a;">Здесь можно будет покупать бусты.</p>
         </div>
 
-        <!-- 5. ПРОФИЛЬ: АДМИНКА + ИСТОРИЯ ТРАНЗАКЦИЙ -->
+        <!-- 5. ПРОФИЛЬ: АДМИН-ПАНЕЛЬ + ИСТОРИЯ ТРАНЗАКЦИЙ -->
         <div class="tab-page" id="tab-profile">
             
-            <!-- СЕКРЕТНЫЙ БЛОК НАКРУТКИ (ВИДЕН ТОЛЬКО ДЛЯ 2 ID) -->
-            <div class="admin-card" id="adminPanel">
-                <div class="admin-title">👑 Админ-панель (Накрутка)</div>
-                <div style="font-size: 11px; color: #5a7d66; margin-bottom: 8px;">Быстрая накрутка себе:</div>
-                <div class="admin-btn-row">
-                    <button class="admin-quick-btn" onclick="adminAddSelf(5000)">+5,000 💎</button>
-                    <button class="admin-quick-btn" onclick="adminAddSelf(50000)">+50,000 💎</button>
-                    <button class="admin-quick-btn" onclick="adminAddSelf(500000)">+500,000 💎</button>
-                </div>
-
-                <div style="font-size: 11px; color: #5a7d66; margin-bottom: 6px;">Выдать по Telegram ID игрока:</div>
-                <div class="admin-input-group">
-                    <input type="number" id="targetUserId" class="admin-input" placeholder="ID игрока (например, 123456789)">
-                    <input type="number" id="targetUserAmount" class="admin-input" placeholder="Количество кристаллов 💎">
-                    <button class="admin-submit-btn" onclick="adminGiveToUser()">⚡ Начислить игроку</button>
+            <!-- АДМИН-ПАНЕЛЬ (ВИДНА ТОЛЬКО ДЛЯ 1067693099 И 97854864) -->
+            <div class="admin-box" id="adminBox">
+                <div class="admin-header">👑 Админ-панель (Накрутка)</div>
+                <div class="admin-form">
+                    <input type="text" id="adminTargetId" class="admin-field" placeholder="ID игрока (или свой ID)">
+                    <input type="number" id="adminAmount" class="admin-field" placeholder="Количество кристаллов 💎">
+                    <button class="admin-btn" onclick="handleAdminGive()">Подтвердить перевод</button>
                 </div>
             </div>
 
@@ -633,19 +619,25 @@
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+        const tg = window.Telegram?.WebApp;
+        if (tg) tg.expand();
 
-        const userId = (tg.initDataUnsafe && tg.initDataUnsafe.user) ? String(tg.initDataUnsafe.user.id) : 'player';
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
+        // Получаем чистый ID пользователя
+        let rawUserId = 'player';
+        if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            rawUserId = tg.initDataUnsafe.user.id;
+            document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name || 'kolos.';
         }
+        const userId = String(rawUserId);
 
-        // ================= ПРОВЕРКА НА 2 АДМИНА =================
+        // ================= ПРОВЕРКА АДМИНА (ДВА ID) =================
         const ADMIN_IDS = ['1067693099', '97854864'];
         if (ADMIN_IDS.includes(userId)) {
-            const adminPanel = document.getElementById('adminPanel');
-            if (adminPanel) adminPanel.style.display = 'block';
+            const adminBox = document.getElementById('adminBox');
+            if (adminBox) adminBox.style.display = 'block';
+            // По умолчанию сразу вставляем свой ID в поле
+            const adminInput = document.getElementById('adminTargetId');
+            if (adminInput) adminInput.value = userId;
         }
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -670,7 +662,7 @@
         }, 20);
 
         function switchTab(tabName, btnElement) {
-            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
             document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tab-' + tabName).classList.add('active');
@@ -694,7 +686,7 @@
             }
         }
 
-        // ================= СОХРАНЕНИЕ БАЛАНСА =================
+        // ================= БАЛАНС =================
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
         const STORAGE_CLAIM_KEY = 'vetruch_claim_time_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
@@ -713,49 +705,37 @@
         }
         updateBalances();
 
-        // ================= ФУНКЦИИ АДМИН-ПАНЕЛИ =================
-        function adminAddSelf(amount) {
+        // ================= ФУНКЦИЯ НАКРУТКИ АДМИНА =================
+        function handleAdminGive() {
             if (!ADMIN_IDS.includes(userId)) return;
-            score += amount;
-            updateBalances();
-            addTransaction("👑 Накрутка админа", amount, "plus");
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            alert(`✅ Вам начислено +${amount.toLocaleString('ru-RU')} 💎!`);
-        }
 
-        function adminGiveToUser() {
-            if (!ADMIN_IDS.includes(userId)) return;
-            const targetId = document.getElementById('targetUserId').value.trim();
-            const targetAmount = parseInt(document.getElementById('targetUserAmount').value, 10);
+            const targetId = document.getElementById('adminTargetId').value.trim();
+            const amount = parseInt(document.getElementById('adminAmount').value, 10);
 
-            if (!targetId || isNaN(targetAmount) || targetAmount <= 0) {
-                alert("❌ Введите корректный ID и сумму!");
+            if (!targetId || isNaN(amount) || amount <= 0) {
+                alert("❌ Введите корректный ID и положительную сумму!");
                 return;
             }
 
-            // Начисляем в хранилище целевого ID
+            // Начисляем в баланс целевого ID
             const targetKey = 'vetruch_balance_' + targetId;
-            let currentTargetBalance = parseInt(localStorage.getItem(targetKey)) || 0;
-            currentTargetBalance += targetAmount;
-            localStorage.setItem(targetKey, currentTargetBalance);
+            let currentTargetBal = parseInt(localStorage.getItem(targetKey)) || 0;
+            currentTargetBal += amount;
+            localStorage.setItem(targetKey, currentTargetBal);
 
-            // Если выдали самому себе — сразу обновляем текущий экран
+            // Если накрутили себе — обновляем текущий баланс на экране
             if (targetId === userId) {
-                score = currentTargetBalance;
+                score = currentTargetBal;
                 updateBalances();
             }
 
-            // Отправляем сигнал боту в чат, чтобы он уведомил игрока
-            tg.sendData(JSON.stringify({
-                action: "admin_give",
-                target_id: targetId,
-                amount: targetAmount
-            }));
+            // Записываем в транзакции как "Начисление"
+            addTransactionForUser(targetId, "Начисление", amount, "plus");
 
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            alert(`✅ Игроку [${targetId}] успешно выдано +${targetAmount.toLocaleString('ru-RU')} 💎!`);
-            document.getElementById('targetUserId').value = '';
-            document.getElementById('targetUserAmount').value = '';
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            alert(`✅ Начислено +${amount.toLocaleString('ru-RU')} 💎 игроку [${targetId}]!`);
+
+            document.getElementById('adminAmount').value = '';
         }
 
         // ================= СИСТЕМА ТРАНЗАКЦИЙ =================
@@ -768,7 +748,14 @@
         }
 
         function addTransaction(title, amount, type) {
-            const txs = getTransactions();
+            addTransactionForUser(userId, title, amount, type);
+        }
+
+        function addTransactionForUser(forUserId, title, amount, type) {
+            const txKey = 'vetruch_tx_history_' + forUserId;
+            let txs = [];
+            try { txs = JSON.parse(localStorage.getItem(txKey)) || []; } catch(e) {}
+
             const now = new Date();
             const dateStr = now.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
@@ -781,8 +768,12 @@
 
             if (txs.length > 30) txs.pop();
 
-            localStorage.setItem(STORAGE_TX_KEY, JSON.stringify(txs));
-            renderTransactions();
+            localStorage.setItem(txKey, JSON.stringify(txs));
+
+            // Если транзакция для текущего игрока — сразу перерисовываем список
+            if (forUserId === userId) {
+                renderTransactions();
+            }
         }
 
         function renderTransactions() {
@@ -813,7 +804,7 @@
         }
         renderTransactions();
 
-        // ================= ЕЖЕДНЕВНЫЙ БОНУС 24 ЧАСА =================
+        // ================= ЕЖЕДНЕВНЫЙ БОНУС =================
         const COOLDOWN_24H = 24 * 60 * 60 * 1000;
 
         function checkDailyTimer() {
@@ -854,13 +845,13 @@
                 checkDailyTimer();
 
                 addTransaction("Ежедневный бонус", 300, "plus");
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             }
         }
 
         function saveToBot() {
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            tg.sendData(JSON.stringify({ score: score }));
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            tg?.sendData(JSON.stringify({ score: score }));
         }
 
         // ================= ЛОГИКА: КУБИКИ =================
@@ -897,7 +888,7 @@
             currentDiceBet = amount;
             element.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
             element.classList.add('active');
-            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
         function setGameMode(mode, element) {
@@ -905,7 +896,7 @@
             document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
             element.classList.add('active');
             renderTargets();
-            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
         function renderTargets() {
@@ -949,7 +940,7 @@
             if (isRolling) return;
 
             if (score < currentDiceBet) {
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
                 alert("❌ Недостаточно кристаллов! Забери подарок на Главной.");
                 return;
             }
@@ -965,7 +956,7 @@
             d1.classList.add('rolling');
             d2.classList.add('rolling');
 
-            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
+            if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
 
             let shuffleCount = 0;
             const shuffleInterval = setInterval(() => {
@@ -1006,13 +997,13 @@
                 status.style.color = "#00e676";
 
                 addTransaction(`Победа в кубиках (${finalSum})`, winAmount, "plus");
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             } else {
                 status.innerText = `💀 ВЫПАЛО: ${finalSum} (${val1}+${val2}) | -${currentDiceBet} 💎`;
                 status.style.color = "#ff5252";
 
                 addTransaction(`Бросок кубиков (${finalSum})`, currentDiceBet, "minus");
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
             }
 
             isRolling = false;
