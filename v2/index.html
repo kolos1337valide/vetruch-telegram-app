@@ -15,7 +15,7 @@
         }
 
         body {
-            background-color: #050a07; /* Тёмно-зелёный фон */
+            background-color: #050a07; /* Глубокий тёмно-зелёный фон */
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             height: 100vh;
@@ -275,7 +275,7 @@
             margin-bottom: 20px;
         }
 
-        /* Большая кнопка ЗАРАБОТАТЬ */
+        /* Кнопка ЗАРАБОТАТЬ */
         .action-btn {
             width: 100%;
             background: #00e676;
@@ -287,11 +287,10 @@
             border-radius: 16px;
             cursor: pointer;
             box-shadow: 0 4px 20px rgba(0, 230, 118, 0.4);
-            transition: transform 0.08s ease, box-shadow 0.08s ease;
+            transition: transform 0.08s ease;
         }
         .action-btn:active {
             transform: scale(0.97);
-            box-shadow: 0 2px 10px rgba(0, 230, 118, 0.2);
         }
 
         /* ========== БАННЕР РЕФЕРАЛКИ ========== */
@@ -392,17 +391,17 @@
     <!-- ОСНОВНОЙ КОНТЕНТ -->
     <div class="content">
 
-        <!-- 1. ГЛАВНАЯ / ДАШБОРД (ТОЧНО КАК У SUBO) -->
+        <!-- 1. ГЛАВНАЯ / ДАШБОРД -->
         <div class="tab-page active" id="tab-home">
             
             <!-- Шапка -->
             <div class="top-bar">
                 <div class="icon-btn">
                     <span style="font-size: 20px;">🔔</span>
-                    <div class="badge">6</div>
+                    <div class="badge">0</div>
                 </div>
                 <div class="balance-pill">
-                    <span>💎</span> <b id="topBalance">4 101</b>
+                    <span>💎</span> <b id="topBalance">0</b>
                 </div>
             </div>
 
@@ -411,26 +410,26 @@
                 <div class="user-info">
                     <div class="avatar" id="avatarBox">🐱</div>
                     <div>
-                        <div class="user-name" id="username">kolos.</div>
+                        <div class="user-name" id="username">Игрок</div>
                         <div class="user-sub">СТРИМ ОФЛАЙН</div>
                     </div>
                 </div>
                 <div class="refresh-btn" onclick="saveToBot()">⟳</div>
             </div>
 
-            <!-- Общая статистика -->
+            <!-- Общая статистика (ВСЁ ПО 0) -->
             <div class="stats-card">
                 <div class="stat-item">
                     <div class="stat-label">ПОЛЬЗОВАТЕЛЕЙ</div>
-                    <div class="stat-value">8 322</div>
+                    <div class="stat-value">0</div>
                 </div>
                 <div class="stat-item" style="border-left: 1px solid #1a3322; border-right: 1px solid #1a3322;">
                     <div class="stat-label">ЗАРАБОТАНО</div>
-                    <div class="stat-value">210 004 269</div>
+                    <div class="stat-value">0</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">ВЫДАНО НАГРАД</div>
-                    <div class="stat-value">456</div>
+                    <div class="stat-value">0</div>
                 </div>
             </div>
 
@@ -443,10 +442,10 @@
 
                 <div class="main-score">
                     <span>💎</span>
-                    <span id="mainBalance">4 101</span>
+                    <span id="mainBalance">0</span>
                 </div>
 
-                <div class="income-today">+500 за сегодня</div>
+                <div class="income-today">+0 за сегодня</div>
 
                 <div class="stream-status">
                     <span>📡</span> Стрим офлайн
@@ -467,13 +466,13 @@
         <!-- 2. ИГРЫ -->
         <div class="tab-page" id="tab-games">
             <h2 style="margin: 15px 0;">🎮 Игры</h2>
-            <p style="color: #4e735a;">Раздел в разработке...</p>
+            <p style="color: #4e735a;">Раздел скоро появится...</p>
         </div>
 
         <!-- 3. ЗАДАНИЯ -->
         <div class="tab-page" id="tab-tasks">
             <h2 style="margin: 15px 0;">📋 Задания</h2>
-            <p style="color: #4e735a;">Здесь будут задания на подписки и бонусы.</p>
+            <p style="color: #4e735a;">Задания обновляются каждый день.</p>
         </div>
 
         <!-- 4. МАГАЗИН -->
@@ -532,7 +531,7 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Подставляем данные из Telegram
+        // Имя игрока из Telegram
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
         }
@@ -552,7 +551,7 @@
             }
         }, 20);
 
-        // Переключение табов
+        // Переключение вкладок
         function switchTab(tabName, btnElement) {
             if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
             document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
@@ -561,8 +560,8 @@
             if (btnElement) btnElement.classList.add('active');
         }
 
-        // Логика заработка (при нажатии кнопки Заработать)
-        let balance = 4101;
+        // Баланс (начинаем с нуля!)
+        let balance = 0;
         function earnCoin() {
             balance += 10;
             document.getElementById('mainBalance').innerText = balance.toLocaleString('ru-RU');
@@ -570,7 +569,6 @@
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
         }
 
-        // Сохранить результат в бот
         function saveToBot() {
             if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             tg.sendData(JSON.stringify({ balance: balance }));
