@@ -1009,7 +1009,7 @@
                 addNotice("Пополнение баланса", `Вы успешно начислили себе +${amount.toLocaleString('ru-RU')} 💎 кристаллов!`);
             }
 
-            const botDeepLink = `https://t.me/testbotvetr_bot?start=give_${targetId}_${amount}`;
+            const botDeepLink = `https://t.me/Vetruchkick_bot?start=give_${targetId}_${amount}`;
             if (tg && tg.openTelegramLink) {
                 tg.openTelegramLink(botDeepLink);
             } else {
