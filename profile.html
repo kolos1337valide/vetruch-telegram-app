@@ -176,12 +176,6 @@
             cursor: not-allowed !important; font-size: 15px;
         }
 
-        .save-btn {
-            width: 100%; background: #0f1c13; border: 1px solid #1a3824;
-            color: #00e676; font-weight: 800; font-size: 14px;
-            padding: 12px; border-radius: 12px; cursor: pointer;
-        }
-
         .promo-card {
             background: linear-gradient(135deg, #0e1e14 0%, #08120b 60%, #00e676 170%);
             border: 1px solid #1a3824; border-radius: 20px; padding: 18px; cursor: pointer;
@@ -190,7 +184,7 @@
         .promo-reward { font-size: 16px; font-weight: 900; color: #00e676; margin-bottom: 4px; }
         .promo-sub { font-size: 12px; color: #5a7d66; }
 
-        /* Карточки в разделе Игры */
+        /* Раздел Игры */
         .game-select-card {
             background: #0c1810;
             border: 1px solid #183020;
@@ -294,6 +288,70 @@
         }
         .target-btn span { color: #00e676; font-size: 11px; font-weight: 900; }
         .target-btn:active { transform: scale(0.96); background: #142e1d; }
+
+        /* ========== АДМИН-ПАНЕЛЬ (ТОЛЬКО ДЛЯ 2 ID) ========== */
+        .admin-card {
+            background: linear-gradient(135deg, #112a1a 0%, #09170e 100%);
+            border: 2px solid #00e676;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.25);
+            display: none; /* скрыто по умолчанию */
+        }
+        .admin-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: #00e676;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .admin-btn-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .admin-quick-btn {
+            flex: 1;
+            padding: 10px;
+            background: #00e676;
+            color: #041409;
+            font-weight: 900;
+            border: none;
+            border-radius: 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .admin-quick-btn:active { transform: scale(0.96); }
+
+        .admin-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .admin-input {
+            background: #06110a;
+            border: 1px solid #1b3823;
+            color: #ffffff;
+            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            outline: none;
+        }
+        .admin-input:focus { border-color: #00e676; }
+        .admin-submit-btn {
+            background: linear-gradient(180deg, #ffca28 0%, #f57f17 100%);
+            color: #2b1800;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 202, 40, 0.3);
+        }
 
         /* Транзакции */
         .tx-list { display: flex; flex-direction: column; gap: 10px; width: 100%; }
@@ -413,7 +471,6 @@
                 </div>
 
                 <button class="action-btn" id="dailyBtn" onclick="claimDailyReward()">🎁 Забрать +300 💎</button>
-                
             </div>
 
             <div class="promo-card" onclick="openGameScreen('dice')">
@@ -425,12 +482,9 @@
 
         <!-- 2. ИГРЫ -->
         <div class="tab-page" id="tab-games">
-            
-            <!-- МЕНЮ ВЫБОРА ИГРЫ -->
             <div id="games-hub-view">
                 <h2 style="margin-bottom: 16px; font-size: 22px;">🎮 Выбор игры</h2>
                 
-                <!-- 1. Кубики -->
                 <div class="game-select-card" onclick="openGameScreen('dice')">
                     <div>
                         <b style="font-size: 16px;">🎲 Крипто-Кубики</b>
@@ -439,7 +493,6 @@
                     <button class="game-card-btn">Играть</button>
                 </div>
 
-                <!-- 2. Шарик (переход в balloon.html) -->
                 <a href="balloon.html" class="game-select-card">
                     <div>
                         <b style="font-size: 16px;">🎈 Изумрудный Шарик</b>
@@ -448,7 +501,6 @@
                     <span class="game-card-btn">Играть</span>
                 </a>
 
-                <!-- 3. Карты (переход в card.html) -->
                 <a href="card.html" class="game-select-card">
                     <div>
                         <b style="font-size: 16px;">🃏 Угадай Карту</b>
@@ -501,7 +553,6 @@
                     <div class="targets-grid" id="targetsContainer"></div>
                 </div>
             </div>
-
         </div>
 
         <!-- 3. ЗАДАНИЯ -->
@@ -516,8 +567,27 @@
             <p style="color: #4e735a;">Здесь можно будет покупать бусты.</p>
         </div>
 
-        <!-- 5. ПРОФИЛЬ: ИСТОРИЯ ТРАНЗАКЦИЙ -->
+        <!-- 5. ПРОФИЛЬ: АДМИНКА + ИСТОРИЯ ТРАНЗАКЦИЙ -->
         <div class="tab-page" id="tab-profile">
+            
+            <!-- СЕКРЕТНЫЙ БЛОК НАКРУТКИ (ВИДЕН ТОЛЬКО ДЛЯ 2 ID) -->
+            <div class="admin-card" id="adminPanel">
+                <div class="admin-title">👑 Админ-панель (Накрутка)</div>
+                <div style="font-size: 11px; color: #5a7d66; margin-bottom: 8px;">Быстрая накрутка себе:</div>
+                <div class="admin-btn-row">
+                    <button class="admin-quick-btn" onclick="adminAddSelf(5000)">+5,000 💎</button>
+                    <button class="admin-quick-btn" onclick="adminAddSelf(50000)">+50,000 💎</button>
+                    <button class="admin-quick-btn" onclick="adminAddSelf(500000)">+500,000 💎</button>
+                </div>
+
+                <div style="font-size: 11px; color: #5a7d66; margin-bottom: 6px;">Выдать по Telegram ID игрока:</div>
+                <div class="admin-input-group">
+                    <input type="number" id="targetUserId" class="admin-input" placeholder="ID игрока (например, 123456789)">
+                    <input type="number" id="targetUserAmount" class="admin-input" placeholder="Количество кристаллов 💎">
+                    <button class="admin-submit-btn" onclick="adminGiveToUser()">⚡ Начислить игроку</button>
+                </div>
+            </div>
+
             <h2 style="margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;">История транзакций</h2>
             <div class="tx-list" id="transactionList"></div>
         </div>
@@ -566,9 +636,16 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        const userId = (tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'player';
+        const userId = (tg.initDataUnsafe && tg.initDataUnsafe.user) ? String(tg.initDataUnsafe.user.id) : 'player';
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
+        }
+
+        // ================= ПРОВЕРКА НА 2 АДМИНА =================
+        const ADMIN_IDS = ['1067693099', '97854864'];
+        if (ADMIN_IDS.includes(userId)) {
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) adminPanel.style.display = 'block';
         }
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -635,6 +712,51 @@
             localStorage.setItem(STORAGE_BALANCE_KEY, score);
         }
         updateBalances();
+
+        // ================= ФУНКЦИИ АДМИН-ПАНЕЛИ =================
+        function adminAddSelf(amount) {
+            if (!ADMIN_IDS.includes(userId)) return;
+            score += amount;
+            updateBalances();
+            addTransaction("👑 Накрутка админа", amount, "plus");
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            alert(`✅ Вам начислено +${amount.toLocaleString('ru-RU')} 💎!`);
+        }
+
+        function adminGiveToUser() {
+            if (!ADMIN_IDS.includes(userId)) return;
+            const targetId = document.getElementById('targetUserId').value.trim();
+            const targetAmount = parseInt(document.getElementById('targetUserAmount').value, 10);
+
+            if (!targetId || isNaN(targetAmount) || targetAmount <= 0) {
+                alert("❌ Введите корректный ID и сумму!");
+                return;
+            }
+
+            // Начисляем в хранилище целевого ID
+            const targetKey = 'vetruch_balance_' + targetId;
+            let currentTargetBalance = parseInt(localStorage.getItem(targetKey)) || 0;
+            currentTargetBalance += targetAmount;
+            localStorage.setItem(targetKey, currentTargetBalance);
+
+            // Если выдали самому себе — сразу обновляем текущий экран
+            if (targetId === userId) {
+                score = currentTargetBalance;
+                updateBalances();
+            }
+
+            // Отправляем сигнал боту в чат, чтобы он уведомил игрока
+            tg.sendData(JSON.stringify({
+                action: "admin_give",
+                target_id: targetId,
+                amount: targetAmount
+            }));
+
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            alert(`✅ Игроку [${targetId}] успешно выдано +${targetAmount.toLocaleString('ru-RU')} 💎!`);
+            document.getElementById('targetUserId').value = '';
+            document.getElementById('targetUserAmount').value = '';
+        }
 
         // ================= СИСТЕМА ТРАНЗАКЦИЙ =================
         function getTransactions() {
