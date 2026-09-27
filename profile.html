@@ -95,12 +95,14 @@
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             position: relative; cursor: pointer;
         }
+        .icon-btn:active { transform: scale(0.95); }
         .badge {
             position: absolute; top: -2px; right: -2px;
             background: #00e676; color: #041409;
             font-size: 11px; font-weight: 900;
             width: 18px; height: 18px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 8px #00e676;
         }
         .balance-pill {
             background: #0f1c13; border: 1px solid #1a3322;
@@ -167,6 +169,21 @@
             background: #112217 !important; color: #5a7d66 !important;
             border: 1px solid #1f3d2a; box-shadow: none !important;
             cursor: not-allowed !important; font-size: 15px;
+        }
+
+        /* Кнопка "Заработать" */
+        .earn-btn {
+            background: #0f2216 !important;
+            border: 1px solid #00e676 !important;
+            color: #00e676 !important;
+            font-size: 16px !important;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.2) !important;
+            margin-top: 4px;
+            margin-bottom: 0px;
+        }
+        .earn-btn:active {
+            transform: scale(0.97);
+            background: #142e1d !important;
         }
 
         .promo-card {
@@ -290,7 +307,7 @@
         .card-choice-btn.red-btn { background: #ff5252; color: #fff; box-shadow: 0 4px 15px rgba(255, 82, 82, 0.4); }
         .card-choice-btn.black-btn { background: #1a3322; color: #fff; border: 1px solid #2d5a3c; }
 
-        /* 3. ШАРИК (BALLOON / CRASH) */
+        /* 3. ШАРИК */
         .balloon-arena {
             background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
             border: 2px solid #1b4728; border-radius: 22px; height: 190px;
@@ -306,13 +323,76 @@
             font-size: 18px; font-weight: 900; color: #041409;
             transition: width 0.08s linear, height 0.08s linear;
         }
-        .balloon-pop {
-            animation: popAnim 0.3s forwards;
-        }
+        .balloon-pop { animation: popAnim 0.3s forwards; }
         @keyframes popAnim {
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.6); opacity: 0.5; filter: hue-rotate(90deg); }
             100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* МОДАЛЬНОЕ ОКНО УВЕДОМЛЕНИЙ */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+        .modal-content {
+            background: #0c1810;
+            border: 2px solid #00e676;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 360px;
+            padding: 20px;
+            box-shadow: 0 0 35px rgba(0, 230, 118, 0.35);
+            animation: modalIn 0.25s ease;
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            border-bottom: 1px solid #1a3322;
+            padding-bottom: 10px;
+        }
+        .modal-close-btn {
+            font-size: 24px;
+            color: #698c74;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close-btn:hover { color: #00e676; }
+        .modal-body {
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .notice-card-alert {
+            background: #06120b;
+            border: 1px solid #1b3d24;
+            border-left: 3px solid #00e676;
+            border-radius: 14px;
+            padding: 12px;
+        }
+        .notice-title {
+            font-weight: 900;
+            color: #00e676;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         /* АДМИН-ПАНЕЛЬ */
@@ -335,6 +415,14 @@
             border: none; border-radius: 12px; color: #041409; font-size: 15px; font-weight: 900;
             cursor: pointer; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.35);
         }
+
+        /* КАРТОЧКИ ЗАДАНИЙ */
+        .task-card {
+            background: #0c1810; border: 1px solid #183020; border-radius: 18px;
+            padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px; width: 100%;
+        }
+        .task-card:active { border-color: #00e676; }
 
         /* ТРАНЗАКЦИИ */
         .tx-list { display: flex; flex-direction: column; gap: 10px; width: 100%; }
@@ -394,14 +482,28 @@
         <div class="loading-text" style="color: #4e735a; font-size: 13px;">загружаем экосистему...</div>
     </div>
 
+    <!-- ВСПЛЫВАЮЩЕЕ ОКНО УВЕДОМЛЕНИЙ -->
+    <div id="noticeModal" class="modal-overlay" onclick="closeNoticeModal(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">🔔</span>
+                    <span style="font-size: 16px; font-weight: 900; color: #ffffff;">Уведомления</span>
+                </div>
+                <span class="modal-close-btn" onclick="closeNoticeModal()">&times;</span>
+            </div>
+            <div id="noticeModalBody" class="modal-body"></div>
+        </div>
+    </div>
+
     <div class="content">
 
         <!-- 1. ГЛАВНАЯ -->
         <div class="tab-page active" id="tab-home">
             <div class="top-bar">
-                <div class="icon-btn">
+                <div class="icon-btn" onclick="openNoticeModal()">
                     <span style="font-size: 20px;">🔔</span>
-                    <div class="badge">1</div>
+                    <div class="badge" id="noticeBadge" style="display: none;">1</div>
                 </div>
                 <div class="balance-pill">
                     <span>💎</span> <b class="sync-balance">0</b>
@@ -452,6 +554,7 @@
                 </div>
 
                 <button class="action-btn" id="dailyBtn" onclick="claimDailyReward()">🎁 Забрать +300 💎</button>
+                <button class="action-btn earn-btn" onclick="goToTasks()">⚡ Заработать</button>
             </div>
 
             <div class="promo-card" onclick="openGameScreen('dice')">
@@ -464,7 +567,6 @@
         <!-- 2. ИГРЫ -->
         <div class="tab-page" id="tab-games">
             
-            <!-- ХАБ ИГР -->
             <div id="games-hub-view">
                 <h2 style="margin-bottom: 16px; font-size: 22px;">🎮 Выбор игры</h2>
                 
@@ -537,7 +639,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 2: УГАДАЙ КАРТУ (3 ЭТАПА РИСКА) -->
+            <!-- ИГРА 2: КАРТЫ -->
             <div id="game-card-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🃏 Угадай Карту</h2>
@@ -574,7 +676,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 3: ИЗУМРУДНЫЙ ШАРИК -->
+            <!-- ИГРА 3: ШАРИК -->
             <div id="game-balloon-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎈 Изумрудный Шарик</h2>
@@ -604,14 +706,37 @@
 
         <!-- 3. ЗАДАНИЯ -->
         <div class="tab-page" id="tab-tasks">
-            <h2 style="margin: 15px 0;">📋 Задания</h2>
-            <p style="color: #4e735a;">Список заданий обновляется...</p>
+            <h2 style="margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;">📋 Задания</h2>
+            
+            <div class="task-card">
+                <div>
+                    <b style="font-size: 15px;">📢 Подписка на канал</b>
+                    <p style="font-size: 12px; color: #00e676; margin-top: 3px;">+500 💎</p>
+                </div>
+                <button class="game-card-btn" onclick="alert('Перейдите в канал проекта для подписки!')">Выполнить</button>
+            </div>
+
+            <div class="task-card">
+                <div>
+                    <b style="font-size: 15px;">👥 Пригласить друга</b>
+                    <p style="font-size: 12px; color: #00e676; margin-top: 3px;">+1 000 💎</p>
+                </div>
+                <button class="game-card-btn" onclick="alert('Отправьте ссылку на бота другу!')">Пригласить</button>
+            </div>
+
+            <div class="task-card">
+                <div>
+                    <b style="font-size: 15px;">💬 Вступить в чат</b>
+                    <p style="font-size: 12px; color: #00e676; margin-top: 3px;">+300 💎</p>
+                </div>
+                <button class="game-card-btn" onclick="alert('Вступайте в официальный чат!')">Вступить</button>
+            </div>
         </div>
 
         <!-- 4. МАГАЗИН -->
         <div class="tab-page" id="tab-shop">
             <h2 style="margin: 15px 0;">🛍️ Магазин</h2>
-            <p style="color: #4e735a;">Здесь можно будет покупать бусты.</p>
+            <p style="color: #4e735a;">Здесь можно будет покупать бусты и статусы.</p>
         </div>
 
         <!-- 5. ПРОФИЛЬ -->
@@ -680,7 +805,6 @@
         }
         const userId = String(rawUserId);
 
-        // ИСПРАВЛЕН ID админа (была опечатка: 97854864 вместо 978548564)
         const ADMIN_IDS = ['1067693099', '978548564'];
         if (ADMIN_IDS.includes(userId)) {
             const adminBox = document.getElementById('adminBox');
@@ -692,27 +816,38 @@
         const urlParams = new URLSearchParams(window.location.search);
         const realUsers = urlParams.get('users');
         if (realUsers) {
-            document.getElementById('userCountDisplay').innerText = parseInt(realUsers).toLocaleString('ru-RU');
+            document.getElementById('userCountDisplay').innerText = parseInt(realUsers, 10).toLocaleString('ru-RU');
         }
 
-        // ================= ИСПРАВЛЕНИЕ: БАЛАНС БОЛЬШЕ НЕ СБРАСЫВАЕТСЯ =================
+        // ================= КЛЮЧИ ХРАНИЛИЩА =================
         const serverBalanceParam = urlParams.get('balance');
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
         const STORAGE_CLAIM_KEY = 'vetruch_claim_time_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
         const STORAGE_EARNED_KEY = 'vetruch_earned_' + userId;
         const STORAGE_REWARDS_KEY = 'vetruch_rewards_' + userId;
+        const STORAGE_NOTICES_KEY = 'vetruch_notices_' + userId;
 
-        let localSavedBalance = parseInt(localStorage.getItem(STORAGE_BALANCE_KEY)) || 0;
-        let serverBalance = (serverBalanceParam !== null && !isNaN(parseInt(serverBalanceParam))) ? parseInt(serverBalanceParam) : 0;
+        let localSavedBalance = parseInt(localStorage.getItem(STORAGE_BALANCE_KEY), 10);
+        if (isNaN(localSavedBalance)) localSavedBalance = 0;
 
-        // Берем максимум, чтобы заработанный баланс игрока никогда не затирался нулем бота!
+        let serverBalance = (serverBalanceParam !== null && !isNaN(parseInt(serverBalanceParam, 10))) 
+                            ? parseInt(serverBalanceParam, 10) 
+                            : 0;
+
+        // Если с сервера пришло начисление больше, чем было на клиенте — добавляем уведомление!
+        if (serverBalance > localSavedBalance) {
+            const diff = serverBalance - localSavedBalance;
+            addNotice("Пополнение баланса", `Вам начислено +${diff.toLocaleString('ru-RU')} 💎 кристаллов от Администратора!`);
+        }
+
         let score = Math.max(localSavedBalance, serverBalance);
         localStorage.setItem(STORAGE_BALANCE_KEY, score);
 
-        let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY)) || score;
-        let totalRewards = parseInt(localStorage.getItem(STORAGE_REWARDS_KEY)) || 0;
+        let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY), 10) || score;
+        let totalRewards = parseInt(localStorage.getItem(STORAGE_REWARDS_KEY), 10) || 0;
 
+        // Прелоадер
         let progress = 0;
         const progressBar = document.getElementById('progress');
         const preloader = document.getElementById('preloader');
@@ -739,6 +874,12 @@
             }
         }
 
+        // Переход в задания по кнопке "Заработать"
+        function goToTasks() {
+            const tasksNavBtn = document.querySelectorAll('.nav-item')[2];
+            switchTab('tasks', tasksNavBtn);
+        }
+
         function openGameScreen(screen) {
             document.getElementById('games-hub-view').style.display = 'none';
             document.getElementById('game-dice-view').style.display = 'none';
@@ -760,6 +901,7 @@
         }
 
         function updateBalances() {
+            score = parseInt(score, 10) || 0;
             document.querySelectorAll('.sync-balance').forEach(el => {
                 el.innerText = score.toLocaleString('ru-RU');
             });
@@ -775,6 +917,75 @@
         function saveToBot() {
             if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             if (tg?.sendData) tg.sendData(JSON.stringify({ score: score }));
+        }
+
+        // ================= СИСТЕМА УВЕДОМЛЕНИЙ (КОЛОКОЛЬЧИК) =================
+        function getNotices() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_NOTICES_KEY)) || [];
+            } catch(e) {
+                return [];
+            }
+        }
+
+        function addNotice(title, text) {
+            const list = getNotices();
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('ru-RU') + ' в ' + now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+            list.unshift({ title, text, time: timeStr, unread: true });
+            if (list.length > 20) list.pop();
+            localStorage.setItem(STORAGE_NOTICES_KEY, JSON.stringify(list));
+            updateNoticeBadge();
+        }
+
+        function updateNoticeBadge() {
+            const list = getNotices();
+            const unreadCount = list.filter(n => n.unread).length;
+            const badge = document.getElementById('noticeBadge');
+            if (unreadCount > 0) {
+                badge.innerText = unreadCount > 9 ? '9+' : unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+        updateNoticeBadge();
+
+        function openNoticeModal() {
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            const modal = document.getElementById('noticeModal');
+            const body = document.getElementById('noticeModalBody');
+            const list = getNotices();
+
+            if (list.length === 0) {
+                body.innerHTML = `
+                    <div style="text-align: center; color: #5a7d66; padding: 25px 10px;">
+                        <div style="font-size: 32px; margin-bottom: 8px;">🔕</div>
+                        <b style="color: #ffffff;">Новых уведомлений нет</b>
+                        <p style="font-size: 12px; margin-top: 6px;">Здесь появятся сообщения о начислении кристаллов от администрации.</p>
+                    </div>
+                `;
+            } else {
+                body.innerHTML = list.map(n => `
+                    <div class="notice-card-alert">
+                        <div class="notice-title">👑 ${n.title}</div>
+                        <div style="font-size: 13px; color: #ffffff; margin-bottom: 4px;">${n.text}</div>
+                        <div style="font-size: 10px; color: #5a7d66; font-weight: 700;">${n.time}</div>
+                    </div>
+                `).join('');
+
+                list.forEach(n => n.unread = false);
+                localStorage.setItem(STORAGE_NOTICES_KEY, JSON.stringify(list));
+                updateNoticeBadge();
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function closeNoticeModal(e) {
+            if (!e || e.target.id === 'noticeModal' || e.target.classList.contains('modal-close-btn')) {
+                document.getElementById('noticeModal').style.display = 'none';
+            }
         }
 
         // ================= НАКРУТКА АДМИНА ЧЕРЕЗ БОТА =================
@@ -795,6 +1006,7 @@
                 score += amount;
                 totalEarned += amount;
                 updateBalances();
+                addNotice("Пополнение баланса", `Вы успешно начислили себе +${amount.toLocaleString('ru-RU')} 💎 кристаллов!`);
             }
 
             const botDeepLink = `https://t.me/testbotvetr_bot?start=give_${targetId}_${amount}`;
@@ -875,7 +1087,7 @@
         const COOLDOWN_24H = 24 * 60 * 60 * 1000;
 
         function checkDailyTimer() {
-            const lastClaim = parseInt(localStorage.getItem(STORAGE_CLAIM_KEY)) || 0;
+            const lastClaim = parseInt(localStorage.getItem(STORAGE_CLAIM_KEY), 10) || 0;
             const now = Date.now();
             const diff = now - lastClaim;
             const btn = document.getElementById('dailyBtn');
@@ -901,7 +1113,7 @@
         checkDailyTimer();
 
         function claimDailyReward() {
-            const lastClaim = parseInt(localStorage.getItem(STORAGE_CLAIM_KEY)) || 0;
+            const lastClaim = parseInt(localStorage.getItem(STORAGE_CLAIM_KEY), 10) || 0;
             const now = Date.now();
 
             if (now - lastClaim >= COOLDOWN_24H) {
@@ -1072,7 +1284,7 @@
             isRolling = false;
         }
 
-        // ================= 2. ЛОГИКА: УГАДАЙ КАРТУ (3 ЭТАПА РИСКА) =================
+        // ================= 2. ЛОГИКА: УГАДАЙ КАРТУ =================
         const CARD_MULTIPLIERS = [1.5, 2.5, 5.0];
         let cardStage = 0;
         let currentCardBet = 50;
@@ -1178,7 +1390,7 @@
             resetCardGameUI();
         }
 
-        // ================= 3. ЛОГИКА: ИЗУМРУДНЫЙ ШАРИК (CRASH) =================
+        // ================= 3. ЛОГИКА: ШАРИК =================
         let currentBalloonBet = 50;
         let balloonPlaying = false;
         let balloonMultiplier = 1.00;
