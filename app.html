@@ -15,7 +15,7 @@
         }
 
         body {
-            background-color: #060e09; /* Глубокий тёмно-зелёный фон */
+            background-color: #060e09;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             height: 100vh;
@@ -24,7 +24,7 @@
             overflow: hidden;
         }
 
-        /* ========== ЭКРАН ЗАГРУЗКИ ========== */
+        /* Прелоадер */
         #preloader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -37,7 +37,6 @@
             transition: opacity 0.4s ease;
         }
 
-        /* Зелёный светящийся логотип */
         .logo-circle {
             width: 90px; height: 90px;
             border-radius: 50%;
@@ -72,7 +71,7 @@
 
         .loading-text { color: #5a7d66; font-size: 13px; }
 
-        /* ========== КОНТЕНТ ========== */
+        /* Контент */
         .content {
             flex: 1;
             overflow-y: auto;
@@ -101,7 +100,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Главная - кликер */
         .score-box {
             margin: 20px 0 30px;
             text-align: center;
@@ -113,7 +111,6 @@
             text-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
         }
 
-        /* Зелёная монета/сфера */
         .coin-btn {
             width: 180px; height: 180px;
             border-radius: 50%;
@@ -127,7 +124,6 @@
         }
         .coin-btn:active { transform: scale(0.92); }
 
-        /* Карточки */
         .card {
             background: #0d1e13;
             border: 1px solid #1a3824;
@@ -152,7 +148,79 @@
         }
         .card-btn:active { transform: scale(0.96); }
 
-        /* ========== НАВИГАЦИЯ ВНИЗУ (ТЁМНО-ЗЕЛЁНАЯ) ========== */
+        /* Окно игры "Крипто-Кости" */
+        .dice-game-box {
+            background: #0d1e13;
+            border: 1px solid #1a3824;
+            border-radius: 18px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .dice-sphere {
+            width: 85px;
+            height: 85px;
+            background: radial-gradient(circle, #00e676 0%, #053b1e 100%);
+            border: 3px solid #69f0ae;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 15px auto;
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.4);
+        }
+
+        .bet-input-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .bet-input-box input {
+            background: #06110a;
+            border: 1px solid #1b3823;
+            color: #00e676;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            width: 100px;
+            outline: none;
+        }
+
+        .bet-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .bet-choice-btn {
+            background: #102919;
+            border: 1px solid #1a4d29;
+            color: #e0f2e9;
+            padding: 10px 6px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .bet-choice-btn:active {
+            background: #00e676;
+            color: #041409;
+            transform: scale(0.96);
+        }
+
+        /* Навигация */
         .navbar {
             position: fixed;
             bottom: 12px;
@@ -209,25 +277,14 @@
             transition: color 0.2s;
         }
 
-        /* Выбранная кнопка — сочный зелёный свет */
-        .nav-item.active {
-            color: #00e676;
-        }
-
+        .nav-item.active { color: #00e676; }
         .nav-item.active .nav-icon-container {
             background: #00e676;
             box-shadow: 0 0 18px rgba(0, 230, 118, 0.6);
             transform: translateY(-4px);
         }
-
-        .nav-item.active .nav-icon {
-            fill: #06150b; /* Иконка внутри зелёного круга тёмная */
-            transform: scale(1.1);
-        }
-
-        .nav-item.active .nav-label {
-            color: #00e676;
-        }
+        .nav-item.active .nav-icon { fill: #06150b; transform: scale(1.1); }
+        .nav-item.active .nav-label { color: #00e676; }
     </style>
 </head>
 <body>
@@ -242,7 +299,7 @@
         <div class="loading-text">загрузка экосистемы...</div>
     </div>
 
-    <!-- ЭКРАНЫ -->
+    <!-- КОНТЕНТ -->
     <div class="content">
 
         <!-- 1. ГЛАВНАЯ -->
@@ -257,20 +314,52 @@
 
         <!-- 2. ИГРЫ -->
         <div class="tab-page" id="tab-games">
-            <h2 style="margin-bottom: 20px; color: #e0f2e9;">🎮 Игры</h2>
-            <div class="card">
-                <div>
-                    <b>Зелёная Рулетка</b>
-                    <p style="font-size: 12px; color: #5a7d66;">Умножай баланс до x5</p>
+            <div id="games-list-view" style="width: 100%;">
+                <h2 style="margin-bottom: 20px; color: #e0f2e9;">🎮 Игры</h2>
+                <div class="card">
+                    <div>
+                        <b>Зелёная Рулетка</b>
+                        <p style="font-size: 12px; color: #5a7d66;">Умножай баланс до x5</p>
+                    </div>
+                    <button class="card-btn">Скоро</button>
                 </div>
-                <button class="card-btn">Играть</button>
+                <div class="card">
+                    <div>
+                        <b>Крипто-Кости (2–12)</b>
+                        <p style="font-size: 12px; color: #5a7d66;">Равномерный рандом | RTP 93%</p>
+                    </div>
+                    <button class="card-btn" onclick="openDiceGame()">Играть</button>
+                </div>
             </div>
-            <div class="card">
-                <div>
-                    <b>Крипто-Кости</b>
-                    <p style="font-size: 12px; color: #5a7d66;">Угадай больше или меньше</p>
+
+            <!-- ИНТЕРФЕЙС ИГРЫ В КОСТИ -->
+            <div id="dice-game-view" class="dice-game-box" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <b style="color: #00e676; font-size: 18px;">🎲 Крипто-Кости</b>
+                    <button onclick="closeDiceGame()" style="background: none; border: none; color: #698c74; font-size: 20px; cursor: pointer;">✕</button>
                 </div>
-                <button class="card-btn">Скоро</button>
+
+                <div class="dice-sphere" id="dice-result">?</div>
+                <div id="game-status" style="font-size: 14px; min-height: 20px; color: #69f0ae;">Сделайте ставку</div>
+
+                <div class="bet-input-box">
+                    <span style="font-size: 14px; color: #5a7d66;">Ставка:</span>
+                    <input type="number" id="dice-bet" value="50" min="10" step="10">
+                    <span style="color: #00e676;">💎</span>
+                </div>
+
+                <div style="font-size: 12px; color: #5a7d66; margin-bottom: 6px;">Выберите исход:</div>
+                <div class="bet-grid">
+                    <button class="bet-choice-btn" onclick="playDice('more', 2)">> 2 (x1.02)</button>
+                    <button class="bet-choice-btn" onclick="playDice('more', 6)">> 6 (x1.71)</button>
+                    <button class="bet-choice-btn" onclick="playDice('more', 7)">> 7 (x2.05)</button>
+                    <button class="bet-choice-btn" onclick="playDice('more', 10)">> 10 (x5.12)</button>
+                    <button class="bet-choice-btn" style="grid-column: span 2; border-color: #00e676;" onclick="playDice('more', 11)">🔥 > 11 (x10.23)</button>
+                    <button class="bet-choice-btn" onclick="playDice('less', 12)">< 12 (x1.02)</button>
+                    <button class="bet-choice-btn" onclick="playDice('less', 7)">< 7 (x2.05)</button>
+                    <button class="bet-choice-btn" onclick="playDice('less', 4)">< 4 (x5.12)</button>
+                    <button class="bet-choice-btn" onclick="playDice('less', 3)">< 3 (x10.23)</button>
+                </div>
             </div>
         </div>
 
@@ -385,7 +474,7 @@
             }
         }, 25);
 
-        // Переключение табов
+        // Навигация
         function switchTab(tabName, btnElement) {
             if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
             document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
@@ -394,17 +483,106 @@
             btnElement.classList.add('active');
         }
 
-        // Кликер
-        let score = 0;
-        function tapCoin() {
-            score++;
+        // Баланс и кликер
+        let score = 100; // Стартовые 100 кристаллов на игру
+        function updateUI() {
             document.getElementById('score').innerText = score;
             document.getElementById('totalScore').innerText = score;
+        }
+        updateUI();
+
+        function tapCoin() {
+            score++;
+            updateUI();
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
         }
 
         function saveProgress() {
             tg.sendData(JSON.stringify({ score: score }));
+        }
+
+        // ================= ЛОГИКА ИГРЫ "КРИПТО-КОСТИ" =================
+        function openDiceGame() {
+            document.getElementById('games-list-view').style.display = 'none';
+            document.getElementById('dice-game-view').style.display = 'block';
+        }
+
+        function closeDiceGame() {
+            document.getElementById('dice-game-view').style.display = 'none';
+            document.getElementById('games-list-view').style.display = 'block';
+        }
+
+        const RTP = 0.93;
+        const TOTAL_OUTCOMES = 11; // [2..12]
+        let isRolling = false;
+
+        function playDice(mode, target) {
+            if (isRolling) return;
+
+            const betInput = document.getElementById('dice-bet');
+            const bet = parseInt(betInput.value, 10);
+            const statusEl = document.getElementById('game-status');
+            const resultEl = document.getElementById('dice-result');
+
+            if (isNaN(bet) || bet <= 0) {
+                statusEl.innerText = "❌ Укажите корректную ставку!";
+                statusEl.style.color = "#ff4444";
+                return;
+            }
+
+            if (score < bet) {
+                statusEl.innerText = "❌ Недостаточно кристаллов!";
+                statusEl.style.color = "#ff4444";
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                return;
+            }
+
+            // Списываем ставку
+            score -= bet;
+            updateUI();
+            isRolling = true;
+
+            // Расчёт коэффициента по формуле RTP 93%
+            let winOutcomes = 0;
+            if (mode === 'more') winOutcomes = 12 - target;
+            if (mode === 'less') winOutcomes = target - 2;
+            const mult = +(RTP * (TOTAL_OUTCOMES / winOutcomes)).toFixed(2);
+
+            statusEl.style.color = "#69f0ae";
+            statusEl.innerText = `Ставка: ${bet} 💎 на [${mode === 'more' ? '>' : '<'} ${target}]`;
+
+            // Анимация кручения
+            let ticks = 0;
+            const rollAnim = setInterval(() => {
+                resultEl.innerText = Math.floor(Math.random() * 11) + 2;
+                ticks++;
+                if (ticks > 12) {
+                    clearInterval(rollAnim);
+
+                    // РАВНОМЕРНЫЙ РАНДОМ ОТ 2 ДО 12
+                    const finalRoll = Math.floor(Math.random() * 11) + 2;
+                    resultEl.innerText = finalRoll;
+
+                    let won = false;
+                    if (mode === 'more' && finalRoll > target) won = true;
+                    if (mode === 'less' && finalRoll < target) won = true;
+
+                    if (won) {
+                        const winAmount = Math.floor(bet * mult);
+                        score += winAmount;
+                        updateUI();
+                        statusEl.style.color = "#00e676";
+                        statusEl.innerText = `🎉 Победа! Выпало ${finalRoll} | +${winAmount} 💎 (x${mult})`;
+                        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                    } else {
+                        statusEl.style.color = "#ff4444";
+                        statusEl.innerText = `💀 Проигрыш! Выпало ${finalRoll} | -${bet} 💎`;
+                        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                    }
+
+                    isRolling = false;
+                }
+            }, 70);
         }
     </script>
 </body>
