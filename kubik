@@ -1,0 +1,195 @@
+import asyncio
+import random
+from aiogram import Bot, Dispatcher, F
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.filters import Command
+
+TOKEN = "YOUR_BOT_TOKEN"
+bot = Bot(token=TOKEN)
+dp = Dispatcher()
+
+RTP = 0.93
+TOTAL_NUMBERS = 11  # [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+# Расчёт коэффициента на лету
+def calculate_multiplier(winning_outcomes_count: int) -> float:
+    if winning_outcomes_count <= 0:
+        return 0.0
+    return round(RTP * (TOTAL_NUMBERS / winning_outcomes_count), 2)
+
+# База пользователей (заглушка)
+users = {}
+
+def get_user(uid: int):
+    if uid not in users:
+        users[uid] = {"balance": 1000, "bet": 50}
+    return users[uid]
+
+# Клавиатура выбора режима "Больше"
+def get_more_menu():
+    buttons = []
+    row = []
+    # Выбор X от 2 до 11
+    for x in range(2, 12):
+        wins_count = 12 - x
+        k = calculate_multiplier(wins_count)
+        row.append(InlineKeyboardButton(text=f">{x} (x{k})", callback_data=f"play_more_{x}"))
+        if len(row) == 2:
+            buttons.append(row)
+            row = []
+    if row:
+        buttons.append(row)
+    buttons.append([InlineKeyboardButton(text="⬅️ Назад", callback_data="main_menu")])
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+# Клавиатура выбора режима "Меньше"
+def get_less_menu():
+    buttons = []
+    row = []
+    # Выбор X от 3 до 12
+    for x in range(3, 13):
+        wins_count = x - 2
+        k = calculate_multiplier(wins_count)
+        row.append(InlineKeyboardButton(text=f"<{x} (x{k})", callback_data=f"play_less_{x}"))
+        if len(row) == 2:
+            buttons.append(row)
+            row = []
+    if row:
+        buttons.append(row)
+    buttons.append([InlineKeyboardButton(text="⬅️ Назад", callback_data="main_menu")])
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+def get_main_keyboard(bet: int):
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=f"💰 Ставка: {bet} 🪙 (Изменить)", callback_data="change_bet")],
+        [
+            InlineKeyboardButton(text="📈 Больше X", callback_data="menu_more"),
+            InlineKeyboardButton(text="📉 Меньше X", callback_data="menu_less")
+        ],
+        [InlineKeyboardButton(text="🎯 Точное число (x10.23)", callback_data="menu_exact")]
+    ])
+
+def get_exact_menu():
+    buttons = []
+    row = []
+    for x in range(2, 13):
+        row.append(InlineKeyboardButton(text=f"{x}", callback_data=f"play_exact_{x}"))
+        if len(row) == 3:
+            buttons.append(row)
+            row = []
+    if row:
+        buttons.append(row)
+    buttons.append([InlineKeyboardButton(text="⬅️ Назад", callback_data="main_menu")])
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+@dp.message(Command("start", "game"))
+async def cmd_start(message: Message):
+    user = get_user(message.from_user.id)
+    await message.answer(
+        f"🎲 **Генератор 2–12 (RTP 93%)**\n\n"
+        f"Все числа имеют равный шанс выпадения (1/11).\n"
+        f"Ваш баланс: `{user['balance']}` 🪙\n"
+        f"Текущая ставка: `{user['bet']}` 🪙",
+        reply_markup=get_main_keyboard(user['bet']),
+        parse_mode="Markdown"
+    )
+
+@dp.callback_query(F.data == "main_menu")
+async def process_main_menu(call: CallbackQuery):
+    user = get_user(call.from_user.id)
+    await call.message.edit_text(
+        f"🎲 **Генератор 2–12 (RTP 93%)**\n\n"
+        f"Ваш баланс: `{user['balance']}` 🪙\n"
+        f"Текущая ставка: `{user['bet']}` 🪙",
+        reply_markup=get_main_keyboard(user['bet']),
+        parse_mode="Markdown"
+    )
+
+@dp.callback_query(F.data == "change_bet")
+async def process_bet_change(call: CallbackQuery):
+    user = get_user(call.from_user.id)
+    steps = [20, 50, 100, 200, 500]
+    idx = (steps.index(user["bet"]) + 1) % len(steps) if user["bet"] in steps else 0
+    user["bet"] = steps[idx]
+    await call.message.edit_reply_markup(reply_markup=get_main_keyboard(user["bet"]))
+    await call.answer(f"Ставка: {user['bet']} 🪙")
+
+@dp.callback_query(F.data == "menu_more")
+async def process_menu_more(call: CallbackQuery):
+    await call.message.edit_text("📈 Выберите условие «Больше X»:", reply_markup=get_more_menu())
+
+@dp.callback_query(F.data == "menu_less")
+async def process_menu_less(call: CallbackQuery):
+    await call.message.edit_text("📉 Выберите условие «Меньше X»:", reply_markup=get_less_menu())
+
+@dp.callback_query(F.data == "menu_exact")
+async def process_menu_exact(call: CallbackQuery):
+    await call.message.edit_text("🎯 Выберите число от 2 до 12 (кэф x10.23):", reply_markup=get_exact_menu())
+
+# Логика броска и расчёта
+@dp.callback_query(F.data.startswith("play_"))
+async def process_gameplay(call: CallbackQuery):
+    user = get_user(call.from_user.id)
+    bet = user["bet"]
+
+    if user["balance"] < bet:
+        await call.answer("❌ Недостаточно монет!", show_alert=True)
+        return
+
+    user["balance"] -= bet
+    await call.answer()
+
+    _, mode, target_str = call.data.split("_")
+    target = int(target_str)
+
+    # Определяем коэффициент и условие выигрыша
+    if mode == "more":
+        cond_text = f"Больше {target}"
+        multiplier = calculate_multiplier(12 - target)
+        is_win = lambda roll: roll > target
+    elif mode == "less":
+        cond_text = f"Меньше {target}"
+        multiplier = calculate_multiplier(target - 2)
+        is_win = lambda roll: roll < target
+    else:  # exact
+        cond_text = f"Ровно {target}"
+        multiplier = calculate_multiplier(1)
+        is_win = lambda roll: roll == target
+
+    # Анимация генерации
+    msg = await call.message.edit_text(f"🎰 Ставка `{bet}` 🪙 на **{cond_text}** (x{multiplier})\n\nКрутим барабан...")
+    await asyncio.sleep(1.0)
+    await msg.edit_text("🎲 Выбирается число: **[ . . . ]**")
+    await asyncio.sleep(1.2)
+
+    # Равномерный рандом строго от 2 до 12
+    rolled_number = random.randint(2, 12)
+
+    if is_win(rolled_number):
+        payout = int(bet * multiplier)
+        user["balance"] += payout
+        res = (
+            f"🎉 **ПОБЕДА!**\n\n"
+            f"Ваша ставка: **{cond_text}**\n"
+            f"Выпало число: **{rolled_number}**\n"
+            f"Коэффициент: **x{multiplier}**\n"
+            f"Выигрыш: **+{payout} 🪙**\n\n"
+            f"Баланс: `{user['balance']}` 🪙"
+        )
+    else:
+        res = (
+            f"💀 **ПРОИГРЫШ**\n\n"
+            f"Ваша ставка: **{cond_text}**\n"
+            f"Выпало число: **{rolled_number}**\n"
+            f"Потеряно: `-{bet} 🪙`\n\n"
+            f"Баланс: `{user['balance']}` 🪙"
+        )
+
+    await msg.edit_text(res, reply_markup=get_main_keyboard(user['bet']), parse_mode="Markdown")
+
+async def main():
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
