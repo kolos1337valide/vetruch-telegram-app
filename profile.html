@@ -163,25 +163,32 @@
             transition: all 0.2s ease;
         }
         .action-btn:active { transform: scale(0.97); }
+        .action-btn.disabled {
+            background: #112217 !important; color: #5a7d66 !important;
+            border: 1px solid #1f3d2a; box-shadow: none !important;
+            cursor: not-allowed !important; font-size: 15px;
+        }
 
         .promo-card {
             background: linear-gradient(135deg, #0e1e14 0%, #08120b 60%, #00e676 170%);
             border: 1px solid #1a3824; border-radius: 20px; padding: 18px; cursor: pointer;
+            width: 100%;
         }
         .promo-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
         .promo-reward { font-size: 16px; font-weight: 900; color: #00e676; margin-bottom: 4px; }
         .promo-sub { font-size: 12px; color: #5a7d66; }
 
+        /* ИГРОВОЙ ХАБ */
         .game-select-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 18px;
             padding: 18px; margin-bottom: 14px; display: flex; justify-content: space-between;
-            align-items: center; cursor: pointer; text-decoration: none; color: inherit;
+            align-items: center; cursor: pointer; color: inherit; width: 100%;
         }
         .game-select-card:active { transform: scale(0.98); border-color: #00e676; }
         .game-card-btn {
             background: #00e676; color: #041409; font-weight: 900; border: none;
             padding: 10px 18px; border-radius: 10px; cursor: pointer;
-            box-shadow: 0 0 12px rgba(0, 230, 118, 0.3); text-decoration: none;
+            box-shadow: 0 0 12px rgba(0, 230, 118, 0.3);
         }
 
         .back-to-hub {
@@ -190,6 +197,7 @@
             cursor: pointer; margin-bottom: 14px; display: inline-block;
         }
 
+        /* 1. КУБИКИ */
         .game-box {
             background: #0b1710; border: 1px solid #1a3824; border-radius: 24px; padding: 18px; width: 100%;
         }
@@ -248,61 +256,87 @@
         .target-btn span { color: #00e676; font-size: 11px; font-weight: 900; }
         .target-btn:active { transform: scale(0.96); background: #142e1d; }
 
-        /* ========== АДМИН-ПАНЕЛЬ НАКРУТКИ ========== */
+        /* 2. КАРТЫ */
+        .card-arena {
+            background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
+            border: 2px solid #1b4728; border-radius: 22px; padding: 20px 10px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin-bottom: 16px; min-height: 180px; box-shadow: inset 0 0 30px rgba(0,0,0,0.7);
+        }
+        .card-deck {
+            display: flex; gap: 14px; justify-content: center; align-items: center; margin-bottom: 12px;
+        }
+        .game-card-item {
+            width: 76px; height: 108px; background: #0a180f; border: 2px solid #00e676;
+            border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 32px; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.25);
+            transition: all 0.25s ease; cursor: pointer; position: relative;
+        }
+        .game-card-item:hover { transform: translateY(-4px); }
+        .game-card-item.red { color: #ff5252; border-color: #ff5252; box-shadow: 0 4px 15px rgba(255, 82, 82, 0.25); }
+        .game-card-item.black { color: #ffffff; border-color: #7ba688; }
+        .card-stage-badge {
+            font-size: 12px; font-weight: 800; color: #00e676;
+            background: rgba(0, 230, 118, 0.12); padding: 4px 12px; border-radius: 10px;
+            border: 1px solid rgba(0, 230, 118, 0.3); margin-bottom: 10px;
+        }
+        .card-actions-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;
+        }
+        .card-choice-btn {
+            padding: 14px; border-radius: 14px; font-weight: 900; font-size: 15px;
+            cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .card-choice-btn.red-btn { background: #ff5252; color: #fff; box-shadow: 0 4px 15px rgba(255, 82, 82, 0.4); }
+        .card-choice-btn.black-btn { background: #1a3322; color: #fff; border: 1px solid #2d5a3c; }
+
+        /* 3. ШАРИК (BALLOON / CRASH) */
+        .balloon-arena {
+            background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
+            border: 2px solid #1b4728; border-radius: 22px; height: 190px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin-bottom: 16px; position: relative; overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.7);
+        }
+        .balloon-circle {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: radial-gradient(circle, #00e676 0%, #00994c 70%, #042410 100%);
+            border: 2px solid #69f0ae; box-shadow: 0 0 25px rgba(0, 230, 118, 0.5);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 900; color: #041409;
+            transition: width 0.08s linear, height 0.08s linear;
+        }
+        .balloon-pop {
+            animation: popAnim 0.3s forwards;
+        }
+        @keyframes popAnim {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.6); opacity: 0.5; filter: hue-rotate(90deg); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* АДМИН-ПАНЕЛЬ */
         .admin-box {
-            background: #0c1810;
-            border: 2px solid #00e676;
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 22px;
-            box-shadow: 0 0 25px rgba(0, 230, 118, 0.2);
-            display: none;
-            width: 100%;
+            background: #0c1810; border: 2px solid #00e676; border-radius: 20px;
+            padding: 16px; margin-bottom: 22px; box-shadow: 0 0 25px rgba(0, 230, 118, 0.2);
+            display: none; width: 100%;
         }
-
         .admin-header {
-            font-size: 16px;
-            font-weight: 900;
-            color: #00e676;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 14px;
+            font-size: 16px; font-weight: 900; color: #00e676; display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
         }
-
-        .admin-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
+        .admin-form { display: flex; flex-direction: column; gap: 10px; }
         .admin-field {
-            width: 100%;
-            background: #06110a;
-            border: 1px solid #1b3823;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 700;
-            padding: 12px;
-            border-radius: 12px;
-            outline: none;
+            width: 100%; background: #06110a; border: 1px solid #1b3823;
+            color: #ffffff; font-size: 14px; font-weight: 700; padding: 12px; border-radius: 12px; outline: none;
         }
         .admin-field:focus { border-color: #00e676; }
-
         .admin-btn {
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(180deg, #00e676 0%, #00994c 100%);
-            border: none;
-            border-radius: 12px;
-            color: #041409;
-            font-size: 15px;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.35);
+            width: 100%; padding: 13px; background: linear-gradient(180deg, #00e676 0%, #00994c 100%);
+            border: none; border-radius: 12px; color: #041409; font-size: 15px; font-weight: 900;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.35);
         }
-        .admin-btn:active { transform: scale(0.97); }
 
+        /* ТРАНЗАКЦИИ */
         .tx-list { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .tx-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 18px;
@@ -323,6 +357,7 @@
         .tx-amount.minus { color: #ff5252; }
         .empty-history { text-align: center; color: #4e735a; font-size: 14px; padding: 30px 10px; }
 
+        /* НАВИГАЦИЯ */
         .navbar {
             position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
             width: calc(100% - 24px); max-width: 420px;
@@ -366,7 +401,7 @@
             <div class="top-bar">
                 <div class="icon-btn">
                     <span style="font-size: 20px;">🔔</span>
-                    <div class="badge">0</div>
+                    <div class="badge">1</div>
                 </div>
                 <div class="balance-pill">
                     <span>💎</span> <b class="sync-balance">0</b>
@@ -391,11 +426,11 @@
                 </div>
                 <div class="stat-item" style="border-left: 1px solid #1a3322; border-right: 1px solid #1a3322;">
                     <div class="stat-label">ЗАРАБОТАНО</div>
-                    <div class="stat-value">0</div>
+                    <div class="stat-value" id="totalEarnedDisplay">0</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">ВЫДАНО НАГРАД</div>
-                    <div class="stat-value">0</div>
+                    <div class="stat-value" id="totalRewardsDisplay">0</div>
                 </div>
             </div>
 
@@ -410,7 +445,7 @@
                     <span class="sync-balance">0</span>
                 </div>
 
-                <div class="income-today">+300 за подарок</div>
+                <div class="income-today">+300 за подарок каждые 24ч</div>
 
                 <div class="stream-status">
                     <span>📡</span> Стрим офлайн
@@ -428,6 +463,8 @@
 
         <!-- 2. ИГРЫ -->
         <div class="tab-page" id="tab-games">
+            
+            <!-- ХАБ ИГР -->
             <div id="games-hub-view">
                 <h2 style="margin-bottom: 16px; font-size: 22px;">🎮 Выбор игры</h2>
                 
@@ -439,24 +476,24 @@
                     <button class="game-card-btn">Играть</button>
                 </div>
 
-                <a href="balloon.html" class="game-select-card">
-                    <div>
-                        <b style="font-size: 16px;">🎈 Изумрудный Шарик</b>
-                        <p style="font-size: 12px; color: #5a7d66; margin-top: 4px;">Зажимай и надувай | RTP 95%</p>
-                    </div>
-                    <span class="game-card-btn">Играть</span>
-                </a>
-
-                <a href="card.html" class="game-select-card">
+                <div class="game-select-card" onclick="openGameScreen('card')">
                     <div>
                         <b style="font-size: 16px;">🃏 Угадай Карту</b>
                         <p style="font-size: 12px; color: #5a7d66; margin-top: 4px;">3 этапа риска | До x5.0</p>
                     </div>
-                    <span class="game-card-btn">Играть</span>
-                </a>
+                    <button class="game-card-btn">Играть</button>
+                </div>
+
+                <div class="game-select-card" onclick="openGameScreen('balloon')">
+                    <div>
+                        <b style="font-size: 16px;">🎈 Изумрудный Шарик</b>
+                        <p style="font-size: 12px; color: #5a7d66; margin-top: 4px;">Надувай и забирай | RTP 95%</p>
+                    </div>
+                    <button class="game-card-btn">Играть</button>
+                </div>
             </div>
 
-            <!-- КУБИКИ -->
+            <!-- ИГРА 1: КУБИКИ -->
             <div id="game-dice-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎲 Бросок кубиков 2–12</h2>
@@ -499,6 +536,70 @@
                     <div class="targets-grid" id="targetsContainer"></div>
                 </div>
             </div>
+
+            <!-- ИГРА 2: УГАДАЙ КАРТУ (3 ЭТАПА РИСКА) -->
+            <div id="game-card-view" style="display: none;">
+                <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
+                <h2 style="margin-bottom: 12px; font-size: 20px;">🃏 Угадай Карту</h2>
+                
+                <div class="game-box">
+                    <div class="card-arena">
+                        <div class="card-stage-badge" id="cardStageText">Этап 1 из 3 (Коэффициент x1.5)</div>
+                        <div class="card-deck">
+                            <div class="game-card-item" id="openedCardDisplay">❓</div>
+                        </div>
+                        <div class="sum-badge" id="cardStatus">Выберите цвет карты:</div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #698c74; margin-bottom: 6px;">
+                        <span>Ставка:</span>
+                        <span>Баланс: <b class="sync-balance" style="color: #00e676;">0</b> 💎</span>
+                    </div>
+                    <div class="bet-chips" id="cardChipsContainer">
+                        <div class="chip" onclick="setCardBet(20, this)">20</div>
+                        <div class="chip active" onclick="setCardBet(50, this)">50</div>
+                        <div class="chip" onclick="setCardBet(100, this)">100</div>
+                        <div class="chip" onclick="setCardBet(200, this)">200</div>
+                        <div class="chip" onclick="setCardBet(500, this)">500</div>
+                    </div>
+
+                    <div class="card-actions-grid" id="cardChoicesContainer">
+                        <button class="card-choice-btn red-btn" onclick="playCardChoice('red')">❤️ Красная</button>
+                        <button class="card-choice-btn black-btn" onclick="playCardChoice('black')">♠️ Чёрная</button>
+                    </div>
+
+                    <div id="cardTakeWinContainer" style="display: none; margin-top: 10px;">
+                        <button class="action-btn" onclick="cashoutCardWin()">💰 Забрать выигрыш</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ИГРА 3: ИЗУМРУДНЫЙ ШАРИК -->
+            <div id="game-balloon-view" style="display: none;">
+                <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
+                <h2 style="margin-bottom: 12px; font-size: 20px;">🎈 Изумрудный Шарик</h2>
+                
+                <div class="game-box">
+                    <div class="balloon-arena">
+                        <div class="balloon-circle" id="balloonTarget">1.00x</div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #698c74; margin-bottom: 6px;">
+                        <span>Ставка:</span>
+                        <span>Баланс: <b class="sync-balance" style="color: #00e676;">0</b> 💎</span>
+                    </div>
+                    <div class="bet-chips" id="balloonChipsContainer">
+                        <div class="chip" onclick="setBalloonBet(20, this)">20</div>
+                        <div class="chip active" onclick="setBalloonBet(50, this)">50</div>
+                        <div class="chip" onclick="setBalloonBet(100, this)">100</div>
+                        <div class="chip" onclick="setBalloonBet(200, this)">200</div>
+                        <div class="chip" onclick="setBalloonBet(500, this)">500</div>
+                    </div>
+
+                    <button class="action-btn" id="balloonActionBtn" onclick="handleBalloonClick()">🚀 Надувать шарик</button>
+                </div>
+            </div>
+
         </div>
 
         <!-- 3. ЗАДАНИЯ -->
@@ -579,7 +680,8 @@
         }
         const userId = String(rawUserId);
 
-        const ADMIN_IDS = ['1067693099', '97854864'];
+        // ИСПРАВЛЕН ID админа (была опечатка: 97854864 вместо 978548564)
+        const ADMIN_IDS = ['1067693099', '978548564'];
         if (ADMIN_IDS.includes(userId)) {
             const adminBox = document.getElementById('adminBox');
             if (adminBox) adminBox.style.display = 'block';
@@ -593,27 +695,30 @@
             document.getElementById('userCountDisplay').innerText = parseInt(realUsers).toLocaleString('ru-RU');
         }
 
-        // ================= СЕРВЕРНЫЙ БАЛАНС =================
+        // ================= ИСПРАВЛЕНИЕ: БАЛАНС БОЛЬШЕ НЕ СБРАСЫВАЕТСЯ =================
         const serverBalanceParam = urlParams.get('balance');
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
         const STORAGE_CLAIM_KEY = 'vetruch_claim_time_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
+        const STORAGE_EARNED_KEY = 'vetruch_earned_' + userId;
+        const STORAGE_REWARDS_KEY = 'vetruch_rewards_' + userId;
 
-        // Если бот при входе передал баланс — он ПЕРВОСТЕПЕННЫЙ!
-        let score = 0;
-        if (serverBalanceParam !== null && !isNaN(parseInt(serverBalanceParam))) {
-            score = parseInt(serverBalanceParam);
-            localStorage.setItem(STORAGE_BALANCE_KEY, score);
-        } else {
-            score = parseInt(localStorage.getItem(STORAGE_BALANCE_KEY)) || 0;
-        }
+        let localSavedBalance = parseInt(localStorage.getItem(STORAGE_BALANCE_KEY)) || 0;
+        let serverBalance = (serverBalanceParam !== null && !isNaN(parseInt(serverBalanceParam))) ? parseInt(serverBalanceParam) : 0;
+
+        // Берем максимум, чтобы заработанный баланс игрока никогда не затирался нулем бота!
+        let score = Math.max(localSavedBalance, serverBalance);
+        localStorage.setItem(STORAGE_BALANCE_KEY, score);
+
+        let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY)) || score;
+        let totalRewards = parseInt(localStorage.getItem(STORAGE_REWARDS_KEY)) || 0;
 
         let progress = 0;
         const progressBar = document.getElementById('progress');
         const preloader = document.getElementById('preloader');
 
         const interval = setInterval(() => {
-            progress += 5;
+            progress += 10;
             progressBar.style.width = progress + '%';
             if (progress >= 100) {
                 clearInterval(interval);
@@ -637,23 +742,40 @@
         function openGameScreen(screen) {
             document.getElementById('games-hub-view').style.display = 'none';
             document.getElementById('game-dice-view').style.display = 'none';
+            document.getElementById('game-card-view').style.display = 'none';
+            document.getElementById('game-balloon-view').style.display = 'none';
 
             if (screen === 'hub') {
                 document.getElementById('games-hub-view').style.display = 'block';
             } else if (screen === 'dice') {
-                switchTab('games', document.querySelectorAll('.nav-item')[1]);
-                document.getElementById('games-hub-view').style.display = 'none';
                 document.getElementById('game-dice-view').style.display = 'block';
+            } else if (screen === 'card') {
+                document.getElementById('game-card-view').style.display = 'block';
+                resetCardGameUI();
+            } else if (screen === 'balloon') {
+                document.getElementById('game-balloon-view').style.display = 'block';
+                resetBalloonUI();
             }
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
         function updateBalances() {
             document.querySelectorAll('.sync-balance').forEach(el => {
                 el.innerText = score.toLocaleString('ru-RU');
             });
+            document.getElementById('totalEarnedDisplay').innerText = totalEarned.toLocaleString('ru-RU');
+            document.getElementById('totalRewardsDisplay').innerText = totalRewards.toLocaleString('ru-RU');
+
             localStorage.setItem(STORAGE_BALANCE_KEY, score);
+            localStorage.setItem(STORAGE_EARNED_KEY, totalEarned);
+            localStorage.setItem(STORAGE_REWARDS_KEY, totalRewards);
         }
         updateBalances();
+
+        function saveToBot() {
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            if (tg?.sendData) tg.sendData(JSON.stringify({ score: score }));
+        }
 
         // ================= НАКРУТКА АДМИНА ЧЕРЕЗ БОТА =================
         function handleAdminGive() {
@@ -667,18 +789,15 @@
                 return;
             }
 
-            // Записываем в транзакции
-            addTransactionForUser(targetId, "Начисление", amount, "plus");
+            addTransactionForUser(targetId, "Админ начисление", amount, "plus");
 
             if (targetId === userId) {
                 score += amount;
+                totalEarned += amount;
                 updateBalances();
             }
 
-            // ГАРАНТИРОВАННАЯ ОТПРАВКА БОТУ ЧЕРЕЗ ССЫЛКУ START
-            // Имя твоего бота: testbotvetr_bot
             const botDeepLink = `https://t.me/testbotvetr_bot?start=give_${targetId}_${amount}`;
-            
             if (tg && tg.openTelegramLink) {
                 tg.openTelegramLink(botDeepLink);
             } else {
@@ -778,7 +897,6 @@
                 btn.innerHTML = `⏳ До награды: ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
             }
         }
-
         setInterval(checkDailyTimer, 1000);
         checkDailyTimer();
 
@@ -788,6 +906,8 @@
 
             if (now - lastClaim >= COOLDOWN_24H) {
                 score += 300;
+                totalEarned += 300;
+                totalRewards += 1;
                 localStorage.setItem(STORAGE_CLAIM_KEY, now);
                 updateBalances();
                 checkDailyTimer();
@@ -797,7 +917,7 @@
             }
         }
 
-        // ================= ЛОГИКА: КУБИКИ =================
+        // ================= 1. ЛОГИКА: КУБИКИ =================
         const dicePatterns = {
             1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8]
         };
@@ -884,7 +1004,7 @@
 
             if (score < currentDiceBet) {
                 if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                alert("❌ Недостаточно кристаллов! Забери подарок на Главной.");
+                alert("❌ Недостаточно кристаллов! Забери бонус на Главной.");
                 return;
             }
 
@@ -918,7 +1038,6 @@
             d2.classList.remove('rolling');
 
             const finalSum = Math.floor(Math.random() * 11) + 2;
-
             let val1 = Math.floor(Math.random() * (Math.min(6, finalSum - 1) - Math.max(1, finalSum - 6) + 1)) + Math.max(1, finalSum - 6);
             let val2 = finalSum - val1;
 
@@ -935,6 +1054,7 @@
             if (isWin) {
                 const winAmount = Math.floor(currentDiceBet * multiplier);
                 score += winAmount;
+                totalEarned += winAmount;
                 updateBalances();
                 status.innerText = `🎉 ВЫПАЛО: ${finalSum} (${val1}+${val2}) | +${winAmount} 💎`;
                 status.style.color = "#00e676";
@@ -950,6 +1070,209 @@
             }
 
             isRolling = false;
+        }
+
+        // ================= 2. ЛОГИКА: УГАДАЙ КАРТУ (3 ЭТАПА РИСКА) =================
+        const CARD_MULTIPLIERS = [1.5, 2.5, 5.0];
+        let cardStage = 0;
+        let currentCardBet = 50;
+        let cardPlaying = false;
+        let currentCardWin = 0;
+
+        function setCardBet(amount, element) {
+            if (cardPlaying) return;
+            currentCardBet = amount;
+            element.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
+        function resetCardGameUI() {
+            cardStage = 0;
+            cardPlaying = false;
+            currentCardWin = 0;
+            document.getElementById('cardStageText').innerText = "Этап 1 из 3 (Коэффициент x1.5)";
+            document.getElementById('openedCardDisplay').innerText = "❓";
+            document.getElementById('openedCardDisplay').className = "game-card-item";
+            document.getElementById('cardStatus').innerText = "Выберите цвет карты:";
+            document.getElementById('cardStatus').style.color = "#00e676";
+            document.getElementById('cardTakeWinContainer').style.display = "none";
+            document.getElementById('cardChipsContainer').style.opacity = "1";
+            document.getElementById('cardChipsContainer').style.pointerEvents = "auto";
+        }
+
+        function playCardChoice(playerChoice) {
+            if (!cardPlaying) {
+                if (score < currentCardBet) {
+                    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                    alert("❌ Недостаточно кристаллов для ставки!");
+                    return;
+                }
+                score -= currentCardBet;
+                updateBalances();
+                cardPlaying = true;
+                document.getElementById('cardChipsContainer').style.opacity = "0.4";
+                document.getElementById('cardChipsContainer').style.pointerEvents = "none";
+            }
+
+            if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+
+            const isRed = Math.random() < 0.5;
+            const cardItem = document.getElementById('openedCardDisplay');
+            const redSuits = ['♥️', '♦️'];
+            const blackSuits = ['♠️', '♣️'];
+            const values = ['A', 'K', 'Q', 'J', '10', '9', '8', '7'];
+            const randomVal = values[Math.floor(Math.random() * values.length)];
+
+            if (isRed) {
+                const suit = redSuits[Math.floor(Math.random() * redSuits.length)];
+                cardItem.innerText = randomVal + suit;
+                cardItem.className = "game-card-item red";
+            } else {
+                const suit = blackSuits[Math.floor(Math.random() * blackSuits.length)];
+                cardItem.innerText = randomVal + suit;
+                cardItem.className = "game-card-item black";
+            }
+
+            const isWin = (playerChoice === 'red' && isRed) || (playerChoice === 'black' && !isRed);
+
+            if (isWin) {
+                const mult = CARD_MULTIPLIERS[cardStage];
+                currentCardWin = Math.floor(currentCardBet * mult);
+
+                if (cardStage < 2) {
+                    cardStage++;
+                    const nextMult = CARD_MULTIPLIERS[cardStage];
+                    document.getElementById('cardStageText').innerText = `Этап ${cardStage + 1} из 3 (Коэф. x${nextMult})`;
+                    document.getElementById('cardStatus').innerText = `🎉 Угадали! Выигрыш: ${currentCardWin} 💎. Рискните дальше или заберите!`;
+                    document.getElementById('cardStatus').style.color = "#00e676";
+                    document.getElementById('cardTakeWinContainer').style.display = "block";
+                    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                } else {
+                    score += currentCardWin;
+                    totalEarned += currentCardWin;
+                    updateBalances();
+                    addTransaction(`Супер-победа в картах (x5.0)`, currentCardWin, "plus");
+                    document.getElementById('cardStatus').innerText = `👑 ФИНАЛ ПРОЙДЕН! Вы выиграли +${currentCardWin} 💎 (x5.0)!`;
+                    document.getElementById('cardStatus').style.color = "#00e676";
+                    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                    setTimeout(resetCardGameUI, 3000);
+                }
+            } else {
+                document.getElementById('cardStatus').innerText = `💀 Не угадали! Ставка -${currentCardBet} 💎 сгорела.`;
+                document.getElementById('cardStatus').style.color = "#ff5252";
+                addTransaction(`Проигрыш в картах`, currentCardBet, "minus");
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                setTimeout(resetCardGameUI, 2000);
+            }
+        }
+
+        function cashoutCardWin() {
+            if (!cardPlaying || currentCardWin <= 0) return;
+            score += currentCardWin;
+            totalEarned += currentCardWin;
+            updateBalances();
+            addTransaction(`Забрал выигрыш в картах`, currentCardWin, "plus");
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            alert(`💰 Вы забрали +${currentCardWin} 💎!`);
+            resetCardGameUI();
+        }
+
+        // ================= 3. ЛОГИКА: ИЗУМРУДНЫЙ ШАРИК (CRASH) =================
+        let currentBalloonBet = 50;
+        let balloonPlaying = false;
+        let balloonMultiplier = 1.00;
+        let balloonCrashPoint = 1.00;
+        let balloonInterval = null;
+
+        function setBalloonBet(amount, element) {
+            if (balloonPlaying) return;
+            currentBalloonBet = amount;
+            element.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
+        function resetBalloonUI() {
+            balloonPlaying = false;
+            balloonMultiplier = 1.00;
+            clearInterval(balloonInterval);
+            const balloon = document.getElementById('balloonTarget');
+            balloon.style.width = '70px';
+            balloon.style.height = '70px';
+            balloon.classList.remove('balloon-pop');
+            balloon.innerText = '1.00x';
+            balloon.style.background = 'radial-gradient(circle, #00e676 0%, #00994c 70%, #042410 100%)';
+            document.getElementById('balloonActionBtn').innerText = '🚀 Надувать шарик';
+            document.getElementById('balloonActionBtn').style.background = '#00e676';
+            document.getElementById('balloonChipsContainer').style.opacity = '1';
+            document.getElementById('balloonChipsContainer').style.pointerEvents = 'auto';
+        }
+
+        function handleBalloonClick() {
+            if (!balloonPlaying) {
+                if (score < currentBalloonBet) {
+                    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                    alert("❌ Недостаточно кристаллов!");
+                    return;
+                }
+
+                score -= currentBalloonBet;
+                updateBalances();
+                balloonPlaying = true;
+                balloonMultiplier = 1.00;
+
+                const rand = Math.random();
+                balloonCrashPoint = Math.max(1.10, (0.95 / (1.0001 - rand)));
+                if (balloonCrashPoint > 15.0) balloonCrashPoint = 15.0;
+
+                document.getElementById('balloonChipsContainer').style.opacity = '0.4';
+                document.getElementById('balloonChipsContainer').style.pointerEvents = 'none';
+
+                const btn = document.getElementById('balloonActionBtn');
+                btn.innerText = `💰 Забрать ${currentBalloonBet} 💎`;
+                btn.style.background = '#ffc107';
+
+                const balloon = document.getElementById('balloonTarget');
+
+                balloonInterval = setInterval(() => {
+                    balloonMultiplier += 0.05;
+                    const curWin = Math.floor(currentBalloonBet * balloonMultiplier);
+                    btn.innerText = `💰 Забрать ${curWin} 💎 (${balloonMultiplier.toFixed(2)}x)`;
+                    balloon.innerText = balloonMultiplier.toFixed(2) + 'x';
+
+                    const newSize = Math.min(160, 70 + (balloonMultiplier - 1) * 20);
+                    balloon.style.width = newSize + 'px';
+                    balloon.style.height = newSize + 'px';
+
+                    if (balloonMultiplier >= balloonCrashPoint) {
+                        clearInterval(balloonInterval);
+                        balloonPlaying = false;
+                        balloon.classList.add('balloon-pop');
+                        btn.innerText = `💥 ЛОПНУЛ на ${balloonCrashPoint.toFixed(2)}x!`;
+                        btn.style.background = '#ff5252';
+                        addTransaction(`Шарик лопнул (${balloonCrashPoint.toFixed(2)}x)`, currentBalloonBet, "minus");
+                        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                        setTimeout(resetBalloonUI, 2200);
+                    }
+                }, 120);
+
+            } else {
+                clearInterval(balloonInterval);
+                const winAmount = Math.floor(currentBalloonBet * balloonMultiplier);
+                score += winAmount;
+                totalEarned += winAmount;
+                updateBalances();
+
+                balloonPlaying = false;
+                addTransaction(`Шарик: забрал на ${balloonMultiplier.toFixed(2)}x`, winAmount, "plus");
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+                const btn = document.getElementById('balloonActionBtn');
+                btn.innerText = `🎉 Забрано +${winAmount} 💎!`;
+                btn.style.background = '#00e676';
+                setTimeout(resetBalloonUI, 1800);
+            }
         }
     </script>
 </body>
