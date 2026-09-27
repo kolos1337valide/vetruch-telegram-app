@@ -15,7 +15,7 @@
         }
 
         body {
-            background-color: #060e09;
+            background-color: #050a07;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             height: 100vh;
@@ -242,7 +242,7 @@
             letter-spacing: 0.5px;
             cursor: pointer;
             box-shadow: 0 4px 25px rgba(0, 230, 118, 0.45);
-            touch-action: none; /* Запрещает жесты скролла при удержании на телефоне */
+            touch-action: none;
             transition: all 0.1s ease;
         }
 
@@ -263,7 +263,7 @@
 
     <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
     <div class="top-bar">
-        <a href="app.html" class="back-btn">⬅️ Меню</a>
+        <a href="profile.html" class="back-btn">⬅️ Меню</a>
         <div class="balance-chip">
             <span>💎</span>
             <span id="balance-val">0</span>
@@ -277,9 +277,7 @@
             <h1 class="game-title">🎈 Изумрудный Шарик</h1>
             <div class="rtp-badge">⚡ Аркадный Crash | RTP 95%</div>
             
-            <div class="history-bar" id="history-bar">
-                <!-- Сюда добавляются прошлые кэфы -->
-            </div>
+            <div class="history-bar" id="history-bar"></div>
         </div>
 
         <!-- АРЕНА НАДУВАНИЯ -->
@@ -301,10 +299,10 @@
                     <span style="color: #00e676; font-size: 14px;">💎</span>
                 </div>
                 <div class="quick-bets">
-                    <button class="quick-btn" onclick="setBet(25)">25</button>
+                    <button class="quick-btn" onclick="setBet(20)">20</button>
                     <button class="quick-btn" onclick="setBet(50)">50</button>
                     <button class="quick-btn" onclick="setBet(100)">100</button>
-                    <button class="quick-btn" onclick="setBet(250)">250</button>
+                    <button class="quick-btn" onclick="setBet(200)">200</button>
                 </div>
             </div>
 
@@ -319,36 +317,51 @@
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.expand();
-            // Нативная кнопка "Назад" в самом Telegram
             if (tg.BackButton) {
                 tg.BackButton.show();
-                tg.BackButton.onClick(() => { window.location.href = 'app.html'; });
+                tg.BackButton.onClick(() => { window.location.href = 'profile.html'; });
             }
         }
 
-        // ================= СИНХРОНИЗАЦИЯ БАЛАНСА =================
-        const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'guest';
-        const storageKey = 'vetruch_balance_' + userId;
+        // ================= СИНХРОНИЗАЦИЯ БАЛАНСА И ТРАНЗАКЦИЙ =================
+        const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'player';
+        const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
+        const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
 
-        let score = parseInt(localStorage.getItem(storageKey), 10);
+        let score = parseInt(localStorage.getItem(STORAGE_BALANCE_KEY), 10);
         if (isNaN(score)) {
-            score = 100;
-            localStorage.setItem(storageKey, score);
+            score = 0;
+            localStorage.setItem(STORAGE_BALANCE_KEY, score);
         }
 
         function updateBalance() {
-            document.getElementById('balance-val').innerText = score;
-            localStorage.setItem(storageKey, score);
+            document.getElementById('balance-val').innerText = score.toLocaleString('ru-RU');
+            localStorage.setItem(STORAGE_BALANCE_KEY, score);
         }
         updateBalance();
+
+        function addTransaction(title, amount, type) {
+            let txs = [];
+            try { txs = JSON.parse(localStorage.getItem(STORAGE_TX_KEY)) || []; } catch(e) {}
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            txs.unshift({
+                title: title,
+                amount: (type === 'plus' ? '+' : '-') + Math.abs(amount),
+                type: type,
+                date: dateStr
+            });
+            if (txs.length > 30) txs.pop();
+            localStorage.setItem(STORAGE_TX_KEY, JSON.stringify(txs));
+        }
 
         function setBet(amount) {
             document.getElementById('bet-input').value = amount;
         }
 
         // ================= МАТЕМАТИКА И ЛОГИКА CRASH =================
-        // Реальный RTP = 70% (0.70)
-        const ACTUAL_RTP = 0.70;
+        const ACTUAL_RTP = 0.70; // 70% реальный RTP
 
         let isHolding = false;
         let pumpTimer = null;
@@ -368,7 +381,6 @@
             multDisplay.innerText = '1.00x';
         }
 
-        // Старт надувания по зажатию
         function startPump(e) {
             if (e) e.preventDefault();
             if (isHolding) return;
@@ -389,11 +401,9 @@
                 return;
             }
 
-            // Снимаем ставку с баланса
             score -= currentBet;
             updateBalance();
 
-            // Расчёт точки взрыва (Crash) с RTP 70%
             const u = Math.random();
             crashMultiplier = +(ACTUAL_RTP / (1 - u)).toFixed(2);
             if (crashMultiplier < 1.01) crashMultiplier = 1.00;
@@ -407,32 +417,27 @@
             statusText.innerText = "💨 Надувается... Отпусти в любой момент!";
             statusText.style.color = "#69f0ae";
 
-            // Мгновенный взрыв (в 30% случаев при RTP 70%)
             if (crashMultiplier <= 1.00) {
                 pop();
                 return;
             }
 
-            // Таймер роста множителя каждые 50 мс
             pumpTimer = setInterval(() => {
                 currentMult += 0.02;
                 currentMult = +currentMult.toFixed(2);
                 multDisplay.innerText = currentMult.toFixed(2) + 'x';
 
-                // Визуальный рост шарика
                 const scale = 1 + (currentMult - 1) * 0.45;
                 balloon.style.transform = `scale(${Math.min(scale, 2.6)})`;
 
                 if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 
-                // Проверка взрыва
                 if (currentMult >= crashMultiplier) {
                     pop();
                 }
             }, 50);
         }
 
-        // Успешный забор (отпустили кнопку до взрыва)
         function stopPump(e) {
             if (e) e.preventDefault();
             if (!isHolding) return;
@@ -451,10 +456,10 @@
             statusText.style.color = "#00e676";
 
             addHistory(currentMult.toFixed(2) + 'x', false);
+            addTransaction(`Победа в шарике (x${currentMult.toFixed(2)})`, winAmount, 'plus');
             if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         }
 
-        // Шарик лопнул
         function pop() {
             clearInterval(pumpTimer);
             isHolding = false;
@@ -469,6 +474,7 @@
             statusText.style.color = "#ff5252";
 
             addHistory(crashMultiplier.toFixed(2) + 'x', true);
+            addTransaction(`Взрыв шарика (${crashMultiplier.toFixed(2)}x)`, currentBet, 'minus');
             if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
         }
 
@@ -482,7 +488,6 @@
             }
         }
 
-        // Слушатели зажатия (поддержка ПК-мыши и мобильного сенсора)
         pumpBtn.addEventListener('pointerdown', startPump);
         window.addEventListener('pointerup', () => { if (isHolding) stopPump(); });
         window.addEventListener('pointercancel', () => { if (isHolding) stopPump(); });
