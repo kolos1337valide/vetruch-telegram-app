@@ -132,7 +132,7 @@
             cursor: pointer; color: #698c74;
         }
 
-        /* Статистика с живым счетчиком пользователей */
+        /* Статистика */
         .stats-card {
             background: #0c1810; border: 1px solid #172d1e;
             border-radius: 18px; padding: 14px 10px;
@@ -143,7 +143,7 @@
         .stat-label { font-size: 10px; font-weight: 700; color: #4e735a; margin-bottom: 6px; }
         .stat-value { font-size: 15px; font-weight: 900; color: #ffffff; }
 
-        /* Карточка баланса */
+        /* Баланс */
         .balance-card {
             background: #0b1710; border: 1px solid #183020;
             border-radius: 24px; padding: 20px; margin-bottom: 16px;
@@ -161,7 +161,6 @@
         .income-today { font-size: 13px; color: #00e676; font-weight: 700; margin-bottom: 20px; }
         .stream-status { font-size: 13px; color: #4e735a; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
         
-        /* Кнопка ежедневного бонуса */
         .action-btn {
             width: 100%; background: #00e676; color: #041409;
             font-weight: 900; font-size: 17px; border: none;
@@ -191,7 +190,7 @@
         .promo-reward { font-size: 16px; font-weight: 900; color: #00e676; margin-bottom: 4px; }
         .promo-sub { font-size: 12px; color: #5a7d66; }
 
-        /* ========== МЕНЮ ВЫБОРА ИГР ========== */
+        /* Карточки в разделе Игры */
         .game-select-card {
             background: #0c1810;
             border: 1px solid #183020;
@@ -202,6 +201,8 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
             transition: all 0.2s;
         }
         .game-select-card:active {
@@ -217,6 +218,8 @@
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 0 12px rgba(0, 230, 118, 0.3);
+            text-decoration: none;
+            display: inline-block;
         }
 
         .back-to-hub {
@@ -232,7 +235,7 @@
             display: inline-block;
         }
 
-        /* Игры: Кубики */
+        /* Кубики */
         .game-box {
             background: #0b1710; border: 1px solid #1a3824;
             border-radius: 24px; padding: 18px; width: 100%;
@@ -292,151 +295,26 @@
         .target-btn span { color: #00e676; font-size: 11px; font-weight: 900; }
         .target-btn:active { transform: scale(0.96); background: #142e1d; }
 
-        /* ========== ИГРА: ИЗУМРУДНЫЙ ШАРИК ========== */
-        .balloon-arena {
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
-            border: 2px solid #1b4728;
-            border-radius: 22px;
-            margin-bottom: 16px;
-        }
-
-        .balloon-sphere {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, #a7fcd2 0%, #00e676 45%, #054d24 100%);
-            box-shadow: 0 0 35px rgba(0, 230, 118, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 900;
-            color: #041409;
-            transform: scale(1);
-            transition: transform 0.05s linear;
-        }
-
-        .balloon-sphere.popped {
-            animation: popBoom 0.3s forwards ease-out;
-        }
-
-        @keyframes popBoom {
-            0% { transform: scale(1.6); filter: brightness(2); }
-            50% { transform: scale(2.0); opacity: 0.8; filter: hue-rotate(140deg); }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        .pump-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(180deg, #00e676 0%, #00994c 100%);
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 900;
-            color: #041409;
-            cursor: pointer;
-            box-shadow: 0 4px 25px rgba(0, 230, 118, 0.45);
-            touch-action: none;
-            transition: all 0.1s;
-        }
-
-        .pump-btn:active, .pump-btn.holding {
-            background: linear-gradient(180deg, #ffca28 0%, #f57f17 100%);
-            box-shadow: 0 4px 25px rgba(255, 202, 40, 0.5);
-            color: #261600;
-            transform: scale(0.98);
-        }
-
-        /* ========== ИСТОРИЯ ТРАНЗАКЦИЙ ========== */
-        .tx-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-        }
-
+        /* Транзакции */
+        .tx-list { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .tx-card {
-            background: #0c1810;
-            border: 1px solid #183020;
-            border-radius: 18px;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            background: #0c1810; border: 1px solid #183020; border-radius: 18px;
+            padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
         }
-
-        .tx-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-        }
-
+        .tx-left { display: flex; align-items: center; gap: 12px; flex: 1; }
         .tx-icon-circle {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 900;
-            flex-shrink: 0;
+            width: 38px; height: 38px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 18px; font-weight: 900; flex-shrink: 0;
         }
-
-        .tx-icon-circle.plus {
-            background: rgba(0, 230, 118, 0.12);
-            color: #00e676;
-            border: 1px solid rgba(0, 230, 118, 0.25);
-        }
-
-        .tx-icon-circle.minus {
-            background: rgba(255, 82, 82, 0.12);
-            color: #ff5252;
-            border: 1px solid rgba(255, 82, 82, 0.25);
-        }
-
-        .tx-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tx-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #ffffff;
-            line-height: 1.3;
-        }
-
-        .tx-date {
-            font-size: 11px;
-            color: #4e735a;
-            margin-top: 4px;
-            font-weight: 600;
-        }
-
-        .tx-amount {
-            font-size: 16px;
-            font-weight: 900;
-            margin-left: 10px;
-        }
-
+        .tx-icon-circle.plus { background: rgba(0, 230, 118, 0.12); color: #00e676; border: 1px solid rgba(0, 230, 118, 0.25); }
+        .tx-icon-circle.minus { background: rgba(255, 82, 82, 0.12); color: #ff5252; border: 1px solid rgba(255, 82, 82, 0.25); }
+        .tx-info { display: flex; flex-direction: column; }
+        .tx-title { font-size: 13px; font-weight: 700; color: #ffffff; line-height: 1.3; }
+        .tx-date { font-size: 11px; color: #4e735a; margin-top: 4px; font-weight: 600; }
+        .tx-amount { font-size: 16px; font-weight: 900; margin-left: 10px; }
         .tx-amount.plus { color: #00e676; }
         .tx-amount.minus { color: #ff5252; }
-
-        .empty-history {
-            text-align: center;
-            color: #4e735a;
-            font-size: 14px;
-            padding: 30px 10px;
-        }
+        .empty-history { text-align: center; color: #4e735a; font-size: 14px; padding: 30px 10px; }
 
         /* Навигация */
         .navbar {
@@ -502,7 +380,6 @@
                 <div class="refresh-btn" onclick="saveToBot()">⟳</div>
             </div>
 
-            <!-- Плашка со статистикой и динамическим счетчиком пользователей -->
             <div class="stats-card">
                 <div class="stat-item">
                     <div class="stat-label">ПОЛЬЗОВАТЕЛЕЙ</div>
@@ -536,7 +413,7 @@
                 </div>
 
                 <button class="action-btn" id="dailyBtn" onclick="claimDailyReward()">🎁 Забрать +300 💎</button>
-               
+                <button class="save-btn" onclick="saveToBot()">💾 Сохранить результат в бот</button>
             </div>
 
             <div class="promo-card" onclick="openGameScreen('dice')">
@@ -553,6 +430,7 @@
             <div id="games-hub-view">
                 <h2 style="margin-bottom: 16px; font-size: 22px;">🎮 Выбор игры</h2>
                 
+                <!-- 1. Кубики -->
                 <div class="game-select-card" onclick="openGameScreen('dice')">
                     <div>
                         <b style="font-size: 16px;">🎲 Крипто-Кубики</b>
@@ -561,16 +439,26 @@
                     <button class="game-card-btn">Играть</button>
                 </div>
 
-                <div class="game-select-card" onclick="openGameScreen('balloon')">
+                <!-- 2. Шарик (переход в balloon.html) -->
+                <a href="balloon.html" class="game-select-card">
                     <div>
                         <b style="font-size: 16px;">🎈 Изумрудный Шарик</b>
                         <p style="font-size: 12px; color: #5a7d66; margin-top: 4px;">Зажимай и надувай | RTP 95%</p>
                     </div>
-                    <button class="game-card-btn">Играть</button>
-                </div>
+                    <span class="game-card-btn">Играть</span>
+                </a>
+
+                <!-- 3. Карты (переход в card.html) -->
+                <a href="card.html" class="game-select-card">
+                    <div>
+                        <b style="font-size: 16px;">🃏 Угадай Карту</b>
+                        <p style="font-size: 12px; color: #5a7d66; margin-top: 4px;">3 этапа риска | До x5.0</p>
+                    </div>
+                    <span class="game-card-btn">Играть</span>
+                </a>
             </div>
 
-            <!-- ИГРА 1: КУБИКИ -->
+            <!-- ИГРА: КУБИКИ -->
             <div id="game-dice-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎲 Бросок кубиков 2–12</h2>
@@ -611,41 +499,6 @@
                     </div>
 
                     <div class="targets-grid" id="targetsContainer"></div>
-                </div>
-            </div>
-
-            <!-- ИГРА 2: ШАРИК -->
-            <div id="game-balloon-view" style="display: none;">
-                <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
-                <h2 style="margin-bottom: 12px; font-size: 20px;">🎈 Изумрудный Шарик (RTP 95%)</h2>
-
-                <div class="game-box">
-                    <div class="balloon-arena">
-                        <div class="balloon-sphere" id="balloon">
-                            <span id="balloon-mult">1.00x</span>
-                        </div>
-                    </div>
-
-                    <div id="balloon-status" style="font-size: 14px; text-align: center; color: #69f0ae; font-weight: bold; margin-bottom: 12px; min-height: 20px;">
-                        Зажми кнопку, чтобы надуть
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #698c74; margin-bottom: 6px;">
-                        <span>Ставка:</span>
-                        <span>Баланс: <b class="sync-balance" style="color: #00e676;">0</b> 💎</span>
-                    </div>
-
-                    <div class="bet-chips">
-                        <div class="chip" onclick="setBalloonBet(20, this)">20</div>
-                        <div class="chip active" onclick="setBalloonBet(50, this)">50</div>
-                        <div class="chip" onclick="setBalloonBet(100, this)">100</div>
-                        <div class="chip" onclick="setBalloonBet(200, this)">200</div>
-                        <div class="chip" onclick="setBalloonBet(500, this)">500</div>
-                    </div>
-
-                    <button class="pump-btn" id="pump-btn">
-                        🚀 ЗАЖМИ И ДЕРЖИ
-                    </button>
                 </div>
             </div>
 
@@ -751,11 +604,9 @@
             }
         }
 
-        // Переключение экранов в "Играх"
         function openGameScreen(screen) {
             document.getElementById('games-hub-view').style.display = 'none';
             document.getElementById('game-dice-view').style.display = 'none';
-            document.getElementById('game-balloon-view').style.display = 'none';
 
             if (screen === 'hub') {
                 document.getElementById('games-hub-view').style.display = 'block';
@@ -763,11 +614,6 @@
                 switchTab('games', document.querySelectorAll('.nav-item')[1]);
                 document.getElementById('games-hub-view').style.display = 'none';
                 document.getElementById('game-dice-view').style.display = 'block';
-            } else if (screen === 'balloon') {
-                switchTab('games', document.querySelectorAll('.nav-item')[1]);
-                document.getElementById('games-hub-view').style.display = 'none';
-                document.getElementById('game-balloon-view').style.display = 'block';
-                resetBalloon();
             }
         }
 
@@ -886,7 +732,6 @@
                 checkDailyTimer();
 
                 addTransaction("Ежедневный бонус", 300, "plus");
-
                 if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             }
         }
@@ -896,7 +741,7 @@
             tg.sendData(JSON.stringify({ score: score }));
         }
 
-        // ================= ЛОГИКА 1: КУБИКИ =================
+        // ================= ЛОГИКА: КУБИКИ =================
         const dicePatterns = {
             1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8]
         };
@@ -1050,125 +895,6 @@
 
             isRolling = false;
         }
-
-        // ================= ЛОГИКА 2: ИЗУМРУДНЫЙ ШАРИК =================
-        const ACTUAL_BALLOON_RTP = 0.70; // 70% реальный RTP
-        let currentBalloonBet = 50;
-        let isHoldingBalloon = false;
-        let balloonTimer = null;
-        let currentMult = 1.00;
-        let crashMultiplier = 1.00;
-
-        const balloon = document.getElementById('balloon');
-        const balloonMult = document.getElementById('balloon-mult');
-        const balloonStatus = document.getElementById('balloon-status');
-        const pumpBtn = document.getElementById('pump-btn');
-
-        function setBalloonBet(amount, element) {
-            currentBalloonBet = amount;
-            element.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            element.classList.add('active');
-            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
-        }
-
-        function resetBalloon() {
-            balloon.className = 'balloon-sphere';
-            balloon.style.transform = 'scale(1)';
-            balloonMult.innerText = '1.00x';
-            balloonStatus.innerText = 'Зажми кнопку, чтобы надуть';
-            balloonStatus.style.color = '#69f0ae';
-            pumpBtn.classList.remove('holding');
-            pumpBtn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
-        }
-
-        function startPump(e) {
-            if (e) e.preventDefault();
-            if (isHoldingBalloon) return;
-
-            if (score < currentBalloonBet) {
-                balloonStatus.innerText = "❌ Недостаточно кристаллов!";
-                balloonStatus.style.color = "#ff5252";
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                return;
-            }
-
-            score -= currentBalloonBet;
-            updateBalances();
-
-            const u = Math.random();
-            crashMultiplier = +(ACTUAL_BALLOON_RTP / (1 - u)).toFixed(2);
-            if (crashMultiplier < 1.01) crashMultiplier = 1.00;
-
-            isHoldingBalloon = true;
-            currentMult = 1.00;
-            resetBalloon();
-
-            pumpBtn.classList.add('holding');
-            pumpBtn.innerText = "🛑 ОТПУСТИ, ЧТОБЫ ЗАБРАТЬ!";
-            balloonStatus.innerText = "💨 Шарик надувается... Отпусти в любой момент!";
-
-            if (crashMultiplier <= 1.00) {
-                popBalloon();
-                return;
-            }
-
-            balloonTimer = setInterval(() => {
-                currentMult += 0.02;
-                currentMult = +currentMult.toFixed(2);
-                balloonMult.innerText = currentMult.toFixed(2) + 'x';
-
-                const scale = 1 + (currentMult - 1) * 0.45;
-                balloon.style.transform = `scale(${Math.min(scale, 2.6)})`;
-
-                if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-
-                if (currentMult >= crashMultiplier) {
-                    popBalloon();
-                }
-            }, 50);
-        }
-
-        function stopPump(e) {
-            if (e) e.preventDefault();
-            if (!isHoldingBalloon) return;
-
-            clearInterval(balloonTimer);
-            isHoldingBalloon = false;
-
-            pumpBtn.classList.remove('holding');
-            pumpBtn.innerText = "🚀 ЗАЖМИ И ДЕРЖИ";
-
-            const winAmount = Math.floor(currentBalloonBet * currentMult);
-            score += winAmount;
-            updateBalances();
-
-            balloonStatus.innerText = `🎉 ЗАБРАЛ! +${winAmount} 💎 (x${currentMult.toFixed(2)})`;
-            balloonStatus.style.color = "#00e676";
-
-            addTransaction(`Победа в шарике (x${currentMult.toFixed(2)})`, winAmount, "plus");
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        }
-
-        function popBalloon() {
-            clearInterval(balloonTimer);
-            isHoldingBalloon = false;
-
-            pumpBtn.classList.remove('holding');
-            pumpBtn.innerText = "🚀 ЗАЖМИ И ДЕРЖИ";
-
-            balloon.classList.add('popped');
-            balloonMult.innerText = "💥";
-
-            balloonStatus.innerText = `💥 БУМ! Шарик лопнул на ${crashMultiplier.toFixed(2)}x (-${currentBalloonBet} 💎)`;
-            balloonStatus.style.color = "#ff5252";
-
-            addTransaction(`Взрыв шарика (${crashMultiplier.toFixed(2)}x)`, currentBalloonBet, "minus");
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-        }
-
-        pumpBtn.addEventListener('pointerdown', startPump);
-        window.addEventListener('pointerup', () => { if (isHoldingBalloon) stopPump(); });
-        window.addEventListener('pointercancel', () => { if (isHoldingBalloon) stopPump(); });
     </script>
 </body>
 </html>
