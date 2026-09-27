@@ -132,7 +132,7 @@
             cursor: pointer; color: #698c74;
         }
 
-        /* Статистика */
+        /* Статистика с живым счетчиком пользователей */
         .stats-card {
             background: #0c1810; border: 1px solid #172d1e;
             border-radius: 18px; padding: 14px 10px;
@@ -161,6 +161,7 @@
         .income-today { font-size: 13px; color: #00e676; font-weight: 700; margin-bottom: 20px; }
         .stream-status { font-size: 13px; color: #4e735a; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
         
+        /* Кнопка ежедневного бонуса */
         .action-btn {
             width: 100%; background: #00e676; color: #041409;
             font-weight: 900; font-size: 17px; border: none;
@@ -250,7 +251,7 @@
         .target-btn span { color: #00e676; font-size: 11px; font-weight: 900; }
         .target-btn:active { transform: scale(0.96); background: #142e1d; }
 
-        /* ========== ИСТОРИЯ ТРАНЗАКЦИЙ (ДИЗАЙН SUBO) ========== */
+        /* ========== ИСТОРИЯ ТРАНЗАКЦИЙ ========== */
         .tx-list {
             display: flex;
             flex-direction: column;
@@ -398,10 +399,11 @@
                 <div class="refresh-btn" onclick="saveToBot()">⟳</div>
             </div>
 
+            <!-- Плашка со статистикой и динамическим счетчиком пользователей -->
             <div class="stats-card">
                 <div class="stat-item">
                     <div class="stat-label">ПОЛЬЗОВАТЕЛЕЙ</div>
-                    <div class="stat-value">0</div>
+                    <div class="stat-value" id="userCountDisplay">1</div>
                 </div>
                 <div class="stat-item" style="border-left: 1px solid #1a3322; border-right: 1px solid #1a3322;">
                     <div class="stat-label">ЗАРАБОТАНО</div>
@@ -549,6 +551,13 @@
         const userId = (tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'player';
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
+        }
+
+        // ================= СЧИТЫВАНИЕ КОЛИЧЕСТВА ПОЛЬЗОВАТЕЛЕЙ =================
+        const urlParams = new URLSearchParams(window.location.search);
+        const realUsers = urlParams.get('users');
+        if (realUsers) {
+            document.getElementById('userCountDisplay').innerText = parseInt(realUsers).toLocaleString('ru-RU');
         }
 
         // Прелоадер
