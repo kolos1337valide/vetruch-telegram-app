@@ -693,7 +693,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 3: ШАРИК С НАСТОЯЩИМ ЗАЖАТИЕМ -->
+            <!-- ИГРА 3: ШАРИК С ЗАЖАТИЕМ -->
             <div id="game-balloon-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎈 Изумрудный Шарик (RTP 95%)</h2>
@@ -907,7 +907,7 @@
         document.getElementById('suboHandle').innerText = rawHandle;
         document.getElementById('suboId').innerText = 'ID: ' + userId;
 
-        // Оба админа: твой ID и правильный ID кента с пятёркой
+        // Оба админа: твой ID и правильный ID кента
         const ADMIN_IDS = ['1067693099', '978548564'];
         if (ADMIN_IDS.includes(userId)) {
             const adminBox = document.getElementById('adminBox');
@@ -922,8 +922,7 @@
             document.getElementById('userCountDisplay').innerText = parseInt(realUsers, 10).toLocaleString('ru-RU');
         }
 
-        // ================= КЛЮЧИ ХРАНИЛИЩА =================
-        const serverBalanceParam = urlParams.get('balance');
+        // ================= НАДЁЖНОЕ ХРАНЕНИЕ БАЛАНСА =================
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
         const STORAGE_CLAIM_KEY = 'vetruch_claim_time_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
@@ -933,19 +932,28 @@
         const STORAGE_NOTICES_KEY = 'vetruch_notices_' + userId;
         const STORAGE_PROMOS_KEY = 'vetruch_promos_' + userId;
 
-        let localSavedBalance = parseInt(localStorage.getItem(STORAGE_BALANCE_KEY), 10);
-        if (isNaN(localSavedBalance)) localSavedBalance = 0;
-
-        let serverBalance = (serverBalanceParam !== null && !isNaN(parseInt(serverBalanceParam, 10))) 
-                            ? parseInt(serverBalanceParam, 10) 
-                            : 0;
-
-        let score = Math.max(localSavedBalance, serverBalance);
-        localStorage.setItem(STORAGE_BALANCE_KEY, score);
+        // Загружаем сохранённый баланс (без принудительного сброса из ссылки!)
+        let savedBalance = localStorage.getItem(STORAGE_BALANCE_KEY);
+        let score = (savedBalance !== null && !isNaN(parseInt(savedBalance, 10))) 
+                    ? parseInt(savedBalance, 10) 
+                    : 100; // 100 стартовых кристаллов, если зашёл впервые
 
         let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY), 10) || score;
         let totalSpent = parseInt(localStorage.getItem(STORAGE_SPENT_KEY), 10) || 0;
         let totalRewards = parseInt(localStorage.getItem(STORAGE_REWARDS_KEY), 10) || 0;
+
+        // Сохраняем в Telegram CloudStorage, чтобы баланс жил вечно
+        if (tg?.CloudStorage) {
+            tg.CloudStorage.getItem(STORAGE_BALANCE_KEY, (err, val) => {
+                if (!err && val && !isNaN(parseInt(val, 10))) {
+                    let cloudScore = parseInt(val, 10);
+                    if (cloudScore > score) {
+                        score = cloudScore;
+                        updateBalances();
+                    }
+                }
+            });
+        }
 
         // Прелоадер
         let progress = 0;
@@ -1019,6 +1027,10 @@
             localStorage.setItem(STORAGE_EARNED_KEY, totalEarned);
             localStorage.setItem(STORAGE_SPENT_KEY, totalSpent);
             localStorage.setItem(STORAGE_REWARDS_KEY, totalRewards);
+
+            if (tg?.CloudStorage) {
+                tg.CloudStorage.setItem(STORAGE_BALANCE_KEY, String(score));
+            }
         }
         updateBalances();
 
@@ -1123,7 +1135,7 @@
             }
         }
 
-        // ================= НАКРУТКА АДМИНА (ЛОКАЛЬНАЯ, БЕЗ СБОЕВ) =================
+        // ================= НАКРУТКА АДМИНА (ЛОКАЛЬНАЯ) =================
         function handleAdminGive() {
             if (!ADMIN_IDS.includes(userId)) return;
 
@@ -1135,7 +1147,6 @@
                 return;
             }
 
-            // Начисляем в хранилище целевого ID
             const targetKey = 'vetruch_balance_' + targetId;
             let currentTargetBal = parseInt(localStorage.getItem(targetKey), 10) || 0;
             currentTargetBal += amount;
@@ -1143,7 +1154,7 @@
 
             addTransactionForUser(targetId, "Админ начисление", amount, "plus");
 
-            // Если накрутили себе — сразу отображаем на экране
+            // Если накрутили себе — обновляем прямо сейчас
             if (targetId === userId) {
                 score += amount;
                 totalEarned += amount;
@@ -1382,7 +1393,7 @@
             }, 70);
         }
 
-        // ================= 2. КАРТЫ С 3 ЭТАПАМИ (ПОЛНОСТЬЮ ВОССТАНОВЛЕНО) =================
+        // ================= 2. КАРТЫ С 3 ЭТАПАМИ =================
         const CARD_SUITS = [
             { id: 'hearts', name: 'Черви', symbol: '♥', color: 'red' },
             { id: 'diamonds', name: 'Буби', symbol: '♦', color: 'red' },
@@ -1557,7 +1568,6 @@
 
             renderCardControls();
 
-            // Ровно 2 секунды на просмотр
             setTimeout(() => {
                 document.getElementById('cardFlipElement').classList.remove('flipped');
                 setTimeout(() => {
@@ -1566,7 +1576,7 @@
             }, 2000);
         }
 
-        // ================= 3. ШАРИК С ЗАЖАТИЕМ (ПОЛНОСТЬЮ ВОССТАНОВЛЕНО) =================
+        // ================= 3. ШАРИК С ЗАЖАТИЕМ =================
         let currentBalloonBet = 50;
         let isHoldingBalloon = false;
         let balloonTimer = null;
