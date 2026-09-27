@@ -483,20 +483,30 @@
             btnElement.classList.add('active');
         }
 
-        // Баланс и кликер
-        let score = 100; // Стартовые 100 кристаллов на игру
-        function updateUI() {
-            document.getElementById('score').innerText = score;
-            document.getElementById('totalScore').innerText = score;
-        }
-        updateUI();
+       // Баланс и кликер с автосохранением в памяти
+const userId = (tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'guest';
+const storageKey = 'vetruch_balance_' + userId;
 
-        function tapCoin() {
-            score++;
-            updateUI();
-            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        }
+// Загружаем сохранённый баланс, если есть, иначе даём стартовые 100
+let score = parseInt(localStorage.getItem(storageKey), 10);
+if (isNaN(score)) {
+    score = 100;
+    localStorage.setItem(storageKey, score);
+}
 
+function updateUI() {
+    document.getElementById('score').innerText = score;
+    document.getElementById('totalScore').innerText = score;
+    // Сохраняем в память устройства при каждом изменении
+    localStorage.setItem(storageKey, score);
+}
+updateUI();
+
+function tapCoin() {
+    score++;
+    updateUI();
+    if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+}
         function saveProgress() {
             tg.sendData(JSON.stringify({ score: score }));
         }
