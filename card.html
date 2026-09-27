@@ -124,7 +124,7 @@
             border-radius: 14px;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
         .playing-card.flipped { transform: rotateY(180deg); }
@@ -134,6 +134,7 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             border-radius: 14px;
             display: flex;
             flex-direction: column;
@@ -147,12 +148,14 @@
             color: #00e676;
             font-size: 38px;
             box-shadow: inset 0 0 15px rgba(0, 230, 118, 0.3);
+            z-index: 2;
         }
 
         .card-front {
             background: #ffffff;
             border: 2px solid #ffffff;
             transform: rotateY(180deg);
+            z-index: 1;
         }
         .card-front.red { color: #d32f2f; }
         .card-front.black { color: #111111; }
@@ -166,7 +169,7 @@
             text-align: center;
             color: #69f0ae;
             min-height: 20px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .controls-box {
@@ -230,17 +233,32 @@
 
         .cashout-btn {
             grid-column: span 2;
-            padding: 14px;
+            padding: 13px;
             background: linear-gradient(180deg, #ffca28 0%, #f57f17 100%);
             border: none;
             border-radius: 12px;
             color: #2b1800;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 900;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(255, 202, 40, 0.4);
+            margin-bottom: 4px;
         }
         .cashout-btn:active { transform: scale(0.97); }
+
+        .play-again-btn {
+            width: 100%;
+            padding: 14px;
+            background: #00e676;
+            color: #041409;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 230, 118, 0.4);
+        }
+        .play-again-btn:active { transform: scale(0.97); }
 
         .ranks-scroll {
             display: grid;
@@ -253,7 +271,6 @@
 <body>
 
     <div class="top-bar">
-        <!-- Ссылка строго на profile.html, чтобы не скидывало на старый экран -->
         <a href="profile.html" class="back-btn">⬅️ Меню</a>
         <div class="balance-chip">
             <span>💎</span>
@@ -276,8 +293,8 @@
                 <div class="playing-card" id="cardElement">
                     <div class="card-face card-back">🍀</div>
                     <div class="card-face card-front" id="cardFront">
-                        <div class="card-rank" id="cardRank">A</div>
-                        <div class="card-suit" id="cardSuit">♠</div>
+                        <div class="card-rank" id="cardRank">?</div>
+                        <div class="card-suit" id="cardSuit">?</div>
                     </div>
                 </div>
             </div>
@@ -342,21 +359,23 @@
         }
 
         const SUITS = [
-            { name: 'hearts', symbol: '♥', color: 'red' },
-            { name: 'diamonds', symbol: '♦', color: 'red' },
-            { name: 'clubs', symbol: '♣', color: 'black' },
-            { name: 'spades', symbol: '♠', color: 'black' }
+            { id: 'hearts', name: 'Черви', symbol: '♥', color: 'red' },
+            { id: 'diamonds', name: 'Буби', symbol: '♦', color: 'red' },
+            { id: 'clubs', name: 'Крести', symbol: '♣', color: 'black' },
+            { id: 'spades', name: 'Пики', symbol: '♠', color: 'black' }
         ];
         const RANKS = ['6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
         let currentBet = 50;
         let gameActive = false;
+        let isWaitingRestart = false;
         let secretCard = null;
+        let guessedColor = null; // Запоминаем угаданный цвет
         let currentStep = 1;
         let currentMultiplier = 1.0;
 
         function setBet(amount, el) {
-            if (gameActive) return;
+            if (gameActive || isWaitingRestart) return;
             currentBet = amount;
             document.getElementById('current-bet-display').innerText = amount;
             document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -374,6 +393,12 @@
             const container = document.getElementById('controls-container');
             const betRow = document.getElementById('bet-row');
 
+            if (isWaitingRestart) {
+                betRow.style.display = 'none';
+                container.innerHTML = `<button class="play-again-btn" onclick="startNewGameClick()">🔄 Сыграть ещё</button>`;
+                return;
+            }
+
             if (!gameActive) {
                 betRow.style.display = 'flex';
                 updateStepPills();
@@ -388,46 +413,52 @@
                 betRow.style.display = 'none';
                 updateStepPills();
                 const takeAmount = Math.floor(currentBet * currentMultiplier);
+
+                // Оставляем ТОЛЬКО масти угаданного цвета (2 штуки!)
+                const availableSuits = SUITS.filter(s => s.color === guessedColor);
+
                 container.innerHTML = `
+                    <button class="cashout-btn" onclick="takeCashout()">💰 ЗАБРАТЬ ${takeAmount} 💎 (x1.2)</button>
                     <div class="action-grid">
-                        <button class="cashout-btn" onclick="takeCashout()">💰 ЗАБРАТЬ ${takeAmount} 💎 (x1.2)</button>
-                        <button class="btn-choice red-btn" onclick="makeGuess('suit', 'hearts')">♥ Черви</button>
-                        <button class="btn-choice red-btn" onclick="makeGuess('suit', 'diamonds')">♦ Буби</button>
-                        <button class="btn-choice black-btn" onclick="makeGuess('suit', 'clubs')">♣ Крести</button>
-                        <button class="btn-choice black-btn" onclick="makeGuess('suit', 'spades')">♠ Пики</button>
+                        ${availableSuits.map(s => `
+                            <button class="btn-choice ${s.color}-btn" onclick="makeGuess('suit', '${s.id}')">
+                                ${s.symbol} ${s.name}
+                            </button>
+                        `).join('')}
                     </div>
                 `;
             } else if (currentStep === 3) {
                 betRow.style.display = 'none';
                 updateStepPills();
                 const takeAmount = Math.floor(currentBet * currentMultiplier);
-                let rankBtns = '';
-                RANKS.forEach(r => {
-                    rankBtns += `<button class="btn-choice" style="padding: 10px 4px;" onclick="makeGuess('rank', '${r}')">${r}</button>`;
-                });
+
                 container.innerHTML = `
-                    <button class="cashout-btn" style="margin-bottom: 8px; width: 100%;" onclick="takeCashout()">💰 ЗАБРАТЬ ${takeAmount} 💎 (x2.0)</button>
-                    <div style="font-size: 11px; color: #5a7d66; margin-bottom: 6px; text-align: center;">Угадай точную карту (x5.0):</div>
-                    <div class="ranks-scroll">${rankBtns}</div>
+                    <button class="cashout-btn" onclick="takeCashout()">💰 ЗАБРАТЬ ${takeAmount} 💎 (x2.0)</button>
+                    <div style="font-size: 11px; color: #5a7d66; margin: 4px 0; text-align: center;">Угадай точную карту (x5.0):</div>
+                    <div class="ranks-scroll">
+                        ${RANKS.map(r => `
+                            <button class="btn-choice" style="padding: 10px 4px;" onclick="makeGuess('rank', '${r}')">${r}</button>
+                        `).join('')}
+                    </div>
                 `;
             }
         }
         renderControls();
 
-        function startNewRound() {
+        function generateSecretCard() {
             const randomSuit = SUITS[Math.floor(Math.random() * SUITS.length)];
             const randomRank = RANKS[Math.floor(Math.random() * RANKS.length)];
             secretCard = { suit: randomSuit, rank: randomRank };
 
-            const cardEl = document.getElementById('cardElement');
+            // Заполняем карту данными СРАЗУ, но она закрыта рубашкой
             const cardFront = document.getElementById('cardFront');
-            cardEl.classList.remove('flipped');
             cardFront.className = 'card-face card-front ' + randomSuit.color;
             document.getElementById('cardRank').innerText = randomRank;
             document.getElementById('cardSuit').innerText = randomSuit.symbol;
         }
 
         function makeGuess(type, value) {
+            if (isWaitingRestart) return;
             const statusEl = document.getElementById('status-text');
 
             if (!gameActive) {
@@ -439,23 +470,27 @@
                 }
                 score -= currentBet;
                 updateBalanceUI();
-                startNewRound();
+                generateSecretCard();
                 gameActive = true;
             }
 
+            // ШАГ 1: Цвет
             if (type === 'color') {
                 if (secretCard.suit.color === value) {
+                    guessedColor = value; // Запомнили угаданный цвет
                     currentMultiplier = 1.2;
                     currentStep = 2;
                     statusEl.style.color = "#00e676";
-                    statusEl.innerText = "✅ Цвет угадан! Забрать или рисковать дальше?";
+                    statusEl.innerText = "✅ Цвет угадан! Выбери одну из 2 мастей или забери куш:";
                     if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
                     renderControls();
                 } else {
-                    revealAndLose("Цвет не совпал!");
+                    revealAndFinish(false, "Цвет не совпал!");
                 }
-            } else if (type === 'suit') {
-                if (secretCard.suit.name === value) {
+            } 
+            // ШАГ 2: Масть
+            else if (type === 'suit') {
+                if (secretCard.suit.id === value) {
                     currentMultiplier = 2.0;
                     currentStep = 3;
                     statusEl.style.color = "#00e676";
@@ -463,60 +498,75 @@
                     if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
                     renderControls();
                 } else {
-                    revealAndLose("Масть не совпала!");
+                    revealAndFinish(false, "Масть не совпала!");
                 }
-            } else if (type === 'rank') {
+            } 
+            // ШАГ 3: Достоинство карты
+            else if (type === 'rank') {
                 if (secretCard.rank === value) {
                     currentMultiplier = 5.0;
                     const winAmount = Math.floor(currentBet * currentMultiplier);
                     score += winAmount;
                     updateBalanceUI();
-                    revealCard();
-                    statusEl.style.color = "#00e676";
-                    statusEl.innerText = `👑 ДЖЕКПОТ! Вы угадали карту! +${winAmount} 💎`;
                     addTransaction(`Победа в картах (${secretCard.rank}${secretCard.suit.symbol})`, winAmount, 'plus');
-                    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                    resetToStart();
+                    revealAndFinish(true, `👑 ДЖЕКПОТ! +${winAmount} 💎 (x5.0)`);
                 } else {
-                    revealAndLose("Карта не совпала!");
+                    revealAndFinish(false, "Карта не совпала!");
                 }
             }
         }
 
+        // Забрать выигрыш
         function takeCashout() {
-            if (!gameActive) return;
+            if (!gameActive || isWaitingRestart) return;
             const winAmount = Math.floor(currentBet * currentMultiplier);
             score += winAmount;
             updateBalanceUI();
-            revealCard();
-
-            const statusEl = document.getElementById('status-text');
-            statusEl.style.color = "#00e676";
-            statusEl.innerText = `💰 Вы забрали +${winAmount} 💎 (x${currentMultiplier})`;
             addTransaction(`Забрал в картах (x${currentMultiplier})`, winAmount, 'plus');
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-
-            resetToStart();
+            revealAndFinish(true, `💰 Вы забрали +${winAmount} 💎 (x${currentMultiplier})`);
         }
 
-        function revealCard() {
-            document.getElementById('cardElement').classList.add('flipped');
-        }
-
-        function revealAndLose(msg) {
-            revealCard();
-            const statusEl = document.getElementById('status-text');
-            statusEl.style.color = "#ff5252";
-            statusEl.innerText = `💀 ${msg} Карта была: ${secretCard.rank}${secretCard.suit.symbol}`;
-            addTransaction(`Проигрыш в картах`, currentBet, 'minus');
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-            resetToStart();
-        }
-
-        function resetToStart() {
+        // Завершение раунда: держим открытой 2 секунды, затем плавно переворачиваем рубашкой
+        function revealAndFinish(isWin, message) {
             gameActive = false;
-            currentStep = 1;
-            currentMultiplier = 1.0;
+            isWaitingRestart = true;
+
+            // Переворачиваем карту лицом к игроку
+            document.getElementById('cardElement').classList.add('flipped');
+
+            const statusEl = document.getElementById('status-text');
+            statusEl.style.color = isWin ? "#00e676" : "#ff5252";
+            statusEl.innerText = (isWin ? "" : "💀 ") + message;
+
+            if (tg?.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred(isWin ? 'success' : 'error');
+            }
+
+            // Прячем кнопки во время показа карты
+            document.getElementById('controls-container').innerHTML = `
+                <div style="text-align: center; color: #5a7d66; padding: 12px; font-size: 13px;">Карта открыта...</div>
+            `;
+
+            // Ждём 2 секунды
+            setTimeout(() => {
+                // Переворачиваем рубашкой вверх
+                const cardEl = document.getElementById('cardElement');
+                cardEl.classList.remove('flipped');
+
+                // Ждём 600 мс, пока закончится анимация переворота рубашки (чтобы не было засветки!)
+                setTimeout(() => {
+                    statusEl.style.color = "#69f0ae";
+                    statusEl.innerText = "Сделайте ставку на новую игру";
+                    currentStep = 1;
+                    currentMultiplier = 1.0;
+                    guessedColor = null;
+                    renderControls();
+                }, 600);
+            }, 2000);
+        }
+
+        function startNewGameClick() {
+            isWaitingRestart = false;
             renderControls();
         }
     </script>
