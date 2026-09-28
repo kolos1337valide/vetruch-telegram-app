@@ -1107,17 +1107,29 @@
         const tg = window.Telegram?.WebApp;
         if (tg) tg.expand();
 
-        let rawUserId = 'player';
-        let rawUsername = 'kolos.';
-        let rawHandle = '@euphoria142';
+        const urlParams = new URLSearchParams(window.location.search);
 
-        if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            rawUserId = tg.initDataUnsafe.user.id;
-            rawUsername = tg.initDataUnsafe.user.first_name || 'kolos.';
-            if (tg.initDataUnsafe.user.username) {
-                rawHandle = '@' + tg.initDataUnsafe.user.username;
-            }
-        }
+        // 1. Сначала пробуем взять из Telegram WebApp
+        // 2. Если Телеграм Desktop затупил — берём реальные данные из ссылки бота!
+        let rawUserId = tg?.initDataUnsafe?.user?.id 
+                     || urlParams.get('id') 
+                     || 'ID' + Math.floor(100000 + Math.random() * 900000);
+
+        let rawUsername = tg?.initDataUnsafe?.user?.first_name 
+                       || urlParams.get('name') 
+                       || 'Игрок';
+
+        let rawHandle = tg?.initDataUnsafe?.user?.username 
+                      ? '@' + tg.initDataUnsafe.user.username 
+                      : (urlParams.get('user') ? '@' + urlParams.get('user') : '');
+
+        const userId = String(rawUserId);
+
+        // Обновляем ник и юзернейм на странице
+        document.getElementById('username').innerText = rawUsername;
+        document.getElementById('suboName').innerText = rawUsername;
+        document.getElementById('suboHandle').innerText = rawHandle || '@id' + userId;
+        document.getElementById('suboId').innerText = 'ID: ' + userId;
         const userId = String(rawUserId);
 
         document.getElementById('username').innerText = rawUsername;
