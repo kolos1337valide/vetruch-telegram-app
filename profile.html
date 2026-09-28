@@ -82,7 +82,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ================= ДИЗАЙН ШАПКИ И ГЛАВНОЙ (KCEP STYLE) ================= */
+        /* ================= ДИЗАЙН ШАПКИ (KCEP + КОЛОКОЛЬЧИК) ================= */
         .kcep-header {
             display: flex;
             justify-content: space-between;
@@ -129,16 +129,56 @@
             color: #ffffff;
         }
 
-        .kcep-balance-pill {
-            background: #0d1e13;
-            border: 1px solid #1a4226;
-            padding: 8px 16px;
-            border-radius: 22px;
+        .kcep-header-right {
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .kcep-bell-btn {
+            width: 42px;
+            height: 42px;
+            background: #0d1e13;
+            border: 1px solid #1a4226;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.1);
+            transition: transform 0.1s;
+        }
+        .kcep-bell-btn:active { transform: scale(0.92); }
+
+        .bell-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #00e676;
+            color: #041409;
+            font-size: 10px;
             font-weight: 900;
-            font-size: 16px;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px #00e676;
+        }
+
+        .kcep-balance-pill {
+            background: #0d1e13;
+            border: 1px solid #1a4226;
+            padding: 8px 14px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-weight: 900;
+            font-size: 15px;
             color: #ffffff;
             box-shadow: 0 0 15px rgba(0, 230, 118, 0.15);
         }
@@ -218,6 +258,43 @@
             background: #152c1d;
         }
 
+        /* ================= НОВАЯ КАРТОЧКА БАЛАНСА ПО ЦЕНТРУ ================= */
+        .kcep-user-balance-card {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #0d1e13 0%, #07150c 100%);
+            border: 1px solid #1f472c;
+            box-shadow: 0 6px 25px rgba(0, 230, 118, 0.12);
+        }
+
+        .balance-card-sub {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: #698c74;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        .balance-history-link {
+            color: #00e676;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .balance-card-number {
+            font-size: 36px;
+            font-weight: 900;
+            color: #00e676;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 20px rgba(0, 230, 118, 0.35);
+        }
+
+        /* Стрики */
         .kcep-streak-card {
             display: flex;
             gap: 14px;
@@ -441,6 +518,31 @@
             box-shadow: 0 4px 25px rgba(255, 202, 40, 0.5); color: #261600; transform: scale(0.98);
         }
 
+        /* МОДАЛКА УВЕДОМЛЕНИЙ */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px);
+            display: none; align-items: center; justify-content: center;
+            z-index: 10000; padding: 20px;
+        }
+        .modal-content {
+            background: #0c1810; border: 2px solid #00e676; border-radius: 24px;
+            width: 100%; max-width: 360px; padding: 20px;
+            box-shadow: 0 0 35px rgba(0, 230, 118, 0.35); animation: modalIn 0.25s ease;
+        }
+        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 14px; border-bottom: 1px solid #1a3322; padding-bottom: 10px;
+        }
+        .modal-close-btn { font-size: 24px; color: #698c74; cursor: pointer; }
+        .modal-body { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .notice-card-alert {
+            background: #06120b; border: 1px solid #1b3d24; border-left: 3px solid #00e676;
+            border-radius: 14px; padding: 12px;
+        }
+        .notice-title { font-weight: 900; color: #00e676; font-size: 14px; margin-bottom: 4px; }
+
         /* ПРОФИЛЬ SUBO */
         .subo-user-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 24px;
@@ -584,12 +686,26 @@
         <div class="loading-text" style="color: #4e735a; font-size: 13px;">загружаем экосистему...</div>
     </div>
 
+    <!-- МОДАЛКА УВЕДОМЛЕНИЙ -->
+    <div id="noticeModal" class="modal-overlay" onclick="closeNoticeModal(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">🔔</span>
+                    <span style="font-size: 16px; font-weight: 900; color: #ffffff;">Уведомления</span>
+                </div>
+                <span class="modal-close-btn" onclick="closeNoticeModal()">&times;</span>
+            </div>
+            <div id="noticeModalBody" class="modal-body"></div>
+        </div>
+    </div>
+
     <div class="content">
 
-        <!-- 1. ГЛАВНАЯ (НОВЫЙ ДИЗАЙН В СТИЛЕ МАЛОЙ KCEP БЕЗ БАННЕРА) -->
+        <!-- 1. ГЛАВНАЯ (ОБНОВЛЁННАЯ) -->
         <div class="tab-page active" id="tab-home">
             
-            <!-- Шапка: Аватар + Приветствие + Баланс справа -->
+            <!-- Шапка: Аватар + Приветствие + КОЛОКОЛЬЧИК И БАЛАНС СПРАВА -->
             <div class="kcep-header">
                 <div class="kcep-user-block">
                     <div class="kcep-avatar-circle" id="homeAvatar">🐱</div>
@@ -598,9 +714,17 @@
                         <b class="kcep-nick-text" id="username">kolos.</b>
                     </div>
                 </div>
-                <div class="kcep-balance-pill">
-                    <span>💎</span>
-                    <span class="sync-balance">0</span>
+
+                <!-- Колокольчик и баланс справа -->
+                <div class="kcep-header-right">
+                    <div class="kcep-bell-btn" onclick="openNoticeModal()">
+                        <span>🔔</span>
+                        <div class="bell-badge" id="noticeBadge" style="display: none;">1</div>
+                    </div>
+                    <div class="kcep-balance-pill">
+                        <span>💎</span>
+                        <span id="headerBalance">0</span>
+                    </div>
                 </div>
             </div>
 
@@ -610,16 +734,16 @@
                     <span>💵</span> ВСЕГО ВЫПЛАЧЕНО ЗРИТЕЛЯМ
                 </div>
 
-                <!-- Главная огромная сумма -->
+                <!-- Главная огромная сумма (с анимацией) -->
                 <div class="kcep-huge-amount">
-                    22 666 854 <span style="font-size: 32px; color: #ffca28;">₽</span>
+                    <span id="hugeRewardAnim">0</span> <span style="font-size: 30px; color: #ffca28;">₽</span>
                 </div>
 
                 <!-- 2 колонки внизу с разделителем -->
                 <div class="kcep-sub-stats-grid">
                     <div class="kcep-col">
                         <div class="kcep-col-val">
-                            <span style="color: #00e676;">👥</span> <span id="userCountDisplay">3</span>
+                            <span style="color: #00e676;">👥</span> <span id="userCountDisplay">0</span>
                         </div>
                         <div class="kcep-col-lbl">ПОЛЬЗОВАТЕЛЕЙ</div>
                     </div>
@@ -628,10 +752,24 @@
 
                     <div class="kcep-col">
                         <div class="kcep-col-val">
-                            <span style="color: #00e676;">💎</span> <span id="totalEarnedDisplay">17 683</span>
+                            <span style="color: #00e676;">💎</span> <span id="totalEarnedDisplay">0</span>
                         </div>
                         <div class="kcep-col-lbl">МОНЕТ ЗАРАБОТАНО</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- НОВАЯ КАРТОЧКА: ТВОЙ БАЛАНС КРИСТАЛЛОВ МЕЖДУ КАРТОЧКАМИ -->
+            <div class="kcep-card kcep-user-balance-card">
+                <div class="balance-card-sub">
+                    <span style="display: flex; align-items: center; gap: 6px;">
+                        <span>💎</span> ТВОЙ БАЛАНС
+                    </span>
+                    <span class="balance-history-link" onclick="switchTab('profile', document.querySelectorAll('.nav-item')[4])">история &rsaquo;</span>
+                </div>
+                <div class="balance-card-number">
+                    <span>💎</span>
+                    <span id="centerBalanceAnim">0</span>
                 </div>
             </div>
 
@@ -737,7 +875,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 2: КАРТЫ С 3 ЭТАПАМИ -->
+            <!-- ИГРА 2: КАРТЫ -->
             <div id="game-card-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🃏 Угадай Карту</h2>
@@ -773,7 +911,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 3: ШАРИК С ЗАЖАТИЕМ -->
+            <!-- ИГРА 3: ШАРИК -->
             <div id="game-balloon-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎈 Изумрудный Шарик (RTP 95%)</h2>
@@ -996,10 +1134,7 @@
         }
 
         const urlParams = new URLSearchParams(window.location.search);
-        const realUsers = urlParams.get('users');
-        if (realUsers) {
-            document.getElementById('userCountDisplay').innerText = parseInt(realUsers, 10).toLocaleString('ru-RU');
-        }
+        let realUsersTarget = parseInt(urlParams.get('users'), 10) || 4;
 
         // ================= НАДЁЖНОЕ ХРАНЕНИЕ БАЛАНСА =================
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
@@ -1008,14 +1143,15 @@
         const STORAGE_EARNED_KEY = 'vetruch_earned_' + userId;
         const STORAGE_SPENT_KEY = 'vetruch_spent_' + userId;
         const STORAGE_REWARDS_KEY = 'vetruch_rewards_' + userId;
+        const STORAGE_NOTICES_KEY = 'vetruch_notices_' + userId;
         const STORAGE_PROMOS_KEY = 'vetruch_promos_' + userId;
 
         let savedBalance = localStorage.getItem(STORAGE_BALANCE_KEY);
         let score = (savedBalance !== null && !isNaN(parseInt(savedBalance, 10))) 
                     ? parseInt(savedBalance, 10) 
-                    : 100;
+                    : 981;
 
-        let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY), 10) || score;
+        let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY), 10) || 17683;
         let totalSpent = parseInt(localStorage.getItem(STORAGE_SPENT_KEY), 10) || 0;
         let totalRewards = parseInt(localStorage.getItem(STORAGE_REWARDS_KEY), 10) || 0;
 
@@ -1031,6 +1167,41 @@
             });
         }
 
+        // ================= ПЛАВНАЯ АНИМАЦИЯ НАРАСТАНИЯ ЧИСЕЛ =================
+        function animateCounter(el, start, end, duration) {
+            if (!el) return;
+            const startTime = performance.now();
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Эффект замедления (easeOutExpo / easeOutCubic)
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentVal = Math.floor(start + (end - start) * easeOut);
+                
+                el.innerText = currentVal.toLocaleString('ru-RU');
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    el.innerText = end.toLocaleString('ru-RU');
+                }
+            }
+            requestAnimationFrame(updateNumber);
+        }
+
+        function runCountersIntro() {
+            // 1. Огромная сумма 22 666 854 ₽
+            animateCounter(document.getElementById('hugeRewardAnim'), 0, 22666854, 1600);
+            // 2. Баланс в шапке
+            animateCounter(document.getElementById('headerBalance'), 0, score, 1400);
+            // 3. Баланс по центру (в новой карточке)
+            animateCounter(document.getElementById('centerBalanceAnim'), 0, score, 1400);
+            // 4. Количество пользователей
+            animateCounter(document.getElementById('userCountDisplay'), 0, realUsersTarget, 1000);
+            // 5. Монет заработано
+            animateCounter(document.getElementById('totalEarnedDisplay'), 0, totalEarned, 1500);
+        }
+
         // Прелоадер
         let progress = 0;
         const progressBar = document.getElementById('progress');
@@ -1042,7 +1213,11 @@
             if (progress >= 100) {
                 clearInterval(interval);
                 preloader.style.opacity = '0';
-                setTimeout(() => preloader.style.display = 'none', 300);
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    // ЗАПУСКАЕМ КРАСИВУЮ АНИМАЦИЮ ЧИСЕЛ СРАЗУ ПОСЛЕ ЗАГРУЗКИ!
+                    runCountersIntro();
+                }, 300);
             }
         }, 20);
 
@@ -1085,11 +1260,19 @@
 
         function updateBalances() {
             score = parseInt(score, 10) || 0;
+            const formatted = score.toLocaleString('ru-RU');
+            
             document.querySelectorAll('.sync-balance').forEach(el => {
-                el.innerText = score.toLocaleString('ru-RU');
+                el.innerText = formatted;
             });
-            document.getElementById('totalEarnedDisplay').innerText = totalEarned.toLocaleString('ru-RU');
+            
+            const headBal = document.getElementById('headerBalance');
+            if (headBal) headBal.innerText = formatted;
+            
+            const centerBal = document.getElementById('centerBalanceAnim');
+            if (centerBal) centerBal.innerText = formatted;
 
+            document.getElementById('totalEarnedDisplay').innerText = totalEarned.toLocaleString('ru-RU');
             document.getElementById('profileEarnedVal').innerText = totalEarned.toLocaleString('ru-RU');
             document.getElementById('profileSpentVal').innerText = totalSpent.toLocaleString('ru-RU');
 
@@ -1103,6 +1286,73 @@
             }
         }
         updateBalances();
+
+        // ================= УВЕДОМЛЕНИЯ О ПОПОЛНЕНИИ =================
+        function getNotices() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_NOTICES_KEY)) || []; } catch(e) { return []; }
+        }
+
+        function addNotice(title, text) {
+            const list = getNotices();
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('ru-RU') + ' в ' + now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+            list.unshift({ title, text, time: timeStr, unread: true });
+            if (list.length > 20) list.pop();
+            localStorage.setItem(STORAGE_NOTICES_KEY, JSON.stringify(list));
+            updateNoticeBadge();
+        }
+
+        function updateNoticeBadge() {
+            const list = getNotices();
+            const unreadCount = list.filter(n => n.unread).length;
+            const badge = document.getElementById('noticeBadge');
+            if (badge) {
+                if (unreadCount > 0) {
+                    badge.innerText = unreadCount > 9 ? '9+' : unreadCount;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+        updateNoticeBadge();
+
+        function openNoticeModal() {
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            const modal = document.getElementById('noticeModal');
+            const body = document.getElementById('noticeModalBody');
+            const list = getNotices();
+
+            if (list.length === 0) {
+                body.innerHTML = `
+                    <div style="text-align: center; color: #5a7d66; padding: 25px 10px;">
+                        <div style="font-size: 32px; margin-bottom: 8px;">🔕</div>
+                        <b style="color: #ffffff;">Новых уведомлений нет</b>
+                        <p style="font-size: 12px; margin-top: 6px;">Здесь будут отображаться пополнения и бонусы.</p>
+                    </div>
+                `;
+            } else {
+                body.innerHTML = list.map(n => `
+                    <div class="notice-card-alert">
+                        <div class="notice-title">👑 ${n.title}</div>
+                        <div style="font-size: 13px; color: #ffffff; margin-bottom: 4px;">${n.text}</div>
+                        <div style="font-size: 10px; color: #5a7d66; font-weight: 700;">${n.time}</div>
+                    </div>
+                `).join('');
+
+                list.forEach(n => n.unread = false);
+                localStorage.setItem(STORAGE_NOTICES_KEY, JSON.stringify(list));
+                updateNoticeBadge();
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function closeNoticeModal(e) {
+            if (!e || e.target.id === 'noticeModal' || e.target.classList.contains('modal-close-btn')) {
+                document.getElementById('noticeModal').style.display = 'none';
+            }
+        }
 
         // ================= ПРОМОКОДЫ =================
         function applyPromoCode() {
@@ -1125,6 +1375,7 @@
                 localStorage.setItem(STORAGE_PROMOS_KEY, JSON.stringify(usedPromos));
                 updateBalances();
                 addTransaction(`Промокод: ${code}`, reward, 'plus');
+                addNotice("Активация промокода", `Вы успешно активировали ${code} и получили +${reward} 💎!`);
                 alert(`🎉 Промокод активирован! Получено +${reward} 💎!`);
                 input.value = '';
                 if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
@@ -1157,6 +1408,7 @@
                 score += amount;
                 totalEarned += amount;
                 updateBalances();
+                addNotice("Пополнение баланса", `Вам начислено +${amount.toLocaleString('ru-RU')} 💎 от Администратора!`);
             }
 
             alert(`✅ Игроку [${targetId}] успешно начислено +${amount.toLocaleString('ru-RU')} 💎!`);
@@ -1265,6 +1517,7 @@
                 checkDailyTimer();
 
                 addTransaction("Ежедневный бонус", 300, "plus");
+                addNotice("Ежедневная награда", "Вы забрали бонус +300 💎 за серию заходов!");
                 if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             }
         }
@@ -1390,7 +1643,7 @@
             }, 70);
         }
 
-        // ================= 2. КАРТЫ С 3 ЭТАПАМИ =================
+        // ================= 2. КАРТЫ =================
         const CARD_SUITS = [
             { id: 'hearts', name: 'Черви', symbol: '♥', color: 'red' },
             { id: 'diamonds', name: 'Буби', symbol: '♦', color: 'red' },
@@ -1573,7 +1826,7 @@
             }, 2000);
         }
 
-        // ================= 3. ШАРИК С ЗАЖАТИЕМ =================
+        // ================= 3. ШАРИК =================
         let currentBalloonBet = 50;
         let isHoldingBalloon = false;
         let balloonTimer = null;
