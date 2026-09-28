@@ -1,1 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Vetruch Admin — Панель накрутки</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg: #040805;
+            --card-bg: #0a160e;
+            --border: #14301d;
+            --accent: #00e676;
+            --accent-glow: rgba(0, 230, 118, 0.35);
+            --gold: #ffb300;
+            --text-main: #ffffff;
+            --text-muted: #649673;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0; padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 18px 14px 40px 14px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Шапка */
+        .admin-header {
+            background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+        .header-title-box { display: flex; align-items: center; gap: 12px; }
+        .admin-icon {
+            font-size: 32px;
+            background: #06150b;
+            border: 2px solid var(--gold);
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px rgba(255, 179, 0, 0.3);
+        }
+        .admin-title { font-size: 17px; font-weight: 900; letter-spacing: 0.5px; }
+        .admin-subtitle { font-size: 11px; color: var(--accent); font-weight: 700; text-transform: uppercase; }
+
+        /* Карточка формы */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+        }
+
+        .field-group { display: flex; flex-direction: column; gap: 6px; }
+        .field-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex; justify-content: space-between;
+        }
+        .input-box {
+            background: #050d07;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 13px 14px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        .input-box:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+
+        /* Быстрые кнопки сумм */
+        .quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .quick-btn {
+            background: #08160d;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 4px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s ease;
+        }
+        .quick-btn:active, .quick-btn.active {
+            background: #0d2b18;
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: scale(0.97);
+        }
+
+        /* Главная кнопка */
+        .btn-submit {
+            background: linear-gradient(135deg, #00e676 0%, #00b359 100%);
+            color: #031207;
+            border: none;
+            padding: 15px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .btn-submit:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(0, 230, 118, 0.2); }
+
+        /* Список недавних игроков */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+        .history-item {
+            background: #050d07;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .history-item:hover { background: #0b1f12; }
+        .history-id { font-size: 13px; font-weight: 800; color: #fff; }
+        .history-amount { font-size: 12px; font-weight: 900; color: var(--accent); }
+
+        /* Баннер подсказки */
+        .tip-box {
+            background: #06110a;
+            border: 1px dashed var(--border);
+            border-radius: 14px;
+            padding: 12px;
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .tip-box code { color: #fff; font-weight: 800; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Шапка -->
+        <div class="admin-header">
+            <div class="header-title-box">
+                <div class="admin-icon">👑</div>
+                <div>
+                    <div class="admin-title">Vetruch Control</div>
+                    <div class="admin-subtitle">Панель накрутки 💎</div>
+                </div>
+            </div>
+            <div style="font-size: 11px; color: var(--accent); background: #071f11; padding: 6px 10px; border-radius: 10px; font-weight: 800;">
+                ONLINE
+            </div>
+        </div>
+
+        <!-- Форма накрутки -->
+        <div class="card">
+            <div class="field-group">
+                <div class="field-label">
+                    <span>ID Пользователя Telegram</span>
+                    <span style="color: var(--accent); cursor: pointer;" onclick="pasteMyId()">Вставить мой ID</span>
+                </div>
+                <input type="text" id="targetIdInput" class="input-box" placeholder="Например: 978548564" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <div class="field-label">
+                    <span>Количество кристаллов</span>
+                </div>
+                <input type="number" id="amountInput" class="input-box" placeholder="Введите сумму или выберите ниже">
+            </div>
+
+            <!-- Быстрые кнопки -->
+            <div class="quick-amounts">
+                <button class="quick-btn" onclick="setQuickAmount(1000, this)">+1 000</button>
+                <button class="quick-btn" onclick="setQuickAmount(5000, this)">+5 000</button>
+                <button class="quick-btn" onclick="setQuickAmount(10000, this)">+10 000</button>
+                <button class="quick-btn" onclick="setQuickAmount(50000, this)">+50 000</button>
+                <button class="quick-btn" onclick="setQuickAmount(100000, this)">+100 000</button>
+                <button class="quick-btn" onclick="setQuickAmount(500000, this)">+500 000</button>
+            </div>
+
+            <!-- Кнопка накрутки -->
+            <button class="btn-submit" onclick="submitBoost()">
+                <span>🚀 НАЧИСЛИТЬ КРИСТАЛЛЫ</span>
+            </button>
+        </div>
+
+        <!-- История начислений -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-weight: 800; font-size: 13px; text-transform: uppercase; color: var(--text-muted);">
+                    🕒 Недавние начисления
+                </div>
+                <div style="font-size: 11px; color: #ff3d57; cursor: pointer;" onclick="clearHistory()">Очистить</div>
+            </div>
+            <div class="history-list" id="historyList">
+                <div style="font-size: 12px; color: #40684c; text-align: center; padding: 12px;">История пока пуста</div>
+            </div>
+        </div>
+
+        <!-- Подсказка -->
+        <div class="tip-box">
+            💡 <b>Как узнать ID игрока?</b><br>
+            Любой игрок может посмотреть свой ID в боте во вкладке <b>«Профиль»</b>, либо через официального бота <code>@userinfobot</code>.
+        </div>
+
+    </div>
+
+    <script>
+        const BOT_USERNAME = "Vetruchkick_bot";
+        let currentAdminId = "1067693099";
+
+        // Определяем ID того, кто открыл админку
+        try {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
+                const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
+                if (tgUser && tgUser.id) {
+                    currentAdminId = String(tgUser.id);
+                }
+            }
+        } catch (e) {}
+
+        function pasteMyId() {
+            document.getElementById('targetIdInput').value = currentAdminId;
+        }
+
+        function setQuickAmount(val, btn) {
+            document.getElementById('amountInput').value = val;
+            document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+
+        // Загрузка истории начислений
+        function loadHistory() {
+            const list = document.getElementById('historyList');
+            const data = JSON.parse(localStorage.getItem('vetruch_admin_history') || '[]');
+            if (data.length === 0) {
+                list.innerHTML = `<div style="font-size: 12px; color: #40684c; text-align: center; padding: 12px;">История пока пуста</div>`;
+                return;
+            }
+            list.innerHTML = data.map(item => `
+                <div class="history-item" onclick="selectFromHistory('${item.id}', ${item.amount})">
+                    <div>
+                        <div class="history-id">ID: ${item.id}</div>
+                        <div style="font-size: 10px; color: #527a5e;">${item.date}</div>
+                    </div>
+                    <div class="history-amount">+${Number(item.amount).toLocaleString('ru-RU')} 💎</div>
+                </div>
+            `).join('');
+        }
+
+        function selectFromHistory(id, amount) {
+            document.getElementById('targetIdInput').value = id;
+            document.getElementById('amountInput').value = amount;
+        }
+
+        function saveToHistory(id, amount) {
+            const data = JSON.parse(localStorage.getItem('vetruch_admin_history') || '[]');
+            const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' ' + new Date().toLocaleDateString();
+            data.unshift({ id, amount, date: now });
+            localStorage.setItem('vetruch_admin_history', JSON.stringify(data.slice(0, 10)));
+            loadHistory();
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('vetruch_admin_history');
+            loadHistory();
+        }
+
+        // Главное действие: отправка накрутки
+        function submitBoost() {
+            const targetId = document.getElementById('targetIdInput').value.trim();
+            const amount = parseInt(document.getElementById('amountInput').value.trim(), 10);
+
+            if (!targetId) return alert("⚠️ Введите ID пользователя!");
+            if (isNaN(amount) || amount <= 0) return alert("⚠️ Введите корректную сумму кристаллов!");
+
+            saveToHistory(targetId, amount);
+
+            const command = `/give ${targetId} ${amount}`;
+            const deepLink = `https://t.me/${BOT_USERNAME}?start=give_${targetId}_${amount}`;
+
+            // Копируем команду в буфер обмена
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(command);
+            }
+
+            // Если открыто внутри Telegram Mini App
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+                window.Telegram.WebApp.openTelegramLink(deepLink);
+            } else {
+                window.open(deepLink, '_blank');
+            }
+
+            alert(`✅ Запрос сформирован!\nИгроку: ${targetId}\nСумма: +${amount.toLocaleString('ru-RU')} 💎\n\nКоманда ${command} скопирована. Если бот открылся, подтверди отправку!`);
+        }
+
+        window.addEventListener('DOMContentLoaded', loadHistory);
+    </script>
+</body>
+</html>
