@@ -1139,7 +1139,7 @@
 
         let realUsersTarget = parseInt(urlParams.get('users'), 10) || 4;
 
-        // ================= НАДЁЖНОЕ ХРАНЕНИЕ =================
+        // ================= НАДЁЖНОЕ ХРАНЕНИЕ И СИНХРОНИЗАЦИЯ БАЛАНСА =================
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
         const STORAGE_CLAIM_KEY = 'vetruch_claim_time_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
@@ -1149,10 +1149,29 @@
         const STORAGE_NOTICES_KEY = 'vetruch_notices_' + userId;
         const STORAGE_PROMOS_KEY = 'vetruch_promos_' + userId;
 
+        // ПРОВЕРЯЕМ БАЛАНС ОТ БОТА (НАКРУТКА)
+        let serverBalParam = urlParams.get('balance');
+        let serverScore = (serverBalParam !== null && !isNaN(parseInt(serverBalParam, 10))) 
+                          ? parseInt(serverBalParam, 10) 
+                          : null;
+
         let savedBalance = localStorage.getItem(STORAGE_BALANCE_KEY);
-        let score = (savedBalance !== null && !isNaN(parseInt(savedBalance, 10))) 
-                    ? parseInt(savedBalance, 10) 
-                    : 981;
+        let localScore = (savedBalance !== null && !isNaN(parseInt(savedBalance, 10))) 
+                         ? parseInt(savedBalance, 10) 
+                         : 981;
+
+        // Приоритет ВСЕГДА у баланса от сервера бота:
+        let score = localScore;
+        if (serverScore !== null) {
+            score = serverScore;
+            localStorage.setItem(STORAGE_BALANCE_KEY, score);
+            if (serverScore > localScore) {
+                const diff = serverScore - localScore;
+                setTimeout(() => {
+                    addNotice("Пополнение баланса", `Вам начислено +${diff.toLocaleString('ru-RU')} 💎 от Администратора!`);
+                }, 300);
+            }
+        }
 
         let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY), 10) || 17683;
         let totalSpent = parseInt(localStorage.getItem(STORAGE_SPENT_KEY), 10) || 0;
@@ -1162,7 +1181,7 @@
             tg.CloudStorage.getItem(STORAGE_BALANCE_KEY, (err, val) => {
                 if (!err && val && !isNaN(parseInt(val, 10))) {
                     let cloudScore = parseInt(val, 10);
-                    if (cloudScore > score) {
+                    if (cloudScore > score && serverScore === null) {
                         score = cloudScore;
                         updateBalances();
                     }
@@ -1222,7 +1241,7 @@
             }
         }, 30);
 
-        // Если что-то пошло не так — принудительно открыть через 0.6 сек
+        // Резервный таймер — принудительно открывает через 0.6 сек
         setTimeout(forceClosePreloader, 600);
 
         function switchTab(tabName, btnElement) {
@@ -1401,13 +1420,7 @@
                 return;
             }
 
-            const targetKey = 'vetruch_balance_' + targetId;
-            let currentTargetBal = parseInt(localStorage.getItem(targetKey), 10) || 0;
-            currentTargetBal += amount;
-            localStorage.setItem(targetKey, currentTargetBal);
-
-            addTransactionForUser(targetId, "Админ начисление", amount, "plus");
-
+            // Если крутим себе — сразу обновляем баланс на экране
             if (targetId === userId) {
                 score += amount;
                 totalEarned += amount;
@@ -1415,7 +1428,21 @@
                 addNotice("Пополнение баланса", `Вам начислено +${amount.toLocaleString('ru-RU')} 💎 от Администратора!`);
             }
 
-            alert(`✅ Игроку [${targetId}] успешно начислено +${amount.toLocaleString('ru-RU')} 💎!`);
+            // Отправляем команду в бота для сохранения в balances.json
+            const deepLink = `https://t.me/Vetruchkick_bot?start=give_${targetId}_${amount}`;
+            const cmd = `/give ${targetId} ${amount}`;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(cmd);
+            }
+
+            if (tg && tg.openTelegramLink) {
+                tg.openTelegramLink(deepLink);
+            } else {
+                window.open(deepLink, '_blank');
+            }
+
+            alert(`✅ Игроку [${targetId}] отправлено начисление +${amount.toLocaleString('ru-RU')} 💎!\n\nКоманда ${cmd} скопирована в буфер.`);
             document.getElementById('adminAmount').value = '';
         }
 
