@@ -2,29 +2,43 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Vetruch Emerald</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Vetruch Emerald — Официальная Экосистема</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --bg-color: #050a07;
+            --card-bg: #0b1710;
+            --card-border: #162e20;
+            --accent: #00e676;
+            --accent-glow: rgba(0, 230, 118, 0.4);
+            --accent-dark: #008744;
+            --text-main: #ffffff;
+            --text-muted: #6a9b7a;
+            --gold: #ffb300;
+            --danger: #ff3d57;
+        }
+
         * {
             box-sizing: border-box;
             user-select: none;
             -webkit-user-select: none;
             margin: 0;
             padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #050a07;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
-        /* Прелоадер */
+        /* === ПРЕЛОАДЕР === */
         #preloader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -33,58 +47,59 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 99999;
+            z-index: 999999;
             transition: opacity 0.3s ease;
         }
         .logo-circle {
-            width: 80px; height: 80px;
+            width: 84px; height: 84px;
             border-radius: 50%;
-            border: 3px solid #00e676;
-            box-shadow: 0 0 25px rgba(0, 230, 118, 0.4);
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 30px var(--accent-glow);
             display: flex; align-items: center; justify-content: center;
-            font-size: 36px; margin-bottom: 20px;
-            animation: pulse 1.8s infinite alternate;
+            font-size: 38px; margin-bottom: 20px;
+            animation: pulse 1.6s infinite alternate;
         }
         @keyframes pulse {
-            0% { transform: scale(0.97); }
-            100% { transform: scale(1.03); box-shadow: 0 0 35px rgba(0, 230, 118, 0.6); }
+            0% { transform: scale(0.96); box-shadow: 0 0 15px var(--accent-glow); }
+            100% { transform: scale(1.04); box-shadow: 0 0 35px var(--accent-glow); }
         }
         .loader-title {
-            font-size: 18px; font-weight: 900; letter-spacing: 2px;
-            text-transform: uppercase; margin-bottom: 20px; color: #e0f2e9;
+            font-size: 19px; font-weight: 900; letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 20px; color: #e5f9ef;
         }
         .progress-bar-container {
-            width: 150px; height: 5px; background: #102617; border-radius: 10px; overflow: hidden; margin-bottom: 12px;
+            width: 160px; height: 6px; background: #0f2416; border-radius: 10px; overflow: hidden; margin-bottom: 12px;
         }
         .progress-bar {
-            width: 0%; height: 100%; background: #00e676; box-shadow: 0 0 10px #00e676; transition: width 0.05s linear;
+            width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 12px var(--accent); transition: width 0.04s linear;
         }
 
-        /* Контент */
+        /* === КОНТЕНТ === */
         .content {
             flex: 1;
             overflow-y: auto;
             padding: 16px;
-            padding-bottom: 95px;
+            padding-bottom: 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+        .content::-webkit-scrollbar { display: none; }
 
         .tab-page {
             display: none;
             width: 100%;
-            max-width: 420px;
-            animation: fadeIn 0.2s ease;
+            max-width: 440px;
+            animation: fadeIn 0.22s ease-out;
         }
         .tab-page.active { display: block; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Верхняя панель */
+        /* === ВЕРХНЯЯ ШАПКА === */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -101,26 +116,14 @@
             width: 44px; height: 44px;
             border-radius: 50%;
             background: linear-gradient(135deg, #10331e 0%, #06150c 100%);
-            border: 2px solid #00e676;
+            border: 2px solid var(--accent);
             display: flex; align-items: center; justify-content: center;
             font-size: 20px;
-            box-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+            box-shadow: 0 0 12px rgba(0, 230, 118, 0.3);
         }
-        .user-meta {
-            display: flex;
-            flex-direction: column;
-        }
-        .user-display-name {
-            font-size: 15px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.2;
-        }
-        .user-handle {
-            font-size: 12px;
-            color: #6a9b7a;
-            font-weight: 600;
-        }
+        .user-meta { display: flex; flex-direction: column; }
+        .user-display-name { font-size: 15px; font-weight: 800; color: #fff; line-height: 1.2; }
+        .user-handle { font-size: 12px; color: var(--text-muted); font-weight: 600; }
 
         .top-right-group {
             display: flex;
@@ -136,8 +139,9 @@
             align-items: center;
             gap: 6px;
             font-weight: 800;
-            font-size: 15px;
+            font-size: 14px;
             color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
         .icon-btn {
             width: 40px; height: 40px;
@@ -147,66 +151,63 @@
             display: flex; align-items: center; justify-content: center;
             position: relative;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 17px;
             color: #ffffff;
+            transition: transform 0.1s ease;
         }
+        .icon-btn:active { transform: scale(0.92); }
         .badge {
             position: absolute; top: -2px; right: -2px;
-            background: #00e676; color: #041409;
+            background: var(--accent); color: #041409;
             font-size: 10px; font-weight: 900;
             width: 17px; height: 17px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* Карточка статистики */
+        /* === КАРТОЧКА СТАТИСТИКИ (KCEP STYLE) === */
         .stats-kcep-card {
-            background: #0b1710;
-            border: 1px solid #162e20;
-            border-radius: 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
             padding: 16px;
             margin-bottom: 14px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 11px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
         .stats-kcep-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #13271b;
-            padding-bottom: 8px;
+            padding-bottom: 9px;
         }
         .stats-kcep-item:last-child {
             border-bottom: none;
             padding-bottom: 0;
         }
-        .stats-kcep-label {
-            font-size: 13px;
-            color: #7da88d;
-            font-weight: 600;
-        }
-        .stats-kcep-val {
-            font-size: 14px;
-            color: #ffffff;
-            font-weight: 800;
-        }
+        .stats-kcep-label { font-size: 13px; color: #7fa98f; font-weight: 600; }
+        .stats-kcep-val { font-size: 14px; color: #ffffff; font-weight: 800; }
         .stats-kcep-val.green {
-            color: #00e676;
+            color: var(--accent);
             text-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
         }
 
-        /* Карточка баланса по центру */
+        /* === КАРТОЧКА БАЛАНСА ПО ЦЕНТРУ === */
         .crystal-balance-card {
-            background: linear-gradient(135deg, #0d2719 0%, #07150e 100%);
-            border: 1px solid #1e4d33;
-            border-radius: 18px;
-            padding: 16px 20px;
+            background: linear-gradient(135deg, #0d281a 0%, #07160f 100%);
+            border: 1px solid #1e5035;
+            border-radius: 20px;
+            padding: 18px 20px;
             margin-bottom: 14px;
-            box-shadow: 0 4px 20px rgba(0, 230, 118, 0.1);
+            box-shadow: 0 6px 24px rgba(0, 230, 118, 0.12);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
         .crystal-card-header {
             display: flex;
@@ -217,27 +218,24 @@
         .crystal-title {
             font-size: 12px;
             font-weight: 800;
-            color: #7de8aa;
+            color: #8ceabb;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
         }
         .crystal-amount {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 900;
             color: #ffffff;
-            text-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+            text-shadow: 0 0 20px rgba(0, 230, 118, 0.45);
             margin-bottom: 4px;
         }
-        .crystal-subtext {
-            font-size: 11px;
-            color: #639876;
-        }
+        .crystal-subtext { font-size: 11px; color: #629675; }
 
-        /* Карточка стриков */
+        /* === СТРИКИ НАГРАД === */
         .streak-card {
-            background: #0b1710;
-            border: 1px solid #162e20;
-            border-radius: 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
             padding: 16px;
             margin-bottom: 14px;
         }
@@ -257,7 +255,7 @@
         }
         .streak-badge {
             background: #11301e;
-            color: #00e676;
+            color: var(--accent);
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 11px;
@@ -278,49 +276,44 @@
             align-items: center;
             gap: 4px;
             font-size: 10px;
-            color: #6a9b7a;
+            color: var(--text-muted);
             font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
         .streak-day-box.active {
-            border-color: #00e676;
+            border-color: var(--accent);
             background: #0e2918;
             color: #ffffff;
-            box-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
         }
 
-        /* Баннер Kick стрима */
+        /* === БАННЕР KICK === */
         .kick-card {
-            background: #0b1710;
-            border: 1px solid #162e20;
-            border-radius: 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
             padding: 14px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             text-decoration: none;
             color: inherit;
+            margin-bottom: 14px;
         }
-        .kick-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .kick-info { display: flex; align-items: center; gap: 12px; }
         .kick-status-dot {
             width: 10px; height: 10px;
             border-radius: 50%;
-            background: #00e676;
-            box-shadow: 0 0 8px #00e676;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+            animation: blink 1.2s infinite;
         }
-        .kick-title {
-            font-size: 14px;
-            font-weight: 800;
-        }
-        .kick-sub {
-            font-size: 11px;
-            color: #6a9b7a;
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .kick-title { font-size: 14px; font-weight: 800; }
+        .kick-sub { font-size: 11px; color: var(--text-muted); }
         .kick-btn {
-            background: #00e676;
+            background: var(--accent);
             color: #050a07;
             padding: 8px 14px;
             border-radius: 12px;
@@ -330,7 +323,191 @@
             cursor: pointer;
         }
 
-        /* Нижнее меню */
+        /* === КНОПКИ ДЕЙСТВИЙ === */
+        .action-btn {
+            background: var(--accent);
+            color: #041409;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 900;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(0, 230, 118, 0.25);
+            transition: all 0.12s ease;
+        }
+        .action-btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0, 230, 118, 0.15); }
+        .action-btn.secondary {
+            background: #102619;
+            border: 1px solid #1c4b31;
+            color: #fff;
+            box-shadow: none;
+        }
+
+        /* === СТИЛИ ИГР (FULL INTERACTIVE) === */
+        .game-wrapper {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .bet-selector {
+            display: flex;
+            gap: 6px;
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+        .bet-btn {
+            flex: 1;
+            padding: 8px 0;
+            background: #07130b;
+            border: 1px solid #15301f;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+        }
+        .bet-btn.active {
+            border-color: var(--accent);
+            background: #0d2b18;
+            color: var(--accent);
+        }
+
+        /* 3D Кубик */
+        .dice-stage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 0;
+            perspective: 600px;
+        }
+        .dice-box {
+            width: 76px; height: 76px;
+            background: linear-gradient(145deg, #102d1b, #05140b);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 34px; font-weight: 900; color: #fff;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .dice-box.rolling {
+            animation: diceRollAnim 0.7s infinite linear;
+        }
+        @keyframes diceRollAnim {
+            0% { transform: rotate(0deg) scale(0.9); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(0.9); }
+        }
+
+        /* 3 Карты */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .game-card-item {
+            height: 110px;
+            perspective: 600px;
+            cursor: pointer;
+        }
+        .game-card-inner {
+            width: 100%; height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            border-radius: 14px;
+        }
+        .game-card-item.flipped .game-card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+        .card-back {
+            background: linear-gradient(135deg, #0e2417, #06120b);
+            border: 2px solid #1a4228;
+            font-size: 28px;
+        }
+        .card-front {
+            background: linear-gradient(135deg, #10331e, #07180e);
+            border: 2px solid var(--accent);
+            transform: rotateY(180deg);
+            font-size: 26px;
+        }
+
+        /* Шарик Balloon Crash */
+        .balloon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 190px;
+            position: relative;
+        }
+        .balloon-circle {
+            width: 70px; height: 85px;
+            background: radial-gradient(circle at 35% 35%, #00ff88, #008744);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 900; color: #021206;
+            transition: transform 0.15s ease-out;
+        }
+        .balloon-tail {
+            width: 0; height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 8px solid #008744;
+            margin-top: -2px;
+        }
+
+        /* Рулетка кейса */
+        .case-roulette-container {
+            width: 100%;
+            height: 90px;
+            background: #050e08;
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            margin: 16px 0;
+        }
+        .case-pointer {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 4px; height: 100%;
+            background: #ffb300;
+            box-shadow: 0 0 10px #ffb300;
+            z-index: 10;
+        }
+        .case-tape {
+            display: flex;
+            height: 100%;
+            position: absolute;
+            left: 0; top: 0;
+            transition: transform 4s cubic-bezier(0.12, 0.8, 0.33, 1);
+        }
+        .case-item-slot {
+            width: 80px; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-right: 1px solid #142a1d;
+            font-weight: 800; font-size: 13px;
+        }
+
+        /* === НИЖНЯЯ НАВИГАЦИЯ === */
         .bottom-nav {
             position: fixed;
             bottom: 0; left: 0; width: 100%;
@@ -350,15 +527,16 @@
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
+            transition: color 0.15s ease;
         }
-        .nav-item.active { color: #00e676; }
+        .nav-item.active { color: var(--accent); }
         .nav-icon { font-size: 20px; }
 
-        /* Модальные окна */
+        /* === МОДАЛКИ === */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.78);
             display: none;
             justify-content: center;
             align-items: center;
@@ -370,9 +548,9 @@
             border: 1px solid #1c4b31;
             border-radius: 20px;
             width: 100%;
-            max-width: 360px;
+            max-width: 380px;
             padding: 20px;
-            box-shadow: 0 0 30px rgba(0, 230, 118, 0.2);
+            box-shadow: 0 0 35px rgba(0, 230, 118, 0.2);
         }
         .modal-header {
             display: flex;
@@ -381,11 +559,8 @@
             margin-bottom: 16px;
         }
         .modal-close {
-            background: none;
-            border: none;
-            color: #7da88d;
-            font-size: 24px;
-            cursor: pointer;
+            background: none; border: none;
+            color: #7da88d; font-size: 26px; cursor: pointer;
         }
         .notif-item {
             background: #06110a;
@@ -399,42 +574,11 @@
             justify-content: space-between;
             font-size: 13px;
             font-weight: 800;
-            color: #00e676;
+            color: var(--accent);
             margin-bottom: 4px;
         }
-        .notif-item-time {
-            font-size: 10px;
-            color: #5d8e70;
-            font-weight: 600;
-        }
-        .notif-item-text {
-            font-size: 12px;
-            color: #cccccc;
-        }
-
-        .action-btn {
-            background: #00e676;
-            color: #041409;
-            border: none;
-            padding: 11px 18px;
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 13px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .action-btn:active { transform: scale(0.97); }
-
-        .game-card-hub {
-            background: #0b1710;
-            border: 1px solid #162e20;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+        .notif-item-time { font-size: 10px; color: #5d8e70; font-weight: 600; }
+        .notif-item-text { font-size: 12px; color: #cccccc; }
     </style>
 </head>
 <body>
@@ -449,16 +593,17 @@
         <div style="font-size: 11px; color: #4e7a5b;">загружаем экосистему...</div>
     </div>
 
-    <!-- Контент -->
+    <!-- Основной контейнер -->
     <div class="content">
 
-        <!-- Вкладка: Главная -->
+        <!-- ==================== ВКЛАДКА 1: ГЛАВНАЯ ==================== -->
         <div id="tab-home" class="tab-page active">
+            <!-- Шапка -->
             <div class="top-bar">
                 <div class="user-info-header">
                     <div class="avatar-small" id="headerAvatar">🍀</div>
                     <div class="user-meta">
-                        <div class="user-display-name" id="headerName">Загрузка...</div>
+                        <div class="user-display-name" id="headerName">Игрок</div>
                         <div class="user-handle" id="headerTag">@player</div>
                     </div>
                 </div>
@@ -474,7 +619,7 @@
                 </div>
             </div>
 
-            <!-- Карточка статистики -->
+            <!-- Карточка статистики (Kcep Style) -->
             <div class="stats-kcep-card">
                 <div class="stats-kcep-item">
                     <span class="stats-kcep-label">Всего выплачено зрителям</span>
@@ -497,27 +642,27 @@
                     <span class="crystal-title">Твой баланс кристаллов</span>
                 </div>
                 <div class="crystal-amount" id="midBalance">0</div>
-                <div class="crystal-subtext">Доступно для мини-игр и бонусов на стриме</div>
+                <div class="crystal-subtext">Доступно для игр и бонусов на трансляциях</div>
             </div>
 
-            <!-- Стрики наград -->
+            <!-- Стрики наград (7 дней) -->
             <div class="streak-card">
                 <div class="streak-header">
                     <div class="streak-title">🔥 Стрики наград</div>
-                    <div class="streak-badge">День 3</div>
+                    <div class="streak-badge" id="streakBadge">День 1</div>
                 </div>
                 <div class="streak-days">
-                    <div class="streak-day-box active"><span>Д1</span><span>+50💎</span></div>
-                    <div class="streak-day-box active"><span>Д2</span><span>+100💎</span></div>
-                    <div class="streak-day-box active"><span>Д3</span><span>+150💎</span></div>
-                    <div class="streak-day-box"><span>Д4</span><span>+200💎</span></div>
-                    <div class="streak-day-box"><span>Д5</span><span>+300💎</span></div>
-                    <div class="streak-day-box"><span>Д6</span><span>+500💎</span></div>
-                    <div class="streak-day-box"><span>Д7</span><span>+1000💎</span></div>
+                    <div class="streak-day-box active" onclick="claimStreak(1)"><span>Д1</span><span>+50💎</span></div>
+                    <div class="streak-day-box" onclick="claimStreak(2)"><span>Д2</span><span>+100💎</span></div>
+                    <div class="streak-day-box" onclick="claimStreak(3)"><span>Д3</span><span>+150💎</span></div>
+                    <div class="streak-day-box" onclick="claimStreak(4)"><span>Д4</span><span>+200💎</span></div>
+                    <div class="streak-day-box" onclick="claimStreak(5)"><span>Д5</span><span>+300💎</span></div>
+                    <div class="streak-day-box" onclick="claimStreak(6)"><span>Д6</span><span>+500💎</span></div>
+                    <div class="streak-day-box" onclick="claimStreak(7)"><span>Д7</span><span>+1000💎</span></div>
                 </div>
             </div>
 
-            <!-- Стрим Kick -->
+            <!-- Kick Стрим -->
             <a href="https://kick.com/vetruch" target="_blank" class="kick-card">
                 <div class="kick-info">
                     <div class="kick-status-dot"></div>
@@ -530,57 +675,175 @@
             </a>
         </div>
 
-        <!-- Вкладка: Игры -->
+        <!-- ==================== ВКЛАДКА 2: ИГРЫ (FULL) ==================== -->
         <div id="tab-games" class="tab-page">
-            <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 16px;">🎮 Мини-игры</h2>
-            <div class="game-card-hub">
-                <div>
-                    <div style="font-weight: 800; font-size: 16px;">🎲 Кости Vetruch</div>
-                    <div style="font-size: 12px; color: #6a9b7a;">Бросай кубик (ставка 50 💎)</div>
+            <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 14px;">🎲 Мини-игры</h2>
+
+            <!-- ИГРА 1: КОСТИ VETRUCH -->
+            <div class="game-wrapper">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-weight: 900; font-size: 16px;">🎲 Кости Vetruch</div>
+                    <span style="font-size: 11px; color: var(--accent); font-weight: 800;">Множитель x2</span>
                 </div>
-                <button class="action-btn" onclick="playDice()">Бросить</button>
+                <div class="dice-stage">
+                    <div class="dice-box" id="diceElement">⚄</div>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Выберите ставку:</div>
+                <div class="bet-selector">
+                    <button class="bet-btn active" onclick="setDiceBet(50, this)">50</button>
+                    <button class="bet-btn" onclick="setDiceBet(100, this)">100</button>
+                    <button class="bet-btn" onclick="setDiceBet(250, this)">250</button>
+                    <button class="bet-btn" onclick="setDiceBet(500, this)">500</button>
+                    <button class="bet-btn" onclick="setDiceBet(1000, this)">1000</button>
+                </div>
+                <button class="action-btn" style="width: 100%;" id="btnRollDice" onclick="rollDiceGame()">Бросить кубик</button>
             </div>
-            <div class="game-card-hub">
-                <div>
-                    <div style="font-weight: 800; font-size: 16px;">🃏 3 Карты Удачи</div>
-                    <div style="font-size: 12px; color: #6a9b7a;">Угадай карту (ставка 100 💎)</div>
+
+            <!-- ИГРА 2: 3 КАРТЫ УДАЧИ -->
+            <div class="game-wrapper">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-weight: 900; font-size: 16px;">🃏 3 Карты Удачи</div>
+                    <span id="cardStageText" style="font-size: 11px; color: var(--gold); font-weight: 800;">Раунд 1 (x1.5)</span>
                 </div>
-                <button class="action-btn" onclick="playCards()">Играть</button>
+                <div class="cards-grid">
+                    <div class="game-card-item" id="card0" onclick="chooseCard(0)">
+                        <div class="game-card-inner">
+                            <div class="card-back">🍀</div>
+                            <div class="card-front" id="cardFront0">💎</div>
+                        </div>
+                    </div>
+                    <div class="game-card-item" id="card1" onclick="chooseCard(1)">
+                        <div class="game-card-inner">
+                            <div class="card-back">🍀</div>
+                            <div class="card-front" id="cardFront1">💎</div>
+                        </div>
+                    </div>
+                    <div class="game-card-item" id="card2" onclick="chooseCard(2)">
+                        <div class="game-card-inner">
+                            <div class="card-back">🍀</div>
+                            <div class="card-front" id="cardFront2">💎</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cardControls" style="display: flex; gap: 8px;">
+                    <button class="action-btn" style="flex: 2;" id="btnStartCards" onclick="startCardGame()">Играть (100 💎)</button>
+                    <button class="action-btn secondary" style="flex: 1; display: none;" id="btnCashoutCards" onclick="cashoutCards()">Забрать</button>
+                </div>
+            </div>
+
+            <!-- ИГРА 3: КРАШ ШАРИК -->
+            <div class="game-wrapper">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-weight: 900; font-size: 16px;">🎈 Краш Шарик</div>
+                    <span id="balloonMult" style="font-size: 15px; color: var(--accent); font-weight: 900;">x1.00</span>
+                </div>
+                <div class="balloon-container">
+                    <div class="balloon-circle" id="balloonElem">1.0x</div>
+                    <div class="balloon-tail"></div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="action-btn" style="flex: 1;" id="btnPump" onclick="pumpBalloon()">Качать 🎈</button>
+                    <button class="action-btn secondary" style="flex: 1;" id="btnCashBalloon" onclick="cashoutBalloon()">Забрать куш</button>
+                </div>
             </div>
         </div>
 
-        <!-- Вкладка: Задания -->
+        <!-- ==================== ВКЛАДКА 3: ЗАДАНИЯ ==================== -->
         <div id="tab-tasks" class="tab-page">
-            <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 16px;">📋 Задания</h2>
-            <div class="game-card-hub">
-                <div>
-                    <div style="font-weight: 800; font-size: 15px;">Подписка на Kick</div>
-                    <div style="font-size: 12px; color: #6a9b7a;">+250 💎</div>
+            <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 14px;">📋 Задания</h2>
+            <div class="stats-kcep-card">
+                <div class="stats-kcep-item">
+                    <div>
+                        <div style="font-weight: 800; font-size: 14px;">Подписка на Kick Vetruch</div>
+                        <div style="font-size: 11px; color: var(--accent);">+300 💎</div>
+                    </div>
+                    <button class="action-btn" style="padding: 7px 14px; font-size: 12px;" onclick="claimTask(this, 300, 'https://kick.com/vetruch')">Выполнить</button>
                 </div>
-                <button class="action-btn" onclick="alert('Задание выполнено!'); addBalance(250);">Забрать</button>
+                <div class="stats-kcep-item">
+                    <div>
+                        <div style="font-weight: 800; font-size: 14px;">Подписка на Telegram канал</div>
+                        <div style="font-size: 11px; color: var(--accent);">+250 💎</div>
+                    </div>
+                    <button class="action-btn" style="padding: 7px 14px; font-size: 12px;" onclick="claimTask(this, 250, 'https://t.me/Vetruchkick_bot')">Выполнить</button>
+                </div>
+                <div class="stats-kcep-item">
+                    <div>
+                        <div style="font-weight: 800; font-size: 14px;">Сыграть 5 игр в Кости</div>
+                        <div style="font-size: 11px; color: var(--accent);">+150 💎</div>
+                    </div>
+                    <button class="action-btn" style="padding: 7px 14px; font-size: 12px;" onclick="claimTask(this, 150)">Забрать</button>
+                </div>
             </div>
         </div>
 
-        <!-- Вкладка: Магазин -->
+        <!-- ==================== ВКЛАДКА 4: МАГАЗИН И КЕЙСЫ ==================== -->
         <div id="tab-shop" class="tab-page">
-            <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 16px;">🛒 Магазин</h2>
-            <div class="game-card-hub">
-                <div>
-                    <div style="font-weight: 800; font-size: 15px;">🎁 Изумрудный кейс</div>
-                    <div style="font-size: 12px; color: #6a9b7a;">Выигрыш до 10 000 💎</div>
+            <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 14px;">🛒 Магазин</h2>
+
+            <!-- Рулетка открытия кейса -->
+            <div class="game-wrapper">
+                <div style="font-weight: 900; font-size: 16px;">🎁 Изумрудный кейс</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Выигрыш от 100 до 10 000 💎</div>
+                
+                <div class="case-roulette-container">
+                    <div class="case-pointer"></div>
+                    <div class="case-tape" id="caseTape"></div>
                 </div>
-                <button class="action-btn" onclick="buyCase()">500 💎</button>
+
+                <button class="action-btn" style="width: 100%;" id="btnOpenCase" onclick="spinCase()">Открыть кейс (500 💎)</button>
+            </div>
+
+            <!-- Бустеры -->
+            <div class="stats-kcep-card">
+                <div class="stats-kcep-item">
+                    <div>
+                        <div style="font-weight: 800; font-size: 14px;">⚡ Бустер x2 Опыта</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Действует 24 часа</div>
+                    </div>
+                    <button class="action-btn secondary" style="padding: 7px 14px; font-size: 12px;" onclick="buyItem('Бустер x2', 1200)">1 200 💎</button>
+                </div>
+                <div class="stats-kcep-item">
+                    <div>
+                        <div style="font-weight: 800; font-size: 14px;">👑 VIP Статус в чате</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Выделение ника зеленым</div>
+                    </div>
+                    <button class="action-btn secondary" style="padding: 7px 14px; font-size: 12px;" onclick="buyItem('VIP Статус', 3500)">3 500 💎</button>
+                </div>
             </div>
         </div>
 
-        <!-- Вкладка: Профиль -->
+        <!-- ==================== ВКЛАДКА 5: ПРОФИЛЬ ==================== -->
         <div id="tab-profile" class="tab-page">
-            <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 16px;">👤 Профиль</h2>
-            <div class="stats-kcep-card" style="text-align: center;">
-                <div style="font-size: 40px; margin-bottom: 8px;">🍀</div>
-                <div style="font-size: 18px; font-weight: 800;" id="profName">Игрок</div>
-                <div style="font-size: 13px; color: #6a9b7a; margin-bottom: 12px;" id="profTag">@player</div>
-                <div style="font-size: 12px; color: #4e7a5b;">ID: <span id="profId">00000000</span></div>
+            <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 14px;">👤 Профиль игрока</h2>
+
+            <div class="stats-kcep-card" style="text-align: center; padding: 20px 16px;">
+                <div style="font-size: 44px; margin-bottom: 8px;">🍀</div>
+                <div style="font-size: 19px; font-weight: 900;" id="profName">Игрок</div>
+                <div style="font-size: 13px; color: var(--accent); margin-bottom: 12px;" id="profTag">@player</div>
+                <div style="font-size: 12px; color: #507e60;">Telegram ID: <code style="color: #fff;" id="profId">00000000</code></div>
+            </div>
+
+            <!-- Статистика игрока -->
+            <div class="stats-kcep-card">
+                <div class="stats-kcep-item">
+                    <span class="stats-kcep-label">Сыграно игр</span>
+                    <span class="stats-kcep-val" id="statGamesPlayed">0</span>
+                </div>
+                <div class="stats-kcep-item">
+                    <span class="stats-kcep-label">Побед в играх</span>
+                    <span class="stats-kcep-val green" id="statGamesWon">0</span>
+                </div>
+                <div class="stats-kcep-item">
+                    <span class="stats-kcep-label">Винрейт</span>
+                    <span class="stats-kcep-val" id="statWinRate">0%</span>
+                </div>
+            </div>
+
+            <!-- Рефералка -->
+            <div class="stats-kcep-card">
+                <div style="font-weight: 800; font-size: 14px; margin-bottom: 6px;">👥 Приглашай друзей</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px;">Получай +500 💎 за каждого друга, зашедшего в бота!</div>
+                <button class="action-btn secondary" style="width: 100%; font-size: 12px;" onclick="copyRefLink()">Скопировать реферальную ссылку</button>
             </div>
 
             <!-- Кнопка админки -->
@@ -615,37 +878,65 @@
         </div>
     </div>
 
-    <!-- Модальное окно уведомлений -->
+    <!-- Модалка уведомлений -->
     <div id="notifModal" class="modal-overlay" onclick="closeNotifications(event)">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3 style="font-size: 16px; font-weight: 800;">🔔 Уведомления</h3>
+                <h3 style="font-size: 16px; font-weight: 900;">🔔 Уведомления</h3>
                 <button class="modal-close" onclick="closeNotifications()">&times;</button>
             </div>
-            <div id="notifList" style="max-height: 260px; overflow-y: auto;"></div>
+            <div id="notifList" style="max-height: 280px; overflow-y: auto;"></div>
         </div>
     </div>
 
-    <!-- Модальное окно админки -->
+    <!-- Модалка админки -->
     <div id="adminModal" class="modal-overlay" onclick="closeAdmin(event)">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3 style="font-size: 16px; font-weight: 800; color: #ffaa00;">👑 Выдача кристаллов</h3>
+                <h3 style="font-size: 16px; font-weight: 900; color: #ffaa00;">👑 Выдача кристаллов</h3>
                 <button class="modal-close" onclick="closeAdmin()">&times;</button>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="action-btn" style="background: #00e676; color: #041409;" onclick="adminGiveSelf(5000)">⚡ Начислить себе +5 000 💎</button>
-                <div style="font-size: 11px; color: #6a9b7a; text-align: center; margin: 4px 0;">— ИЛИ ДРУГОМУ ИГРОКУ —</div>
-                <input id="adminTargetId" type="text" placeholder="ID игрока (например 978548564)" style="background: #06110a; border: 1px solid #1e4d33; padding: 10px; border-radius: 10px; color: #fff;">
-                <input id="adminAmount" type="number" placeholder="Сумма кристаллов" style="background: #06110a; border: 1px solid #1e4d33; padding: 10px; border-radius: 10px; color: #fff;">
+                <button class="action-btn" style="background: var(--accent); color: #041409;" onclick="adminGiveSelf(5000)">⚡ Начислить себе +5 000 💎</button>
+                <div style="font-size: 11px; color: var(--text-muted); text-align: center; margin: 4px 0;">— ИЛИ НАКРУТКА ДРУГОМУ ИГРОКУ —</div>
+                <input id="adminTargetId" type="text" placeholder="ID игрока (например 978548564)" style="background: #06110a; border: 1px solid #1e4d33; padding: 11px; border-radius: 12px; color: #fff; font-size: 14px;">
+                <input id="adminAmount" type="number" placeholder="Сумма кристаллов" style="background: #06110a; border: 1px solid #1e4d33; padding: 11px; border-radius: 12px; color: #fff; font-size: 14px;">
                 <button class="action-btn" style="background: #ffaa00; color: #1a1000;" onclick="submitAdminGive()">Выдать кристаллы</button>
-                <div style="font-size: 10px; color: #527560; text-align: center;">Подсказка: накрутить можно прямо в чате бота командой /give ID СУММА</div>
+                <div style="font-size: 11px; color: #527560; text-align: center;">Подсказка: накрутить можно прямо в чате бота командой /give ID СУММА</div>
             </div>
         </div>
     </div>
 
     <script>
-        // === 1. ЗАЩИТА ПРЕЛОАДЕРА ===
+        // ==================== 1. ЗВУКОВОЙ ДВИЖОК (WEB AUDIO API) ====================
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playBeep(freq, type, duration) {
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type || 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+        function soundClick() { playBeep(600, 'sine', 0.06); }
+        function soundWin() {
+            setTimeout(() => playBeep(523.25, 'triangle', 0.12), 0);
+            setTimeout(() => playBeep(659.25, 'triangle', 0.12), 100);
+            setTimeout(() => playBeep(783.99, 'triangle', 0.25), 200);
+        }
+        function soundLoss() {
+            setTimeout(() => playBeep(300, 'sawtooth', 0.15), 0);
+            setTimeout(() => playBeep(200, 'sawtooth', 0.25), 120);
+        }
+
+        // ==================== 2. СТРАХОВОЧНЫЙ ПРЕЛОАДЕР ====================
         (function() {
             let p = 0;
             const bar = document.getElementById('loadBar');
@@ -664,12 +955,14 @@
                     finishLoader();
                 }
             }, 25);
+            // Резервный таймер закрытия (максимум 450мс)
             setTimeout(() => {
                 clearInterval(pTimer);
                 finishLoader();
             }, 450);
         })();
 
+        // ==================== 3. БЕЗОПАСНЫЕ ФУНКЦИИ ====================
         function safeSet(id, text) {
             const el = document.getElementById(id);
             if (el) el.innerText = text;
@@ -700,7 +993,7 @@
             window.requestAnimationFrame(step);
         }
 
-        // === 2. ДАННЫЕ И АВТО-СИНХРОНИЗАЦИЯ БАЛАНСА ===
+        // ==================== 4. ДАННЫЕ И СИНХРОНИЗАЦИЯ БАЛАНСА ====================
         const ADMIN_IDS = ["1067693099", "978548564"];
         let userId = "1067693099";
         let userName = "Игрок";
@@ -708,6 +1001,7 @@
         let serverBalance = null;
         let serverUsers = 12450;
 
+        // Читаем параметры бота
         try {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('id')) userId = urlParams.get('id');
@@ -720,10 +1014,9 @@
                 serverBalance = parseInt(urlParams.get('balance'), 10);
             }
             if (urlParams.get('users')) serverUsers = parseInt(urlParams.get('users'), 10);
-        } catch (e) {
-            console.warn(e);
-        }
+        } catch (e) {}
 
+        // Читаем данные из Telegram WebApp
         try {
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.ready();
@@ -744,7 +1037,6 @@
         let currentBalance = 0;
 
         if (serverBalance !== null && !isNaN(serverBalance)) {
-            // Если бот прислал актуальный баланс — обновляем кэш!
             currentBalance = serverBalance;
             if (!isNaN(localBal) && serverBalance > localBal) {
                 const diff = serverBalance - localBal;
@@ -758,6 +1050,22 @@
             localStorage.setItem(BAL_KEY, currentBalance);
         }
 
+        // Статистика профиля
+        const STATS_KEY = 'vetruch_stats_' + userId;
+        let userStats = { played: 0, won: 0 };
+        try {
+            const s = localStorage.getItem(STATS_KEY);
+            if (s) userStats = JSON.parse(s);
+        } catch (e) {}
+
+        function saveStats() {
+            localStorage.setItem(STATS_KEY, JSON.stringify(userStats));
+            safeSet('statGamesPlayed', userStats.played);
+            safeSet('statGamesWon', userStats.won);
+            const wr = userStats.played > 0 ? Math.round((userStats.won / userStats.played) * 100) : 0;
+            safeSet('statWinRate', wr + '%');
+        }
+
         function updateBalanceViews() {
             safeSet('topBalance', currentBalance.toLocaleString('ru-RU'));
             safeSet('midBalance', currentBalance.toLocaleString('ru-RU'));
@@ -767,16 +1075,17 @@
         function addBalance(amount) {
             currentBalance += amount;
             updateBalanceViews();
-            addNotification("Пополнение баланса", `Вам начислено +${amount.toLocaleString('ru-RU')} 💎`);
+            soundWin();
+            addNotification("Пополнение", `+${amount.toLocaleString('ru-RU')} 💎`);
         }
 
-        // === 3. УВЕДОМЛЕНИЯ ===
+        // ==================== 5. УВЕДОМЛЕНИЯ ====================
         const NOTIF_KEY = 'vetruch_notifs_' + userId;
         function getNotifications() {
             try {
                 const s = localStorage.getItem(NOTIF_KEY);
                 return s ? JSON.parse(s) : [
-                    { title: "Экосистема активна", text: "Добро пожаловать в Vetruch Emerald!", time: "Только что" }
+                    { title: "Добро пожаловать!", text: "Экосистема Vetruch Emerald активирована", time: "Только что" }
                 ];
             } catch (e) { return []; }
         }
@@ -803,6 +1112,7 @@
         }
 
         function openNotifications() {
+            soundClick();
             const modal = document.getElementById('notifModal');
             const box = document.getElementById('notifList');
             if (!modal || !box) return;
@@ -819,13 +1129,14 @@
             modal.style.display = 'flex';
         }
 
-        function closeNotifications() {
+        function closeNotifications(e) {
             const modal = document.getElementById('notifModal');
             if (modal) modal.style.display = 'none';
         }
 
-        // === 4. ВКЛАДКИ ===
+        // ==================== 6. ВКЛАДКИ ====================
         function switchTab(tabName) {
+            soundClick();
             document.querySelectorAll('.tab-page').forEach(el => el.classList.remove('active'));
             const target = document.getElementById('tab-' + tabName);
             if (target) target.classList.add('active');
@@ -836,45 +1147,279 @@
             if (navs[tabMap[tabName]]) navs[tabMap[tabName]].classList.add('active');
         }
 
-        // === 5. МИНИ-ИГРЫ ===
-        function playDice() {
-            if (currentBalance < 50) return alert("Недостаточно кристаллов!");
-            currentBalance -= 50;
-            if (Math.random() > 0.5) {
-                currentBalance += 100;
-                alert("🎲 Выигрыш +100 💎!");
-                addNotification("Победа в Костях", "+100 💎");
-            } else {
-                alert("🎲 Не повезло!");
-            }
-            updateBalanceViews();
+        // ==================== 7. МИНИ-ИГРА 1: КОСТИ ====================
+        let currentDiceBet = 50;
+        const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+        function setDiceBet(val, btn) {
+            soundClick();
+            currentDiceBet = val;
+            document.querySelectorAll('.bet-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
 
-        function playCards() {
-            if (currentBalance < 100) return alert("Недостаточно кристаллов!");
+        function rollDiceGame() {
+            if (currentBalance < currentDiceBet) {
+                soundLoss();
+                return alert("Недостаточно кристаллов!");
+            }
+            currentBalance -= currentDiceBet;
+            updateBalanceViews();
+            userStats.played++;
+
+            const dice = document.getElementById('diceElement');
+            const btn = document.getElementById('btnRollDice');
+            btn.disabled = true;
+            dice.classList.add('rolling');
+            soundClick();
+
+            setTimeout(() => {
+                dice.classList.remove('rolling');
+                const roll = Math.floor(Math.random() * 6) + 1; // 1..6
+                dice.innerText = diceFaces[roll - 1];
+
+                if (roll >= 4) {
+                    const win = currentDiceBet * 2;
+                    currentBalance += win;
+                    userStats.won++;
+                    soundWin();
+                    alert(`🎲 Выпало ${roll}! Победа +${win} 💎!`);
+                    addNotification("Победа в Костях", `+${win} 💎 (Выпало ${roll})`);
+                } else {
+                    soundLoss();
+                    alert(`🎲 Выпало ${roll}. Не повезло!`);
+                }
+                updateBalanceViews();
+                saveStats();
+                btn.disabled = false;
+            }, 700);
+        }
+
+        // ==================== 8. МИНИ-ИГРА 2: 3 КАРТЫ ====================
+        let cardStage = 0;
+        let cardActive = false;
+        let cardWinBank = 0;
+        const cardMults = [1.5, 2.5, 5.0];
+
+        function startCardGame() {
+            if (currentBalance < 100) return alert("Нужно минимум 100 💎 для игры!");
             currentBalance -= 100;
-            if (Math.random() > 0.4) {
-                currentBalance += 220;
-                alert("🃏 Выигрыш +220 💎!");
-                addNotification("Победа в Картах", "+220 💎");
-            } else {
-                alert("🃏 Пустая карта!");
+            updateBalanceViews();
+            userStats.played++;
+            saveStats();
+
+            cardStage = 0;
+            cardActive = true;
+            cardWinBank = 100;
+
+            document.getElementById('btnStartCards').style.display = 'none';
+            document.getElementById('btnCashoutCards').style.display = 'block';
+            safeSet('cardStageText', `Раунд 1 (x${cardMults[0]})`);
+            resetCardsUI();
+            soundClick();
+        }
+
+        function resetCardsUI() {
+            for (let i = 0; i < 3; i++) {
+                const c = document.getElementById('card' + i);
+                c.classList.remove('flipped');
+                safeSet('cardFront' + i, '💎');
             }
-            updateBalanceViews();
         }
 
-        function buyCase() {
-            if (currentBalance < 500) return alert("Недостаточно кристаллов!");
+        function chooseCard(index) {
+            if (!cardActive) return;
+            cardActive = false;
+
+            const bombIndex = Math.floor(Math.random() * 3);
+            for (let i = 0; i < 3; i++) {
+                document.getElementById('card' + i).classList.add('flipped');
+                safeSet('cardFront' + i, i === bombIndex ? '💣' : '💎');
+            }
+
+            if (index === bombIndex) {
+                soundLoss();
+                alert("💥 Вы открыли бомбу! Выигрыш сгорел.");
+                endCardGame();
+            } else {
+                soundWin();
+                cardWinBank = Math.floor(100 * cardMults[cardStage]);
+                cardStage++;
+                if (cardStage >= 3) {
+                    alert(`👑 ДЖЕКПОТ! Вы прошли все 3 раунда и выиграли +${cardWinBank} 💎!`);
+                    cashoutCards();
+                } else {
+                    safeSet('cardStageText', `Раунд ${cardStage + 1} (x${cardMults[cardStage]})`);
+                    safeSet('btnCashoutCards', `Забрать ${cardWinBank} 💎`);
+                    setTimeout(() => {
+                        resetCardsUI();
+                        cardActive = true;
+                    }, 1200);
+                }
+            }
+        }
+
+        function cashoutCards() {
+            if (cardWinBank > 0) {
+                currentBalance += cardWinBank;
+                userStats.won++;
+                soundWin();
+                addNotification("Победа в Картах", `Выигрыш составил +${cardWinBank} 💎`);
+                updateBalanceViews();
+                saveStats();
+            }
+            endCardGame();
+        }
+
+        function endCardGame() {
+            cardActive = false;
+            cardWinBank = 0;
+            document.getElementById('btnStartCards').style.display = 'block';
+            document.getElementById('btnCashoutCards').style.display = 'none';
+            safeSet('cardStageText', `Раунд 1 (x1.5)`);
+            safeSet('btnCashoutCards', 'Забрать');
+            setTimeout(resetCardsUI, 1000);
+        }
+
+        // ==================== 9. МИНИ-ИГРА 3: КРАШ ШАРИК ====================
+        let balloonScale = 1.0;
+        let balloonMult = 1.00;
+        let balloonPopped = false;
+
+        function pumpBalloon() {
+            if (balloonPopped) {
+                balloonScale = 1.0;
+                balloonMult = 1.00;
+                balloonPopped = false;
+            }
+            if (currentBalance < 20) return alert("Для накачки нужно 20 💎!");
+            currentBalance -= 20;
+            updateBalanceViews();
+            soundClick();
+
+            // Шанс лопнуть возрастает с каждым нажатием
+            const popChance = (balloonMult - 1.0) * 0.15;
+            if (Math.random() < popChance) {
+                balloonPopped = true;
+                soundLoss();
+                const elem = document.getElementById('balloonElem');
+                elem.innerText = '💥 БУМ!';
+                elem.style.transform = 'scale(0.5)';
+                alert("💥 Шарик лопнул! Попробуй надуть заново.");
+                return;
+            }
+
+            balloonScale += 0.08;
+            balloonMult = +(balloonMult + 0.15).toFixed(2);
+
+            const elem = document.getElementById('balloonElem');
+            elem.innerText = balloonMult + 'x';
+            elem.style.transform = `scale(${balloonScale})`;
+            safeSet('balloonMult', 'x' + balloonMult.toFixed(2));
+        }
+
+        function cashoutBalloon() {
+            if (balloonPopped || balloonMult <= 1.00) return alert("Нечего забирать!");
+            const win = Math.floor(20 * balloonMult * 4);
+            currentBalance += win;
+            soundWin();
+            alert(`🎈 Куш зафиксирован! +${win} 💎!`);
+            addNotification("Краш Шарик", `Забрали куш +${win} 💎 на x${balloonMult}`);
+            updateBalanceViews();
+
+            balloonScale = 1.0;
+            balloonMult = 1.00;
+            const elem = document.getElementById('balloonElem');
+            elem.innerText = '1.0x';
+            elem.style.transform = 'scale(1.0)';
+            safeSet('balloonMult', 'x1.00');
+        }
+
+        // ==================== 10. РУЛЕТКА КЕЙСА ====================
+        const caseRewards = [100, 200, 300, 500, 750, 1000, 2500, 5000, 10000];
+        function initCaseTape() {
+            const tape = document.getElementById('caseTape');
+            if (!tape) return;
+            tape.innerHTML = '';
+            for (let i = 0; i < 40; i++) {
+                const rew = caseRewards[Math.floor(Math.random() * caseRewards.length)];
+                const div = document.createElement('div');
+                div.className = 'case-item-slot';
+                div.innerHTML = `<span style="font-size:18px;">💎</span><span>${rew}</span>`;
+                tape.appendChild(div);
+            }
+        }
+
+        function spinCase() {
+            if (currentBalance < 500) return alert("Недостаточно кристаллов (нужно 500 💎)!");
             currentBalance -= 500;
-            const reward = Math.floor(Math.random() * 800) + 200;
-            currentBalance += reward;
-            alert(`🎁 Выпало: +${reward} 💎!`);
-            addNotification("Кейс", `Получено +${reward} 💎`);
             updateBalanceViews();
+
+            const tape = document.getElementById('caseTape');
+            const btn = document.getElementById('btnOpenCase');
+            btn.disabled = true;
+            soundClick();
+
+            initCaseTape();
+            tape.style.transition = 'none';
+            tape.style.transform = 'translateX(0px)';
+
+            setTimeout(() => {
+                tape.style.transition = 'transform 3.5s cubic-bezier(0.12, 0.8, 0.33, 1)';
+                const randomOffset = Math.floor(Math.random() * 80) + 1800;
+                tape.style.transform = `translateX(-${randomOffset}px)`;
+            }, 50);
+
+            setTimeout(() => {
+                const prize = caseRewards[Math.floor(Math.random() * caseRewards.length)];
+                currentBalance += prize;
+                soundWin();
+                alert(`🎁 Из кейса выпало: +${prize.toLocaleString('ru-RU')} 💎!`);
+                addNotification("Кейс", `Выпал приз +${prize} 💎`);
+                updateBalanceViews();
+                btn.disabled = false;
+            }, 3600);
         }
 
-        // === 6. АДМИНКА ===
+        // ==================== 11. СТРИКИ И МАГАЗИН ====================
+        function claimStreak(day) {
+            soundWin();
+            const reward = day * 50;
+            addBalance(reward);
+            alert(`🔥 Награда за День ${day}: +${reward} 💎 зачислена!`);
+            safeSet('streakBadge', `День ${day}`);
+        }
+
+        function claimTask(btn, reward, link) {
+            if (link) window.open(link, '_blank');
+            setTimeout(() => {
+                addBalance(reward);
+                btn.innerText = 'Выполнено ✅';
+                btn.disabled = true;
+                btn.style.background = '#15301f';
+                btn.style.color = '#7fa98f';
+            }, 500);
+        }
+
+        function buyItem(name, price) {
+            if (currentBalance < price) return alert("Недостаточно кристаллов!");
+            currentBalance -= price;
+            updateBalanceViews();
+            soundWin();
+            alert(`✅ Товар «${name}» успешно приобретен!`);
+            addNotification("Магазин", `Куплен «${name}» за ${price} 💎`);
+        }
+
+        function copyRefLink() {
+            const link = `https://t.me/Vetruchkick_bot?start=ref_${userId}`;
+            if (navigator.clipboard) navigator.clipboard.writeText(link);
+            soundClick();
+            alert(`👑 Реферальная ссылка скопирована в буфер!\n\n${link}`);
+        }
+
+        // ==================== 12. АДМИН-ПАНЕЛЬ ====================
         function openAdmin() {
+            soundClick();
             document.getElementById('adminModal').style.display = 'flex';
         }
         function closeAdmin() {
@@ -883,25 +1428,23 @@
 
         function adminGiveSelf(amount) {
             addBalance(amount);
-            alert(`✅ Вы начислили себе +${amount} 💎!`);
+            alert(`✅ Вы успешно начислили себе +${amount.toLocaleString('ru-RU')} 💎!`);
             closeAdmin();
         }
 
         function submitAdminGive() {
             const target = document.getElementById('adminTargetId').value.trim();
             const amount = parseInt(document.getElementById('adminAmount').value.trim(), 10);
-            if (!target || isNaN(amount) || amount <= 0) return alert("Введите ID и сумму!");
+            if (!target || isNaN(amount) || amount <= 0) return alert("Введите корректный ID игрока и сумму!");
 
             if (target === String(userId)) {
                 return adminGiveSelf(amount);
             }
 
             const cmd = `/give ${target} ${amount}`;
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(cmd);
-            }
-            alert(`👑 Команда скопирована: ${cmd}\n\nСейчас откроется бот — просто отправьте эту команду в чат!`);
-            
+            if (navigator.clipboard) navigator.clipboard.writeText(cmd);
+            alert(`👑 Команда скопирована: ${cmd}\n\nСейчас откроется чат с ботом. Отправьте эту команду туда!`);
+
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.openTelegramLink(`https://t.me/Vetruchkick_bot?start=give_${target}_${amount}`);
             } else {
@@ -910,7 +1453,7 @@
             closeAdmin();
         }
 
-        // === 7. СТАРТ ===
+        // ==================== 13. ИНИЦИАЛИЗАЦИЯ СТРАНИЦЫ ====================
         window.addEventListener('DOMContentLoaded', () => {
             safeSet('headerName', userName);
             safeSet('headerTag', userTag);
@@ -918,11 +1461,16 @@
             safeSet('profTag', userTag);
             safeSet('profId', userId);
 
+            // Показываем кнопку админки только админам
             if (ADMIN_IDS.includes(String(userId))) {
                 const adm = document.getElementById('adminBtnContainer');
                 if (adm) adm.style.display = 'block';
             }
 
+            saveStats();
+            initCaseTape();
+
+            // Плавная анимация набора цифр с 0
             setTimeout(() => {
                 animateValue('topBalance', 0, currentBalance, 1100);
                 animateValue('midBalance', 0, currentBalance, 1100);
