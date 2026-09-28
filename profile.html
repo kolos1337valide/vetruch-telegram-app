@@ -33,7 +33,7 @@
             justify-content: center;
             align-items: center;
             z-index: 99999;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
         }
         .logo-circle {
             width: 80px; height: 80px;
@@ -82,7 +82,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ================= ДИЗАЙН ШАПКИ (KCEP + КОЛОКОЛЬЧИК) ================= */
+        /* ШАПКА */
         .kcep-header {
             display: flex;
             justify-content: space-between;
@@ -258,7 +258,7 @@
             background: #152c1d;
         }
 
-        /* ================= НОВАЯ КАРТОЧКА БАЛАНСА ПО ЦЕНТРУ ================= */
+        /* КАРТОЧКА БАЛАНСА */
         .kcep-user-balance-card {
             padding: 16px 20px;
             background: linear-gradient(135deg, #0d1e13 0%, #07150c 100%);
@@ -294,7 +294,7 @@
             text-shadow: 0 0 20px rgba(0, 230, 118, 0.35);
         }
 
-        /* Стрики */
+        /* СТРИКИ */
         .kcep-streak-card {
             display: flex;
             gap: 14px;
@@ -358,7 +358,6 @@
             border-radius: 8px;
         }
 
-        /* Кнопки */
         .action-btn {
             width: 100%; background: #00e676; color: #041409;
             font-weight: 900; font-size: 16px; border: none;
@@ -373,7 +372,7 @@
             cursor: not-allowed !important; font-size: 14px;
         }
 
-        /* ХАБ ИГР */
+        /* ИГРЫ */
         .game-select-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 18px;
             padding: 18px; margin-bottom: 14px; display: flex; justify-content: space-between;
@@ -395,7 +394,6 @@
             background: #0b1710; border: 1px solid #1a3824; border-radius: 24px; padding: 18px; width: 100%;
         }
 
-        /* 1. КУБИКИ */
         .dice-arena {
             background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
             border: 2px solid #1b4728; border-radius: 22px; height: 145px;
@@ -451,7 +449,7 @@
         .target-btn span { color: #00e676; font-size: 11px; font-weight: 900; }
         .target-btn:active { transform: scale(0.96); background: #142e1d; }
 
-        /* 2. КАРТЫ */
+        /* КАРТЫ */
         .card-arena {
             background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
             border: 2px solid #1b4728; border-radius: 22px; padding: 18px 10px;
@@ -487,7 +485,7 @@
             border-radius: 10px; font-size: 13px; font-weight: 900; cursor: pointer;
         }
 
-        /* 3. ШАРИК */
+        /* ШАРИК */
         .balloon-arena {
             background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
             border: 2px solid #1b4728; border-radius: 22px; height: 190px;
@@ -543,7 +541,7 @@
         }
         .notice-title { font-weight: 900; color: #00e676; font-size: 14px; margin-bottom: 4px; }
 
-        /* ПРОФИЛЬ SUBO */
+        /* ПРОФИЛЬ */
         .subo-user-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 24px;
             padding: 16px 18px; display: flex; align-items: center; gap: 16px;
@@ -607,7 +605,6 @@
             font-size: 14px; font-weight: 900; cursor: pointer;
         }
 
-        /* АДМИН-ПАНЕЛЬ */
         .admin-box {
             background: #0c1810; border: 2px solid #00e676; border-radius: 20px;
             padding: 16px; margin-bottom: 16px; box-shadow: 0 0 25px rgba(0, 230, 118, 0.2);
@@ -628,7 +625,6 @@
             cursor: pointer; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.35);
         }
 
-        /* ТРАНЗАКЦИИ */
         .tx-list { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .tx-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 18px;
@@ -677,6 +673,7 @@
 </head>
 <body>
 
+    <!-- ЭКРАН ЗАГРУЗКИ -->
     <div id="preloader">
         <div class="logo-circle">🍀</div>
         <div class="loader-title">VETRUCH EMERALD</div>
@@ -702,10 +699,10 @@
 
     <div class="content">
 
-        <!-- 1. ГЛАВНАЯ (ОБНОВЛЁННАЯ) -->
+        <!-- 1. ГЛАВНАЯ -->
         <div class="tab-page active" id="tab-home">
             
-            <!-- Шапка: Аватар + Приветствие + КОЛОКОЛЬЧИК И БАЛАНС СПРАВА -->
+            <!-- Шапка: Аватар + Приветствие + Колокольчик и Баланс -->
             <div class="kcep-header">
                 <div class="kcep-user-block">
                     <div class="kcep-avatar-circle" id="homeAvatar">🐱</div>
@@ -715,7 +712,6 @@
                     </div>
                 </div>
 
-                <!-- Колокольчик и баланс справа -->
                 <div class="kcep-header-right">
                     <div class="kcep-bell-btn" onclick="openNoticeModal()">
                         <span>🔔</span>
@@ -728,18 +724,16 @@
                 </div>
             </div>
 
-            <!-- Главная большая карточка статистики -->
+            <!-- Большая карточка статистики -->
             <div class="kcep-card kcep-main-stat">
                 <div class="kcep-stat-top-title">
                     <span>💵</span> ВСЕГО ВЫПЛАЧЕНО ЗРИТЕЛЯМ
                 </div>
 
-                <!-- Главная огромная сумма (с анимацией) -->
-                <div class="kcep-huge-amount">
+                <div class="kcep-huge-amount" id="hugeRewardWrap">
                     <span id="hugeRewardAnim">0</span> <span style="font-size: 30px; color: #ffca28;">₽</span>
                 </div>
 
-                <!-- 2 колонки внизу с разделителем -->
                 <div class="kcep-sub-stats-grid">
                     <div class="kcep-col">
                         <div class="kcep-col-val">
@@ -759,7 +753,7 @@
                 </div>
             </div>
 
-            <!-- НОВАЯ КАРТОЧКА: ТВОЙ БАЛАНС КРИСТАЛЛОВ МЕЖДУ КАРТОЧКАМИ -->
+            <!-- КАРТОЧКА БАЛАНСА ПО ЦЕНТРУ -->
             <div class="kcep-card kcep-user-balance-card">
                 <div class="balance-card-sub">
                     <span style="display: flex; align-items: center; gap: 6px;">
@@ -773,7 +767,7 @@
                 </div>
             </div>
 
-            <!-- Карточка: Стрики / Ежедневный бонус -->
+            <!-- Карточка: Стрики -->
             <div class="kcep-card kcep-streak-card">
                 <div class="kcep-streak-icon-box">
                     <span>🔥</span>
@@ -831,7 +825,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 1: КУБИКИ -->
+            <!-- 1: КУБИКИ -->
             <div id="game-dice-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎲 Бросок кубиков 2–12</h2>
@@ -875,7 +869,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 2: КАРТЫ -->
+            <!-- 2: КАРТЫ -->
             <div id="game-card-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🃏 Угадай Карту</h2>
@@ -911,7 +905,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 3: ШАРИК -->
+            <!-- 3: ШАРИК -->
             <div id="game-balloon-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎈 Изумрудный Шарик (RTP 95%)</h2>
@@ -1059,7 +1053,6 @@
                 </div>
             </div>
 
-            <!-- АДМИН-ПАНЕЛЬ -->
             <div class="admin-box" id="adminBox">
                 <div class="admin-header">👑 Админ-панель (Накрутка)</div>
                 <div class="admin-form">
@@ -1104,38 +1097,37 @@
     </div>
 
     <script>
+        // Безопасный сеттер текста (никогда не крашит скрипт)
+        function safeSet(id, text) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+
         const tg = window.Telegram?.WebApp;
-        if (tg) tg.expand();
+        if (tg) {
+            try { tg.expand(); } catch(e) {}
+        }
 
         const urlParams = new URLSearchParams(window.location.search);
 
-        // 1. Сначала пробуем взять из Telegram WebApp
-        // 2. Если Телеграм Desktop затупил — берём реальные данные из ссылки бота!
+        // Получаем РЕАЛЬНЫЕ данные вошедшего игрока
         let rawUserId = tg?.initDataUnsafe?.user?.id 
                      || urlParams.get('id') 
-                     || 'ID' + Math.floor(100000 + Math.random() * 900000);
+                     || 'player';
 
         let rawUsername = tg?.initDataUnsafe?.user?.first_name 
-                       || urlParams.get('name') 
-                       || 'Игрок';
+                       || (urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : 'kolos.');
 
         let rawHandle = tg?.initDataUnsafe?.user?.username 
                       ? '@' + tg.initDataUnsafe.user.username 
-                      : (urlParams.get('user') ? '@' + urlParams.get('user') : '');
+                      : (urlParams.get('user') ? '@' + urlParams.get('user') : '@euphoria142');
 
         const userId = String(rawUserId);
 
-        // Обновляем ник и юзернейм на странице
-        document.getElementById('username').innerText = rawUsername;
-        document.getElementById('suboName').innerText = rawUsername;
-        document.getElementById('suboHandle').innerText = rawHandle || '@id' + userId;
-        document.getElementById('suboId').innerText = 'ID: ' + userId;
-        const userId = String(rawUserId);
-
-        document.getElementById('username').innerText = rawUsername;
-        document.getElementById('suboName').innerText = rawUsername;
-        document.getElementById('suboHandle').innerText = rawHandle;
-        document.getElementById('suboId').innerText = 'ID: ' + userId;
+        safeSet('username', rawUsername);
+        safeSet('suboName', rawUsername);
+        safeSet('suboHandle', rawHandle);
+        safeSet('suboId', 'ID: ' + userId);
 
         const ADMIN_IDS = ['1067693099', '978548564'];
         if (ADMIN_IDS.includes(userId)) {
@@ -1145,10 +1137,9 @@
             if (adminInput) adminInput.value = userId;
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
         let realUsersTarget = parseInt(urlParams.get('users'), 10) || 4;
 
-        // ================= НАДЁЖНОЕ ХРАНЕНИЕ БАЛАНСА =================
+        // ================= НАДЁЖНОЕ ХРАНЕНИЕ =================
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
         const STORAGE_CLAIM_KEY = 'vetruch_claim_time_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
@@ -1179,14 +1170,13 @@
             });
         }
 
-        // ================= ПЛАВНАЯ АНИМАЦИЯ НАРАСТАНИЯ ЧИСЕЛ =================
+        // ================= АНИМАЦИЯ ЧИСЕЛ =================
         function animateCounter(el, start, end, duration) {
             if (!el) return;
             const startTime = performance.now();
             function updateNumber(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                // Эффект замедления (easeOutExpo / easeOutCubic)
                 const easeOut = 1 - Math.pow(1 - progress, 3);
                 const currentVal = Math.floor(start + (end - start) * easeOut);
                 
@@ -1202,42 +1192,44 @@
         }
 
         function runCountersIntro() {
-            // 1. Огромная сумма 22 666 854 ₽
-            animateCounter(document.getElementById('hugeRewardAnim'), 0, 0, 1600);
-            // 2. Баланс в шапке
+            animateCounter(document.getElementById('hugeRewardAnim'), 0, 22666854, 1600);
             animateCounter(document.getElementById('headerBalance'), 0, score, 1400);
-            // 3. Баланс по центру (в новой карточке)
             animateCounter(document.getElementById('centerBalanceAnim'), 0, score, 1400);
-            // 4. Количество пользователей
             animateCounter(document.getElementById('userCountDisplay'), 0, realUsersTarget, 1000);
-            // 5. Монет заработано
             animateCounter(document.getElementById('totalEarnedDisplay'), 0, totalEarned, 1500);
         }
 
-        // Прелоадер
+        // ================= ПРЕЛОАДЕР С ЖЕЛЕЗНОЙ ЗАЩИТОЙ =================
+        function forceClosePreloader() {
+            const preloader = document.getElementById('preloader');
+            if (preloader && preloader.style.display !== 'none') {
+                preloader.style.opacity = '0';
+                setTimeout(() => { 
+                    preloader.style.display = 'none'; 
+                    runCountersIntro();
+                }, 250);
+            }
+        }
+
         let progress = 0;
         const progressBar = document.getElementById('progress');
-        const preloader = document.getElementById('preloader');
-
         const interval = setInterval(() => {
-            progress += 10;
-            progressBar.style.width = progress + '%';
+            progress += 20;
+            if (progressBar) progressBar.style.width = progress + '%';
             if (progress >= 100) {
                 clearInterval(interval);
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                    // ЗАПУСКАЕМ КРАСИВУЮ АНИМАЦИЮ ЧИСЕЛ СРАЗУ ПОСЛЕ ЗАГРУЗКИ!
-                    runCountersIntro();
-                }, 300);
+                forceClosePreloader();
             }
-        }, 20);
+        }, 30);
+
+        // Если что-то пошло не так — принудительно открыть через 0.6 сек
+        setTimeout(forceClosePreloader, 600);
 
         function switchTab(tabName, btnElement) {
             if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
             document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
+            document.getElementById('tab-' + tabName)?.classList.add('active');
             if (btnElement) btnElement.classList.add('active');
 
             if (tabName === 'games') {
@@ -1251,20 +1243,23 @@
         }
 
         function openGameScreen(screen) {
-            document.getElementById('games-hub-view').style.display = 'none';
-            document.getElementById('game-dice-view').style.display = 'none';
-            document.getElementById('game-card-view').style.display = 'none';
-            document.getElementById('game-balloon-view').style.display = 'none';
+            const hub = document.getElementById('games-hub-view');
+            const dice = document.getElementById('game-dice-view');
+            const card = document.getElementById('game-card-view');
+            const balloon = document.getElementById('game-balloon-view');
 
-            if (screen === 'hub') {
-                document.getElementById('games-hub-view').style.display = 'block';
-            } else if (screen === 'dice') {
-                document.getElementById('game-dice-view').style.display = 'block';
-            } else if (screen === 'card') {
-                document.getElementById('game-card-view').style.display = 'block';
+            if (hub) hub.style.display = 'none';
+            if (dice) dice.style.display = 'none';
+            if (card) card.style.display = 'none';
+            if (balloon) balloon.style.display = 'none';
+
+            if (screen === 'hub' && hub) hub.style.display = 'block';
+            else if (screen === 'dice' && dice) dice.style.display = 'block';
+            else if (screen === 'card' && card) {
+                card.style.display = 'block';
                 initCardGameUI();
-            } else if (screen === 'balloon') {
-                document.getElementById('game-balloon-view').style.display = 'block';
+            } else if (screen === 'balloon' && balloon) {
+                balloon.style.display = 'block';
                 resetBalloonUI();
             }
             if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
@@ -1274,19 +1269,12 @@
             score = parseInt(score, 10) || 0;
             const formatted = score.toLocaleString('ru-RU');
             
-            document.querySelectorAll('.sync-balance').forEach(el => {
-                el.innerText = formatted;
-            });
-            
-            const headBal = document.getElementById('headerBalance');
-            if (headBal) headBal.innerText = formatted;
-            
-            const centerBal = document.getElementById('centerBalanceAnim');
-            if (centerBal) centerBal.innerText = formatted;
-
-            document.getElementById('totalEarnedDisplay').innerText = totalEarned.toLocaleString('ru-RU');
-            document.getElementById('profileEarnedVal').innerText = totalEarned.toLocaleString('ru-RU');
-            document.getElementById('profileSpentVal').innerText = totalSpent.toLocaleString('ru-RU');
+            document.querySelectorAll('.sync-balance').forEach(el => { el.innerText = formatted; });
+            safeSet('headerBalance', formatted);
+            safeSet('centerBalanceAnim', formatted);
+            safeSet('totalEarnedDisplay', totalEarned.toLocaleString('ru-RU'));
+            safeSet('profileEarnedVal', totalEarned.toLocaleString('ru-RU'));
+            safeSet('profileSpentVal', totalSpent.toLocaleString('ru-RU'));
 
             localStorage.setItem(STORAGE_BALANCE_KEY, score);
             localStorage.setItem(STORAGE_EARNED_KEY, totalEarned);
@@ -1299,7 +1287,7 @@
         }
         updateBalances();
 
-        // ================= УВЕДОМЛЕНИЯ О ПОПОЛНЕНИИ =================
+        // ================= УВЕДОМЛЕНИЯ =================
         function getNotices() {
             try { return JSON.parse(localStorage.getItem(STORAGE_NOTICES_KEY)) || []; } catch(e) { return []; }
         }
@@ -1335,6 +1323,8 @@
             const body = document.getElementById('noticeModalBody');
             const list = getNotices();
 
+            if (!modal || !body) return;
+
             if (list.length === 0) {
                 body.innerHTML = `
                     <div style="text-align: center; color: #5a7d66; padding: 25px 10px;">
@@ -1362,13 +1352,15 @@
 
         function closeNoticeModal(e) {
             if (!e || e.target.id === 'noticeModal' || e.target.classList.contains('modal-close-btn')) {
-                document.getElementById('noticeModal').style.display = 'none';
+                const modal = document.getElementById('noticeModal');
+                if (modal) modal.style.display = 'none';
             }
         }
 
         // ================= ПРОМОКОДЫ =================
         function applyPromoCode() {
             const input = document.getElementById('promoInput');
+            if (!input) return;
             const code = input.value.trim().toUpperCase();
 
             let usedPromos = [];
@@ -1461,6 +1453,7 @@
 
         function renderTransactions() {
             const list = document.getElementById('transactionList');
+            if (!list) return;
             const txs = getTransactions();
 
             if (txs.length === 0) {
@@ -1495,6 +1488,8 @@
             const now = Date.now();
             const diff = now - lastClaim;
             const btn = document.getElementById('dailyBtn');
+
+            if (!btn) return;
 
             if (diff >= COOLDOWN_24H) {
                 btn.disabled = false;
@@ -1540,6 +1535,7 @@
         };
 
         function setDiceFace(diceElement, val) {
+            if (!diceElement) return;
             const pips = diceElement.querySelectorAll('.pip');
             pips.forEach(p => p.style.visibility = 'hidden');
             const pattern = dicePatterns[val] || [4];
@@ -1548,8 +1544,8 @@
 
         const d1 = document.getElementById('dice1');
         const d2 = document.getElementById('dice2');
-        setDiceFace(d1, 3);
-        setDiceFace(d2, 4);
+        if (d1) setDiceFace(d1, 3);
+        if (d2) setDiceFace(d2, 4);
 
         const RTP_DICE = 0.93;
         const TOTAL_NUMBERS = 11;
@@ -1579,6 +1575,7 @@
 
         function renderTargets() {
             const container = document.getElementById('targetsContainer');
+            if (!container) return;
             container.innerHTML = '';
 
             if (currentMode === 'more') {
@@ -1616,9 +1613,9 @@
             isRolling = true;
 
             const status = document.getElementById('diceStatus');
-            status.innerText = "Бросок кубиков...";
-            d1.classList.add('rolling');
-            d2.classList.add('rolling');
+            if (status) status.innerText = "Бросок кубиков...";
+            if (d1) d1.classList.add('rolling');
+            if (d2) d2.classList.add('rolling');
 
             let shuffleCount = 0;
             const shuffleInterval = setInterval(() => {
@@ -1627,8 +1624,8 @@
                 shuffleCount++;
                 if (shuffleCount > 10) {
                     clearInterval(shuffleInterval);
-                    d1.classList.remove('rolling');
-                    d2.classList.remove('rolling');
+                    if (d1) d1.classList.remove('rolling');
+                    if (d2) d2.classList.remove('rolling');
 
                     const finalSum = Math.floor(Math.random() * 11) + 2;
                     let val1 = Math.floor(Math.random() * (Math.min(6, finalSum - 1) - Math.max(1, finalSum - 6) + 1)) + Math.max(1, finalSum - 6);
@@ -1642,12 +1639,16 @@
                         score += winAmount;
                         totalEarned += winAmount;
                         updateBalances();
-                        status.innerText = `🎉 ВЫПАЛО: ${finalSum} | +${winAmount} 💎`;
-                        status.style.color = "#00e676";
+                        if (status) {
+                            status.innerText = `🎉 ВЫПАЛО: ${finalSum} | +${winAmount} 💎`;
+                            status.style.color = "#00e676";
+                        }
                         addTransaction(`Победа в кубиках (${finalSum})`, winAmount, "plus");
                     } else {
-                        status.innerText = `💀 ВЫПАЛО: ${finalSum} | -${currentDiceBet} 💎`;
-                        status.style.color = "#ff5252";
+                        if (status) {
+                            status.innerText = `💀 ВЫПАЛО: ${finalSum} | -${currentDiceBet} 💎`;
+                            status.style.color = "#ff5252";
+                        }
                         addTransaction(`Бросок кубиков (${finalSum})`, currentDiceBet, "minus");
                     }
                     isRolling = false;
@@ -1687,18 +1688,26 @@
             cardMultiplier = 1.0;
             guessedColor = null;
 
-            document.getElementById('cardFlipElement').classList.remove('flipped');
-            document.getElementById('cardStageText').innerText = "Шаг 1 из 3: Цвет (x1.2)";
-            document.getElementById('cardStatus').innerText = "Угадайте цвет карты:";
-            document.getElementById('cardStatus').style.color = "#69f0ae";
-            document.getElementById('cardChipsContainer').style.opacity = "1";
-            document.getElementById('cardChipsContainer').style.pointerEvents = "auto";
+            const flipEl = document.getElementById('cardFlipElement');
+            if (flipEl) flipEl.classList.remove('flipped');
+            safeSet('cardStageText', "Шаг 1 из 3: Цвет (x1.2)");
+            const status = document.getElementById('cardStatus');
+            if (status) {
+                status.innerText = "Угадайте цвет карты:";
+                status.style.color = "#69f0ae";
+            }
+            const chips = document.getElementById('cardChipsContainer');
+            if (chips) {
+                chips.style.opacity = "1";
+                chips.style.pointerEvents = "auto";
+            }
 
             renderCardControls();
         }
 
         function renderCardControls() {
             const area = document.getElementById('cardControlsArea');
+            if (!area) return;
             if (cardLocked) {
                 area.innerHTML = `<div style="text-align: center; color: #5a7d66; padding: 10px;">Карта открыта...</div>`;
                 return;
@@ -1755,13 +1764,16 @@
                 secretCard = { suit: randSuit, rank: randRank };
 
                 const face = document.getElementById('cardFaceFront');
-                face.className = 'card-face-side card-face-front ' + randSuit.color;
-                document.getElementById('cardRankVal').innerText = randRank;
-                document.getElementById('cardSuitVal').innerText = randSuit.symbol;
+                if (face) face.className = 'card-face-side card-face-front ' + randSuit.color;
+                safeSet('cardRankVal', randRank);
+                safeSet('cardSuitVal', randSuit.symbol);
 
                 cardGameActive = true;
-                document.getElementById('cardChipsContainer').style.opacity = "0.4";
-                document.getElementById('cardChipsContainer').style.pointerEvents = "none";
+                const chips = document.getElementById('cardChipsContainer');
+                if (chips) {
+                    chips.style.opacity = "0.4";
+                    chips.style.pointerEvents = "none";
+                }
             }
 
             const status = document.getElementById('cardStatus');
@@ -1771,9 +1783,11 @@
                     guessedColor = choice;
                     cardMultiplier = 1.2;
                     cardStep = 2;
-                    document.getElementById('cardStageText').innerText = "Шаг 2 из 3: Масть (x2.0)";
-                    status.innerText = "🎉 Цвет угадан! Выбери одну из 2 мастей:";
-                    status.style.color = "#00e676";
+                    safeSet('cardStageText', "Шаг 2 из 3: Масть (x2.0)");
+                    if (status) {
+                        status.innerText = "🎉 Цвет угадан! Выбери одну из 2 мастей:";
+                        status.style.color = "#00e676";
+                    }
                     renderCardControls();
                 } else {
                     finishCardRound(false, "Цвет не совпал!");
@@ -1782,9 +1796,11 @@
                 if (secretCard.suit.id === choice) {
                     cardMultiplier = 2.0;
                     cardStep = 3;
-                    document.getElementById('cardStageText').innerText = "Шаг 3 из 3: Точная Карта (x5.0)";
-                    status.innerText = "🔥 Масть угадана! Угадай карту или забери куш:";
-                    status.style.color = "#00e676";
+                    safeSet('cardStageText', "Шаг 3 из 3: Точная Карта (x5.0)");
+                    if (status) {
+                        status.innerText = "🔥 Масть угадана! Угадай карту или забери куш:";
+                        status.style.color = "#00e676";
+                    }
                     renderCardControls();
                 } else {
                     finishCardRound(false, "Масть не совпала!");
@@ -1818,11 +1834,14 @@
             cardGameActive = false;
             cardLocked = true;
 
-            document.getElementById('cardFlipElement').classList.add('flipped');
+            const flipEl = document.getElementById('cardFlipElement');
+            if (flipEl) flipEl.classList.add('flipped');
 
             const status = document.getElementById('cardStatus');
-            status.innerText = text;
-            status.style.color = isWin ? "#00e676" : "#ff5252";
+            if (status) {
+                status.innerText = text;
+                status.style.color = isWin ? "#00e676" : "#ff5252";
+            }
 
             if (!isWin) {
                 addTransaction(`Проигрыш в картах`, currentCardBet, 'minus');
@@ -1831,7 +1850,7 @@
             renderCardControls();
 
             setTimeout(() => {
-                document.getElementById('cardFlipElement').classList.remove('flipped');
+                if (flipEl) flipEl.classList.remove('flipped');
                 setTimeout(() => {
                     initCardGameUI();
                 }, 600);
@@ -1861,15 +1880,24 @@
         function resetBalloonUI() {
             isHoldingBalloon = false;
             clearInterval(balloonTimer);
-            balloonSphere.className = 'balloon-sphere';
-            balloonSphere.style.transform = 'scale(1)';
-            balloonMultText.innerText = '1.00x';
-            balloonStatus.innerText = 'Зажми кнопку, чтобы надувать';
-            balloonStatus.style.color = '#69f0ae';
-            balloonPumpBtn.classList.remove('holding');
-            balloonPumpBtn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
-            document.getElementById('balloonChipsContainer').style.opacity = '1';
-            document.getElementById('balloonChipsContainer').style.pointerEvents = 'auto';
+            if (balloonSphere) {
+                balloonSphere.className = 'balloon-sphere';
+                balloonSphere.style.transform = 'scale(1)';
+            }
+            safeSet('balloonMultText', '1.00x');
+            if (balloonStatus) {
+                balloonStatus.innerText = 'Зажми кнопку, чтобы надувать';
+                balloonStatus.style.color = '#69f0ae';
+            }
+            if (balloonPumpBtn) {
+                balloonPumpBtn.classList.remove('holding');
+                balloonPumpBtn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
+            }
+            const chips = document.getElementById('balloonChipsContainer');
+            if (chips) {
+                chips.style.opacity = '1';
+                chips.style.pointerEvents = 'auto';
+            }
         }
 
         function startBalloonPump(e) {
@@ -1877,8 +1905,10 @@
             if (isHoldingBalloon) return;
 
             if (score < currentBalloonBet) {
-                balloonStatus.innerText = "❌ Недостаточно кристаллов!";
-                balloonStatus.style.color = "#ff5252";
+                if (balloonStatus) {
+                    balloonStatus.innerText = "❌ Недостаточно кристаллов!";
+                    balloonStatus.style.color = "#ff5252";
+                }
                 if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
                 return;
             }
@@ -1893,15 +1923,24 @@
 
             isHoldingBalloon = true;
             currentBalloonMult = 1.00;
-            balloonSphere.className = 'balloon-sphere';
-            balloonSphere.style.transform = 'scale(1)';
-            balloonMultText.innerText = '1.00x';
+            if (balloonSphere) {
+                balloonSphere.className = 'balloon-sphere';
+                balloonSphere.style.transform = 'scale(1)';
+            }
+            safeSet('balloonMultText', '1.00x');
 
-            balloonPumpBtn.classList.add('holding');
-            balloonPumpBtn.innerText = '🛑 ОТПУСТИ, ЧТОБЫ ЗАБРАТЬ!';
-            balloonStatus.innerText = '💨 Шарик надувается... Отпусти в любой момент!';
-            document.getElementById('balloonChipsContainer').style.opacity = '0.4';
-            document.getElementById('balloonChipsContainer').style.pointerEvents = 'none';
+            if (balloonPumpBtn) {
+                balloonPumpBtn.classList.add('holding');
+                balloonPumpBtn.innerText = '🛑 ОТПУСТИ, ЧТОБЫ ЗАБРАТЬ!';
+            }
+            if (balloonStatus) {
+                balloonStatus.innerText = '💨 Шарик надувается... Отпусти в любой момент!';
+            }
+            const chips = document.getElementById('balloonChipsContainer');
+            if (chips) {
+                chips.style.opacity = '0.4';
+                chips.style.pointerEvents = 'none';
+            }
 
             if (balloonCrashPoint <= 1.00) {
                 popBalloonSphere();
@@ -1911,10 +1950,10 @@
             balloonTimer = setInterval(() => {
                 currentBalloonMult += 0.02;
                 currentBalloonMult = +currentBalloonMult.toFixed(2);
-                balloonMultText.innerText = currentBalloonMult.toFixed(2) + 'x';
+                safeSet('balloonMultText', currentBalloonMult.toFixed(2) + 'x');
 
                 const scale = 1 + (currentBalloonMult - 1) * 0.45;
-                balloonSphere.style.transform = `scale(${Math.min(scale, 2.5)})`;
+                if (balloonSphere) balloonSphere.style.transform = `scale(${Math.min(scale, 2.5)})`;
 
                 if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 
@@ -1936,10 +1975,14 @@
             totalEarned += winAmount;
             updateBalances();
 
-            balloonPumpBtn.classList.remove('holding');
-            balloonPumpBtn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
-            balloonStatus.innerText = `🎉 ЗАБРАЛ! +${winAmount} 💎 (x${currentBalloonMult.toFixed(2)})`;
-            balloonStatus.style.color = '#00e676';
+            if (balloonPumpBtn) {
+                balloonPumpBtn.classList.remove('holding');
+                balloonPumpBtn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
+            }
+            if (balloonStatus) {
+                balloonStatus.innerText = `🎉 ЗАБРАЛ! +${winAmount} 💎 (x${currentBalloonMult.toFixed(2)})`;
+                balloonStatus.style.color = '#00e676';
+            }
 
             addTransaction(`Шарик забрал (x${currentBalloonMult.toFixed(2)})`, winAmount, 'plus');
             if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
@@ -1951,13 +1994,17 @@
             clearInterval(balloonTimer);
             isHoldingBalloon = false;
 
-            balloonPumpBtn.classList.remove('holding');
-            balloonPumpBtn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
-            balloonSphere.classList.add('popped');
-            balloonMultText.innerText = '💥';
+            if (balloonPumpBtn) {
+                balloonPumpBtn.classList.remove('holding');
+                balloonPumpBtn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
+            }
+            if (balloonSphere) balloonSphere.classList.add('popped');
+            safeSet('balloonMultText', '💥');
 
-            balloonStatus.innerText = `💥 БУМ! Лопнул на ${balloonCrashPoint.toFixed(2)}x (-${currentBalloonBet} 💎)`;
-            balloonStatus.style.color = '#ff5252';
+            if (balloonStatus) {
+                balloonStatus.innerText = `💥 БУМ! Лопнул на ${balloonCrashPoint.toFixed(2)}x (-${currentBalloonBet} 💎)`;
+                balloonStatus.style.color = '#ff5252';
+            }
 
             addTransaction(`Взрыв шарика (${balloonCrashPoint.toFixed(2)}x)`, currentBalloonBet, 'minus');
             if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
@@ -1965,9 +2012,11 @@
             setTimeout(resetBalloonUI, 2000);
         }
 
-        balloonPumpBtn.addEventListener('pointerdown', startBalloonPump);
-        window.addEventListener('pointerup', () => { if (isHoldingBalloon) stopBalloonPump(); });
-        window.addEventListener('pointercancel', () => { if (isHoldingBalloon) stopBalloonPump(); });
+        if (balloonPumpBtn) {
+            balloonPumpBtn.addEventListener('pointerdown', startBalloonPump);
+            window.addEventListener('pointerup', () => { if (isHoldingBalloon) stopBalloonPump(); });
+            window.addEventListener('pointercancel', () => { if (isHoldingBalloon) stopBalloonPump(); });
+        }
     </script>
 </body>
 </html>
