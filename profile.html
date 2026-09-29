@@ -33,7 +33,7 @@
             justify-content: center;
             align-items: center;
             z-index: 99999;
-            transition: opacity 0.25s ease;
+            transition: opacity 0.3s ease;
         }
         .logo-circle {
             width: 80px; height: 80px;
@@ -73,7 +73,7 @@
             display: none;
             width: 100%;
             max-width: 400px;
-            animation: fadeIn 0.2s ease;
+            animation: fadeIn 0.25s ease;
         }
         .tab-page.active { display: block; }
 
@@ -88,91 +88,302 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
+            padding: 2px 2px;
         }
-        .kcep-user-block { display: flex; align-items: center; gap: 12px; }
-        .kcep-avatar-circle {
-            width: 48px; height: 48px; border-radius: 50%;
-            background: #102417; border: 2px solid #00e676;
-            display: flex; align-items: center; justify-content: center; font-size: 24px;
-        }
-        .kcep-greeting { display: flex; flex-direction: column; gap: 2px; }
-        .kcep-sub-text { font-size: 12px; color: #698c74; font-weight: 600; }
-        .kcep-nick-text { font-size: 18px; font-weight: 900; color: #ffffff; }
 
-        .kcep-header-right { display: flex; align-items: center; gap: 8px; }
-        .kcep-bell-btn {
-            width: 42px; height: 42px; background: #0d1e13; border: 1px solid #1a4226;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 18px; cursor: pointer; position: relative;
+        .kcep-user-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
+
+        .kcep-avatar-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #102417;
+            border: 2px solid #00e676;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .kcep-greeting {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .kcep-sub-text {
+            font-size: 12px;
+            color: #698c74;
+            font-weight: 600;
+        }
+
+        .kcep-nick-text {
+            font-size: 18px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .kcep-header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kcep-bell-btn {
+            width: 42px;
+            height: 42px;
+            background: #0d1e13;
+            border: 1px solid #1a4226;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.1);
+            transition: transform 0.1s;
+        }
+        .kcep-bell-btn:active { transform: scale(0.92); }
+
         .bell-badge {
-            position: absolute; top: -2px; right: -2px;
-            background: #00e676; color: #041409; font-size: 10px; font-weight: 900;
-            width: 17px; height: 17px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #00e676;
+            color: #041409;
+            font-size: 10px;
+            font-weight: 900;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px #00e676;
         }
 
         .kcep-balance-pill {
-            background: #0d1e13; border: 1px solid #1a4226;
-            padding: 8px 14px; border-radius: 22px;
-            display: flex; align-items: center; gap: 7px;
-            font-weight: 900; font-size: 15px; color: #ffffff;
+            background: #0d1e13;
+            border: 1px solid #1a4226;
+            padding: 8px 14px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-weight: 900;
+            font-size: 15px;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.15);
         }
 
         .kcep-card {
-            background: #0c1810; border: 1px solid #183020;
-            border-radius: 24px; padding: 18px; margin-bottom: 14px; width: 100%;
+            background: #0c1810;
+            border: 1px solid #183020;
+            border-radius: 24px;
+            padding: 20px 18px;
+            margin-bottom: 14px;
+            width: 100%;
         }
 
-        .kcep-main-stat { text-align: center; }
+        .kcep-main-stat {
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            border-color: #1b3824;
+        }
+
         .kcep-stat-top-title {
-            font-size: 11px; font-weight: 900; color: #8fa898;
-            letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 10px;
+            font-size: 11px;
+            font-weight: 900;
+            color: #8fa898;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 12px;
         }
-        .kcep-huge-amount {
-            font-size: 36px; font-weight: 900; color: #ffffff; margin-bottom: 16px;
-        }
-        .kcep-sub-stats-grid {
-            display: flex; justify-content: space-around; align-items: center;
-            border-top: 1px solid #152c1d; padding-top: 14px;
-        }
-        .kcep-col { flex: 1; text-align: center; }
-        .kcep-col-val {
-            font-size: 18px; font-weight: 900; color: #ffffff;
-            display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px;
-        }
-        .kcep-col-lbl { font-size: 10px; font-weight: 800; color: #557962; }
-        .kcep-divider { width: 1px; height: 30px; background: #152c1d; }
 
-        /* КАРТОЧКА БАЛАНСА ПО ЦЕНТРУ */
+        .kcep-huge-amount {
+            font-size: 38px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 18px;
+            text-shadow: 0 0 25px rgba(255, 202, 40, 0.2);
+        }
+
+        .kcep-sub-stats-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #152c1d;
+            padding-top: 16px;
+        }
+
+        .kcep-col {
+            flex: 1;
+            text-align: center;
+        }
+
+        .kcep-col-val {
+            font-size: 18px;
+            font-weight: 900;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .kcep-col-lbl {
+            font-size: 10px;
+            font-weight: 800;
+            color: #557962;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kcep-divider {
+            width: 1px;
+            height: 32px;
+            background: #152c1d;
+        }
+
+        /* КАРТОЧКА БАЛАНСА */
         .kcep-user-balance-card {
+            padding: 16px 20px;
             background: linear-gradient(135deg, #0d1e13 0%, #07150c 100%);
             border: 1px solid #1f472c;
+            box-shadow: 0 6px 25px rgba(0, 230, 118, 0.12);
         }
+
         .balance-card-sub {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 11px; font-weight: 800; color: #698c74; margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: #698c74;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
         }
-        .balance-history-link { color: #00e676; cursor: pointer; font-size: 12px; font-weight: 700; }
+
+        .balance-history-link {
+            color: #00e676;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
         .balance-card-number {
-            font-size: 36px; font-weight: 900; color: #00e676;
-            display: flex; align-items: center; gap: 10px;
+            font-size: 36px;
+            font-weight: 900;
+            color: #00e676;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 20px rgba(0, 230, 118, 0.35);
+        }
+
+        /* СТРИКИ */
+        .kcep-streak-card {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .kcep-streak-icon-box {
+            width: 44px;
+            height: 44px;
+            background: #122619;
+            border: 1px solid #1f422b;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .kcep-streak-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .kcep-streak-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .kcep-streak-desc {
+            font-size: 12px;
+            color: #698c74;
+            line-height: 1.4;
+        }
+
+        .kcep-stream-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+        }
+
+        .kcep-stream-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff5252;
+            box-shadow: 0 0 8px #ff5252;
+        }
+
+        .kcep-stream-badge {
+            font-size: 10px;
+            font-weight: 900;
+            background: #211212;
+            color: #ff5252;
+            border: 1px solid #4a1f1f;
+            padding: 4px 8px;
+            border-radius: 8px;
         }
 
         .action-btn {
             width: 100%; background: #00e676; color: #041409;
             font-weight: 900; font-size: 16px; border: none;
             padding: 15px; border-radius: 16px; cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0, 230, 118, 0.35); margin-top: 10px;
-            transition: transform 0.1s ease;
+            box-shadow: 0 4px 20px rgba(0, 230, 118, 0.4); margin-bottom: 10px;
+            transition: all 0.2s ease;
         }
         .action-btn:active { transform: scale(0.97); }
+        .action-btn.disabled {
+            background: #112217 !important; color: #5a7d66 !important;
+            border: 1px solid #1f3d2a; box-shadow: none !important;
+            cursor: not-allowed !important; font-size: 14px;
+        }
 
-        /* ХАБ ИГР */
+        .earn-btn {
+            background: #0f2216 !important; border: 1px solid #00e676 !important;
+            color: #00e676 !important; font-size: 16px !important;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.2) !important;
+            margin-top: 4px; margin-bottom: 0px;
+        }
+
+        /* ИГРЫ */
         .game-select-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 18px;
             padding: 18px; margin-bottom: 14px; display: flex; justify-content: space-between;
-            align-items: center; cursor: pointer; width: 100%;
+            align-items: center; cursor: pointer; color: inherit; width: 100%;
         }
         .game-select-card:active { transform: scale(0.98); border-color: #00e676; }
         .game-card-btn {
@@ -190,7 +401,6 @@
             background: #0b1710; border: 1px solid #1a3824; border-radius: 24px; padding: 18px; width: 100%;
         }
 
-        /* КУБИКИ */
         .dice-arena {
             background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
             border: 2px solid #1b4728; border-radius: 22px; height: 145px;
@@ -202,17 +412,19 @@
             width: 60px; height: 60px; background: #0c1f13; border: 2px solid #00e676;
             border-radius: 14px; box-shadow: 0 5px 0 #051009, 0 0 15px rgba(0, 230, 118, 0.3);
             display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
-            padding: 6px;
+            padding: 6px; transition: transform 0.1s ease;
         }
         .pip {
             width: 9px; height: 9px; background: #00e676; border-radius: 50%;
             box-shadow: 0 0 6px #00e676; justify-self: center; align-self: center; visibility: hidden;
         }
-        .rolling { animation: diceFly 0.7s infinite; }
+        .rolling { animation: diceFly 0.7s cubic-bezier(0.25, 1, 0.5, 1) infinite; }
         @keyframes diceFly {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-25px) rotate(360deg); }
-            100% { transform: translateY(0) rotate(720deg); }
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            30% { transform: translateY(-30px) rotate(180deg) scale(1.15); }
+            60% { transform: translateY(-10px) rotate(360deg) scale(1.05); }
+            80% { transform: translateY(-25px) rotate(540deg) scale(1.1); }
+            100% { transform: translateY(0) rotate(720deg) scale(1); }
         }
         .sum-badge {
             margin-top: 10px; font-size: 13px; font-weight: 900; color: #00e676;
@@ -226,7 +438,7 @@
             cursor: pointer; text-align: center;
         }
         .chip.active {
-            background: #00e676; color: #041409; border-color: #00e676;
+            background: #00e676; color: #041409; border-color: #00e676; box-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
         }
         .mode-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
         .mode-btn {
@@ -235,19 +447,21 @@
         }
         .mode-btn.active { background: #00e676; color: #041409; border-color: #00e676; }
         .targets-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-height: 190px; overflow-y: auto; }
+        .targets-grid.exact-mode { grid-template-columns: repeat(3, 1fr); }
         .target-btn {
             background: #0e1e14; border: 1px solid #1a3824; color: #ffffff;
             padding: 12px 6px; border-radius: 12px; font-size: 13px; font-weight: 800;
             cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;
         }
         .target-btn span { color: #00e676; font-size: 11px; font-weight: 900; }
+        .target-btn:active { transform: scale(0.96); background: #142e1d; }
 
         /* КАРТЫ */
         .card-arena {
             background: radial-gradient(circle, #0e2b19 0%, #06120b 100%);
             border: 2px solid #1b4728; border-radius: 22px; padding: 18px 10px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            margin-bottom: 16px; min-height: 220px;
+            margin-bottom: 16px; min-height: 220px; box-shadow: inset 0 0 30px rgba(0,0,0,0.7);
         }
         .card-perspective-box { perspective: 800px; width: 95px; height: 140px; margin-bottom: 8px; }
         .card-flip-inner {
@@ -284,6 +498,7 @@
             border: 2px solid #1b4728; border-radius: 22px; height: 190px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             margin-bottom: 16px; position: relative; overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.7);
         }
         .balloon-sphere {
             width: 75px; height: 75px; border-radius: 50%;
@@ -295,6 +510,7 @@
         .balloon-sphere.popped { animation: popBoom 0.3s forwards ease-out; }
         @keyframes popBoom {
             0% { transform: scale(1.6); filter: brightness(2); }
+            50% { transform: scale(2.0); opacity: 0.8; filter: hue-rotate(140deg); }
             100% { transform: scale(0); opacity: 0; }
         }
         .pump-btn {
@@ -304,7 +520,7 @@
         }
         .pump-btn:active, .pump-btn.holding {
             background: linear-gradient(180deg, #ffca28 0%, #f57f17 100%);
-            box-shadow: 0 4px 25px rgba(255, 202, 40, 0.5); color: #261600;
+            box-shadow: 0 4px 25px rgba(255, 202, 40, 0.5); color: #261600; transform: scale(0.98);
         }
 
         /* ПРОФИЛЬ SUBO */
@@ -315,13 +531,30 @@
         }
         .subo-avatar-wrap {
             width: 64px; height: 64px; border-radius: 50%; border: 2px solid #00e676;
-            display: flex; align-items: center; justify-content: center; background: #142a1c;
-            font-size: 32px; flex-shrink: 0;
+            box-shadow: 0 0 16px rgba(0, 230, 118, 0.35); display: flex; align-items: center;
+            justify-content: center; background: #142a1c; font-size: 32px; flex-shrink: 0;
         }
         .subo-user-info { display: flex; flex-direction: column; gap: 3px; }
         .subo-user-name { font-size: 18px; font-weight: 900; color: #ffffff; }
         .subo-user-handle { font-size: 13px; color: #5a7d66; font-weight: 600; }
         .subo-user-id { font-size: 12px; color: #4e735a; font-weight: 700; }
+
+        .referral-card {
+            background: #0c1810; border: 1px solid #183020; border-radius: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            overflow: hidden; margin-bottom: 12px; width: 100%; cursor: pointer;
+        }
+        .ref-left { display: flex; align-items: center; gap: 12px; padding: 14px 16px; flex: 1; }
+        .ref-icon {
+            width: 42px; height: 42px; background: #112617; border: 1px solid #1a3d24;
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;
+        }
+        .ref-title { font-size: 15px; font-weight: 900; color: #ffffff; }
+        .ref-sub { font-size: 11px; color: #4e735a; margin-top: 3px; font-weight: 600; }
+        .ref-badge {
+            background: #00e676; color: #041409; font-weight: 900; font-size: 13px;
+            padding: 18px 18px 18px 24px; clip-path: polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
 
         .subo-stats-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 12px;
@@ -330,9 +563,15 @@
             background: #0c1810; border: 1px solid #183020; border-radius: 20px; padding: 16px;
             display: flex; flex-direction: column; justify-content: space-between; min-height: 108px;
         }
+        .subo-stat-card.clickable { cursor: pointer; }
         .subo-stat-val { font-size: 20px; font-weight: 900; color: #ffffff; margin-top: 8px; }
         .subo-stat-val.green { color: #00e676; text-shadow: 0 0 12px rgba(0, 230, 118, 0.3); }
         .subo-stat-sub { font-size: 11px; color: #4e735a; font-weight: 700; margin-top: 4px; }
+
+        .cases-card {
+            background: #0c1810; border: 1px solid #183020; border-radius: 18px; padding: 16px 18px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; width: 100%; cursor: pointer;
+        }
 
         .promo-box {
             background: #0c1810; border: 1px solid #183020; border-radius: 20px; padding: 16px; margin-bottom: 18px; width: 100%;
@@ -342,12 +581,13 @@
             flex: 1; background: #06110a; border: 1px solid #1b3823; border-radius: 14px;
             padding: 12px 14px; color: #ffffff; font-size: 14px; font-weight: 700; outline: none;
         }
+        .promo-field:focus { border-color: #00e676; }
         .promo-submit-btn {
             background: #00e676; color: #041409; border: none; border-radius: 14px; padding: 12px 20px;
             font-size: 14px; font-weight: 900; cursor: pointer;
         }
 
-        /* АДМИНКА */
+        /* АДМИН-ПАНЕЛЬ */
         .admin-box {
             background: #0c1810; border: 2px solid #00e676; border-radius: 20px;
             padding: 16px; margin-bottom: 16px; box-shadow: 0 0 25px rgba(0, 230, 118, 0.2);
@@ -361,12 +601,14 @@
             width: 100%; background: #06110a; border: 1px solid #1b3823;
             color: #ffffff; font-size: 14px; font-weight: 700; padding: 12px; border-radius: 12px; outline: none;
         }
+        .admin-field:focus { border-color: #00e676; }
         .admin-btn {
             width: 100%; padding: 13px; background: linear-gradient(180deg, #00e676 0%, #00994c 100%);
             border: none; border-radius: 12px; color: #041409; font-size: 15px; font-weight: 900;
             cursor: pointer;
         }
 
+        /* ТРАНЗАКЦИИ */
         .tx-list { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .tx-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 18px;
@@ -375,13 +617,17 @@
         .tx-left { display: flex; align-items: center; gap: 12px; flex: 1; }
         .tx-icon-circle {
             width: 38px; height: 38px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; font-size: 18px; font-weight: 900;
+            align-items: center; justify-content: center; font-size: 18px; font-weight: 900; flex-shrink: 0;
         }
         .tx-icon-circle.plus { background: rgba(0, 230, 118, 0.12); color: #00e676; }
         .tx-icon-circle.minus { background: rgba(255, 82, 82, 0.12); color: #ff5252; }
-        .tx-amount { font-size: 16px; font-weight: 900; }
+        .tx-info { display: flex; flex-direction: column; }
+        .tx-title { font-size: 13px; font-weight: 700; color: #ffffff; line-height: 1.3; }
+        .tx-date { font-size: 11px; color: #4e735a; margin-top: 4px; font-weight: 600; }
+        .tx-amount { font-size: 16px; font-weight: 900; margin-left: 10px; }
         .tx-amount.plus { color: #00e676; }
         .tx-amount.minus { color: #ff5252; }
+        .empty-history { text-align: center; color: #4e735a; font-size: 14px; padding: 30px 10px; }
 
         /* НАВИГАЦИЯ */
         .navbar {
@@ -411,6 +657,7 @@
 </head>
 <body>
 
+    <!-- ЭКРАН ЗАГРУЗКИ -->
     <div id="preloader">
         <div class="logo-circle">🍀</div>
         <div class="loader-title">VETRUCH EMERALD</div>
@@ -420,13 +667,27 @@
         <div class="loading-text" style="color: #4e735a; font-size: 13px;">загружаем экосистему...</div>
     </div>
 
+    <!-- МОДАЛКА УВЕДОМЛЕНИЙ -->
+    <div id="noticeModal" class="modal-overlay" onclick="closeNoticeModal(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">🔔</span>
+                    <span style="font-size: 16px; font-weight: 900; color: #ffffff;">Уведомления</span>
+                </div>
+                <span class="modal-close-btn" onclick="closeNoticeModal()">&times;</span>
+            </div>
+            <div id="noticeModalBody" class="modal-body"></div>
+        </div>
+    </div>
+
     <div class="content">
 
-        <!-- 1. ГЛАВНАЯ -->
+        <!-- 1. ГЛАВНАЯ (ИСХОДНЫЙ ДИЗАЙН КЕНТА СОХРАНЁН) -->
         <div class="tab-page active" id="tab-home">
             <div class="kcep-header">
                 <div class="kcep-user-block">
-                    <div class="kcep-avatar-circle">🐱</div>
+                    <div class="kcep-avatar-circle" id="homeAvatar">🐱</div>
                     <div class="kcep-greeting">
                         <span class="kcep-sub-text">Добро пожаловать,</span>
                         <b class="kcep-nick-text" id="username">kolos.</b>
@@ -434,6 +695,10 @@
                 </div>
 
                 <div class="kcep-header-right">
+                    <div class="kcep-bell-btn" onclick="openNoticeModal()">
+                        <span>🔔</span>
+                        <div class="bell-badge" id="noticeBadge" style="display: none;">1</div>
+                    </div>
                     <div class="kcep-balance-pill">
                         <span>💎</span>
                         <span class="sync-balance">0</span>
@@ -441,7 +706,7 @@
                 </div>
             </div>
 
-            <!-- Главная статистика -->
+            <!-- Статистика выплат -->
             <div class="kcep-card kcep-main-stat">
                 <div class="kcep-stat-top-title">💵 ВСЕГО ВЫПЛАЧЕНО ЗРИТЕЛЯМ</div>
                 <div class="kcep-huge-amount">
@@ -460,7 +725,7 @@
                 </div>
             </div>
 
-            <!-- БАЛАНС -->
+            <!-- ТВОЙ БАЛАНС -->
             <div class="kcep-card kcep-user-balance-card">
                 <div class="balance-card-sub">
                     <span>💎 ТВОЙ БАЛАНС</span>
@@ -472,7 +737,31 @@
                 </div>
             </div>
 
-            <button class="action-btn" id="dailyBtn" onclick="claimDailyReward()">🎁 Забрать +300 💎</button>
+            <!-- СТРИКИ НАГРАД (БОНУС С ТАЙМЕРОМ КУЛДАУНА) -->
+            <div class="kcep-card kcep-streak-card">
+                <div class="kcep-streak-icon-box">🔥</div>
+                <div class="kcep-streak-info">
+                    <div class="kcep-streak-title">Стрики наград</div>
+                    <div class="kcep-streak-desc">Заходи каждый день и забирай награду — серия приносит до <b style="color: #ffca28;">+300 💎</b> монет.</div>
+                    <button class="action-btn" id="dailyBtn" onclick="claimDailyReward()" style="margin-top: 10px; padding: 13px;">🎁 Забрать +300 💎</button>
+                    <button class="action-btn earn-btn" onclick="goToTasks()">⚡ Заработать</button>
+                </div>
+            </div>
+
+            <!-- Статус стрима Kick -->
+            <div class="kcep-card kcep-stream-row">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="kcep-stream-dot"></span>
+                    <span style="font-size: 13px; font-weight: 700; color: #e0f2e9;">Kick Стрим: kolos.</span>
+                </div>
+                <div class="kcep-stream-badge">ОФЛАЙН</div>
+            </div>
+
+            <div class="promo-card" onclick="openGameScreen('dice')">
+                <div class="promo-title">🎲 Бросить кубики!</div>
+                <div class="promo-reward">Кубик 2–12 (RTP 93%)</div>
+                <div class="promo-sub">Жми сюда и делай ставки ›</div>
+            </div>
         </div>
 
         <!-- 2. ИГРЫ -->
@@ -505,7 +794,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 1: КУБИКИ -->
+            <!-- КУБИКИ -->
             <div id="game-dice-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎲 Бросок кубиков 2–12</h2>
@@ -540,7 +829,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 2: КАРТЫ -->
+            <!-- КАРТЫ С 3 ЭТАПАМИ -->
             <div id="game-card-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🃏 Угадай Карту</h2>
@@ -567,7 +856,7 @@
                 </div>
             </div>
 
-            <!-- ИГРА 3: ШАРИК -->
+            <!-- ШАРИК -->
             <div id="game-balloon-view" style="display: none;">
                 <div class="back-to-hub" onclick="openGameScreen('hub')">← Назад к играм</div>
                 <h2 style="margin-bottom: 12px; font-size: 20px;">🎈 Изумрудный Шарик (RTP 95%)</h2>
@@ -614,7 +903,7 @@
             </div>
         </div>
 
-        <!-- 5. ПРОФИЛЬ -->
+        <!-- 5. ПРОФИЛЬ (ДИЗАЙН В СТИЛЕ SUBO) -->
         <div class="tab-page" id="tab-profile">
             <div class="subo-user-card">
                 <div class="subo-avatar-wrap">🐱</div>
@@ -623,6 +912,17 @@
                     <div class="subo-user-handle" id="suboHandle">@euphoria142</div>
                     <div class="subo-user-id" id="suboId">ID: 978548564</div>
                 </div>
+            </div>
+
+            <div class="referral-card" onclick="alert('Ваша реферальная ссылка скопирована!')">
+                <div class="ref-left">
+                    <div class="ref-icon">👥</div>
+                    <div>
+                        <div class="ref-title">Рефералы</div>
+                        <div class="ref-sub">0 друзей · заработано 0</div>
+                    </div>
+                </div>
+                <div class="ref-badge">Подробнее ›</div>
             </div>
 
             <div class="subo-stats-grid">
@@ -639,7 +939,10 @@
             </div>
 
             <div class="promo-box">
-                <b style="color: #00e676;">🎫 Промокод</b>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 18px;">🎫</span>
+                    <b style="font-size: 15px; font-weight: 900; color: #00e676;">Промокод</b>
+                </div>
                 <div class="promo-input-row">
                     <input type="text" id="promoInput" class="promo-field" placeholder="Введите промокод">
                     <button class="promo-submit-btn" onclick="applyPromoCode()">Ввести</button>
@@ -650,8 +953,8 @@
             <div class="admin-box" id="adminBox">
                 <div class="admin-header">👑 Админ-панель (Накрутка)</div>
                 <div class="admin-form">
-                    <input type="text" id="adminTargetId" class="admin-field" placeholder="ID игрока">
-                    <input type="number" id="adminAmount" class="admin-field" placeholder="Количество кристаллов">
+                    <input type="text" id="adminTargetId" class="admin-field" placeholder="ID игрока (или свой ID)">
+                    <input type="number" id="adminAmount" class="admin-field" placeholder="Количество кристаллов 💎">
                     <button class="admin-btn" onclick="handleAdminGive()">Подтвердить перевод</button>
                 </div>
             </div>
@@ -697,7 +1000,7 @@
             if (el) el.innerText = text;
         }
 
-        // ================= ЖЕЛЕЗНЫЙ USER ID =================
+        // ================= USER ID =================
         let rawUserId = tg?.initDataUnsafe?.user?.id;
         if (!rawUserId) {
             rawUserId = localStorage.getItem('vetruch_cached_uid') || '978548564';
@@ -713,7 +1016,6 @@
         safeSet('suboHandle', rawHandle);
         safeSet('suboId', 'ID: ' + userId);
 
-        // Показ админки для обоих админов
         const ADMIN_IDS = ['1067693099', '978548564'];
         if (ADMIN_IDS.includes(userId)) {
             const adminBox = document.getElementById('adminBox');
@@ -722,31 +1024,19 @@
             if (adminInput) adminInput.value = userId;
         }
 
-        // ================= НАДЁЖНЫЙ БАЛАНС =================
+        // ================= НАДЁЖНОЕ ХРАНЕНИЕ БАЛАНСА =================
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
+        const STORAGE_CLAIM_KEY = 'vetruch_claim_time_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
         const STORAGE_EARNED_KEY = 'vetruch_earned_' + userId;
+        const STORAGE_PROMOS_KEY = 'vetruch_promos_' + userId;
 
-        // Загружаем сохранённый баланс из локальной памяти
         let savedBalance = localStorage.getItem(STORAGE_BALANCE_KEY);
         let score = (savedBalance !== null && !isNaN(parseInt(savedBalance, 10))) 
                     ? parseInt(savedBalance, 10) 
                     : 1000;
 
         let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY), 10) || score;
-
-        // Синхронизация с Telegram CloudStorage
-        if (tg?.CloudStorage) {
-            tg.CloudStorage.getItem(STORAGE_BALANCE_KEY, (err, val) => {
-                if (!err && val && !isNaN(parseInt(val, 10))) {
-                    let cloudScore = parseInt(val, 10);
-                    if (cloudScore > score) {
-                        score = cloudScore;
-                        updateBalances();
-                    }
-                }
-            });
-        }
 
         function updateBalances() {
             score = parseInt(score, 10) || 0;
@@ -758,14 +1048,10 @@
 
             localStorage.setItem(STORAGE_BALANCE_KEY, score);
             localStorage.setItem(STORAGE_EARNED_KEY, totalEarned);
-
-            if (tg?.CloudStorage) {
-                tg.CloudStorage.setItem(STORAGE_BALANCE_KEY, String(score));
-            }
         }
         updateBalances();
 
-        // Быстрый выход из прелоадера (не даёт зависать)
+        // Быстрый выход из прелоадера
         setTimeout(() => {
             const preloader = document.getElementById('preloader');
             if (preloader) {
@@ -783,6 +1069,11 @@
             if (tabName === 'games') openGameScreen('hub');
         }
 
+        function goToTasks() {
+            const tasksNavBtn = document.querySelectorAll('.nav-item')[2];
+            switchTab('tasks', tasksNavBtn);
+        }
+
         function openGameScreen(screen) {
             document.getElementById('games-hub-view').style.display = 'none';
             document.getElementById('game-dice-view').style.display = 'none';
@@ -797,6 +1088,84 @@
             } else if (screen === 'balloon') {
                 document.getElementById('game-balloon-view').style.display = 'block';
                 resetBalloonUI();
+            }
+        }
+
+        // ================= ЕЖЕДНЕВНЫЙ БОНУС С ЖЕСТКИМ КД 24 ЧАСА =================
+        const COOLDOWN_24H = 24 * 60 * 60 * 1000;
+
+        function checkDailyTimer() {
+            const lastClaim = parseInt(localStorage.getItem(STORAGE_CLAIM_KEY), 10) || 0;
+            const now = Date.now();
+            const diff = now - lastClaim;
+            const btn = document.getElementById('dailyBtn');
+
+            if (!btn) return;
+
+            if (diff >= COOLDOWN_24H) {
+                btn.disabled = false;
+                btn.classList.remove('disabled');
+                btn.innerHTML = "🎁 Забрать +300 💎";
+            } else {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+
+                const timeLeft = COOLDOWN_24H - diff;
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                const pad = (n) => n < 10 ? '0' + n : n;
+                btn.innerHTML = `⏳ До награды: ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+            }
+        }
+        setInterval(checkDailyTimer, 1000);
+        checkDailyTimer();
+
+        function claimDailyReward() {
+            const lastClaim = parseInt(localStorage.getItem(STORAGE_CLAIM_KEY), 10) || 0;
+            const now = Date.now();
+
+            if (now - lastClaim >= COOLDOWN_24H) {
+                score += 300;
+                totalEarned += 300;
+                localStorage.setItem(STORAGE_CLAIM_KEY, now);
+                updateBalances();
+                checkDailyTimer();
+
+                addTransaction("Ежедневный бонус", 300, "plus");
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                alert("🎉 Получено +300 💎 за ежедневный вход!");
+            }
+        }
+
+        // ================= ПРОМОКОДЫ =================
+        function applyPromoCode() {
+            const input = document.getElementById('promoInput');
+            if (!input) return;
+            const code = input.value.trim().toUpperCase();
+
+            let usedPromos = [];
+            try { usedPromos = JSON.parse(localStorage.getItem(STORAGE_PROMOS_KEY)) || []; } catch(e) {}
+
+            if (usedPromos.includes(code)) {
+                alert("❌ Вы уже активировали этот промокод!");
+                return;
+            }
+
+            if (code === 'VETRUCH' || code === 'EMERALD' || code === 'START') {
+                const reward = 500;
+                score += reward;
+                totalEarned += reward;
+                usedPromos.push(code);
+                localStorage.setItem(STORAGE_PROMOS_KEY, JSON.stringify(usedPromos));
+                updateBalances();
+                addTransaction(`Промокод: ${code}`, reward, 'plus');
+                alert(`🎉 Промокод активирован! Получено +${reward} 💎!`);
+                input.value = '';
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            } else {
+                alert("❌ Неверный промокод!");
             }
         }
 
@@ -817,10 +1186,6 @@
             currentTargetBal += amount;
             localStorage.setItem(targetKey, currentTargetBal);
 
-            if (tg?.CloudStorage) {
-                tg.CloudStorage.setItem(targetKey, String(currentTargetBal));
-            }
-
             addTransactionForUser(targetId, "Админ начисление", amount, "plus");
 
             if (targetId === userId) {
@@ -829,7 +1194,7 @@
                 updateBalances();
             }
 
-            alert(`✅ Игроку [${targetId}] успешно начислено +${amount.toLocaleString('ru-RU')} 💎!`);
+            alert(`✅ Игроку [${targetId}] начислено +${amount.toLocaleString('ru-RU')} 💎!`);
             document.getElementById('adminAmount').value = '';
         }
 
@@ -887,14 +1252,6 @@
             `).join('');
         }
         renderTransactions();
-
-        function claimDailyReward() {
-            score += 300;
-            totalEarned += 300;
-            updateBalances();
-            addTransaction("Ежедневный бонус", 300, "plus");
-            alert("🎁 Получено +300 💎!");
-        }
 
         // ================= 1. КУБИКИ =================
         const dicePatterns = {
@@ -996,7 +1353,7 @@
             }, 800);
         }
 
-        // ================= 2. КАРТЫ =================
+        // ================= 2. КАРТЫ С 3 ЭТАПАМИ =================
         const CARD_SUITS = [
             { id: 'hearts', name: 'Черви', symbol: '♥', color: 'red' },
             { id: 'diamonds', name: 'Буби', symbol: '♦', color: 'red' },
@@ -1160,6 +1517,9 @@
         let currentBalloonMult = 1.00;
         let balloonCrashPoint = 1.00;
 
+        const balloonSphere = document.getElementById('balloonSphere');
+        const balloonPumpBtn = document.getElementById('balloonPumpBtn');
+
         function setBalloonBet(amount, element) {
             if (isHoldingBalloon) return;
             currentBalloonBet = amount;
@@ -1170,15 +1530,16 @@
         function resetBalloonUI() {
             isHoldingBalloon = false;
             clearInterval(balloonTimer);
-            const b = document.getElementById('balloonSphere');
-            if (b) {
-                b.className = 'balloon-sphere';
-                b.style.transform = 'scale(1)';
+            if (balloonSphere) {
+                balloonSphere.className = 'balloon-sphere';
+                balloonSphere.style.transform = 'scale(1)';
             }
             safeSet('balloonMultText', '1.00x');
             safeSet('balloonStatus', 'Зажми кнопку, чтобы надувать');
-            const btn = document.getElementById('balloonPumpBtn');
-            if (btn) btn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
+            if (balloonPumpBtn) {
+                balloonPumpBtn.classList.remove('holding');
+                balloonPumpBtn.innerText = '🚀 ЗАЖМИ И ДЕРЖИ';
+            }
         }
 
         function startBalloonPump(e) {
@@ -1203,15 +1564,14 @@
                 safeSet('balloonMultText', currentBalloonMult.toFixed(2) + 'x');
 
                 const scale = 1 + (currentBalloonMult - 1) * 0.4;
-                const b = document.getElementById('balloonSphere');
-                if (b) b.style.transform = `scale(${Math.min(scale, 2.5)})`;
+                if (balloonSphere) balloonSphere.style.transform = `scale(${Math.min(scale, 2.5)})`;
 
                 if (currentBalloonMult >= balloonCrashPoint) {
                     clearInterval(balloonTimer);
                     isHoldingBalloon = false;
-                    if (b) b.classList.add('popped');
+                    if (balloonSphere) balloonSphere.classList.add('popped');
                     safeSet('balloonMultText', '💥');
-                    safeSet('balloonStatus', `💥 БУМ! Лопнул на ${balloonCrashPoint.toFixed(2)}x (-${currentBalloonBet} 💎)`);
+                    safeSet('balloonStatus', `💥 БУМ! Лопнул на ${balloonCrashPoint.toFixed(2)}x`);
                     addTransaction(`Взрыв шарика`, currentBalloonBet, 'minus');
                     setTimeout(resetBalloonUI, 1800);
                 }
@@ -1234,9 +1594,8 @@
             setTimeout(resetBalloonUI, 1600);
         }
 
-        const pumpBtn = document.getElementById('balloonPumpBtn');
-        if (pumpBtn) {
-            pumpBtn.addEventListener('pointerdown', startBalloonPump);
+        if (balloonPumpBtn) {
+            balloonPumpBtn.addEventListener('pointerdown', startBalloonPump);
             window.addEventListener('pointerup', () => { if (isHoldingBalloon) stopBalloonPump(); });
             window.addEventListener('pointercancel', () => { if (isHoldingBalloon) stopBalloonPump(); });
         }
