@@ -11,7 +11,6 @@
             --card-bg: #0c1810;
             --border: #183020;
             --accent: #00e676;
-            --accent-glow: rgba(0, 230, 118, 0.35);
             --danger: #ff5252;
             --text-main: #ffffff;
             --text-muted: #5a7d66;
@@ -56,7 +55,6 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.15s ease;
         }
         .back-btn:active { transform: scale(0.95); }
 
@@ -173,20 +171,13 @@
             font-size: 15px;
             font-weight: 900;
         }
-        .game-payout.win { color: var(--accent); text-shadow: 0 0 10px rgba(0, 230, 118, 0.3); }
+        .game-payout.win { color: var(--accent); }
         .game-payout.lose { color: var(--danger); }
 
         .game-time {
             font-size: 11px;
             color: #4e735a;
             font-weight: 600;
-        }
-
-        .empty-history-text {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 40px 10px;
-            font-size: 14px;
         }
     </style>
 </head>
@@ -196,7 +187,7 @@
         <a href="profile.html" class="back-btn">⬅️ Профиль</a>
         <div class="live-badge">
             <span class="pulse-dot"></span>
-            <span>LIVE ИГРЫ</span>
+            <span>LIVE СТАВКИ</span>
         </div>
     </div>
 
@@ -212,7 +203,6 @@
             }
         }
 
-        // ================= БАЗА ДАННЫХ ИГРОКА =================
         let rawUserId = tg?.initDataUnsafe?.user?.id;
         if (!rawUserId) {
             rawUserId = localStorage.getItem('vetruch_cached_uid') || 'player';
@@ -221,21 +211,22 @@
 
         const STORAGE_GAMES_LOG_KEY = 'vetruch_game_history_' + userId;
 
-        // Генератор реалистичных фейковых пользователей (массовка)
-        const FAKE_USERS = [
-            "Вася Пупкин", "Артём_777", "sanya_top", "Даня 💎", "Nikita_King",
-            "Дмитрий С.", "Владлен", "Макс_Kick", "Alex_Vip", "Илья Б.",
-            "kirill_dota", "Egor_God", "Андрюха_01", "romchik", "Тимур_Cash",
-            "Mikhail_Winner", "stacy_glow", "Borya_Rich", "Влад_Мажор", "Олег_99"
+        // Современные реалистичные никнеймы Telegram/Kick
+        const MODERN_NICKNAMES = [
+            "markov.eth", "gleb_k", "drainer", "vanya_m", "alxndr",
+            "mironov", "kris_t", "f1ash", "danil.crypto", "shurik",
+            "n1k1ta", "flame_x", "romanov_off", "artyom.sol", "kolyasik",
+            "vlados", "timur_dev", "shadow_k", "ne_trogai", "alex_kick"
         ];
 
         const GAMES_LIST = [
-            { name: "Карты", icon: "🃏", multipliers: [1.2, 2.0, 5.0] },
-            { name: "Кубики", icon: "🎲", multipliers: [1.02, 1.71, 2.05, 5.12, 10.23] },
-            { name: "Шарик", icon: "🎈", multipliers: [1.15, 1.45, 2.10, 3.40, 4.80] }
+            { name: "Карты", icon: "🃏", multipliers: [1.2, 2.0] },
+            { name: "Кубики", icon: "🎲", multipliers: [1.02, 1.71, 2.05, 3.41] },
+            { name: "Шарик", icon: "🎈", multipliers: [1.14, 1.35, 1.62, 2.10, 2.80] }
         ];
 
-        const BET_OPTIONS = [20, 50, 100, 200, 500, 1000];
+        // Небольшие реалистичные ставки
+        const BET_OPTIONS = [20, 30, 50, 75, 100, 150, 200];
 
         function getSavedHistory() {
             try {
@@ -249,20 +240,25 @@
             localStorage.setItem(STORAGE_GAMES_LOG_KEY, JSON.stringify(list.slice(0, 30)));
         }
 
-        // Генерация одного случайного события (массовка)
+        // Генерация ставки для массовки (ЖЁСТКИЙ ЛИМИТ: выигрыш строго до 1000 💎)
         function generateFakeGameItem() {
-            const user = FAKE_USERS[Math.floor(Math.random() * FAKE_USERS.length)];
+            const user = MODERN_NICKNAMES[Math.floor(Math.random() * MODERN_NICKNAMES.length)];
             const game = GAMES_LIST[Math.floor(Math.random() * GAMES_LIST.length)];
             const bet = BET_OPTIONS[Math.floor(Math.random() * BET_OPTIONS.length)];
             
-            // Шанс выигрыша ~48%
-            const isWin = Math.random() < 0.48;
+            // Шанс победы около 45%
+            const isWin = Math.random() < 0.45;
             let mult = 0;
             let payout = 0;
 
             if (isWin) {
                 mult = game.multipliers[Math.floor(Math.random() * game.multipliers.length)];
                 payout = Math.floor(bet * mult);
+                // Ограничение: не больше 1000 кристаллов
+                if (payout > 1000) {
+                    payout = Math.floor(Math.random() * 200) + 750; // от 750 до 950
+                    mult = +(payout / bet).toFixed(2);
+                }
             }
 
             const now = new Date();
@@ -285,9 +281,8 @@
             const container = document.getElementById('historyList');
             let history = getSavedHistory();
 
-            // Если список пустой — сразу создаём 8 реалистичных записей
             if (history.length === 0) {
-                for (let i = 0; i < 8; i++) {
+                for (let i = 0; i < 7; i++) {
                     history.push(generateFakeGameItem());
                 }
                 saveHistory(history);
@@ -316,7 +311,7 @@
         }
         renderHistory();
 
-        // Добавление новой игры каждые 60–110 секунд (рандомное время для естественности)
+        // Появление нового действия каждые 60–110 секунд
         function scheduleNextFakeGame() {
             const delay = Math.floor(Math.random() * (110000 - 60000 + 1)) + 60000;
             setTimeout(() => {
