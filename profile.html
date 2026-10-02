@@ -2037,121 +2037,121 @@
             renderGamesLiveFeed();
         });
     </script>
-    <!-- ================== ФИКС ЗАПУСКА ИГР ================== -->
+  <!-- ================== ПОЛНЫЙ ФИКС: НАЗАД + СКРОЛЛ КАРТ ================== -->
+<style>
+    /* 1. Добавляем отступ снизу и разрешаем скролл, чтобы нижнее меню не перекрывало кнопки карт */
+    #tab-games,
+    #game-dice-screen, #dice-game-screen, #game-dice-view,
+    #game-card-screen, #card-game-screen, #game-card-view,
+    #game-balloon-screen, #balloon-game-screen, #game-balloon-view,
+    .game-screen, .game-view {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        max-height: 100vh !important;
+        padding-bottom: 140px !important; /* освобождает место под нижнее меню */
+        box-sizing: border-box !important;
+    }
+
+    /* 2. Делаем кнопку Назад всегда кликабельной поверх всего */
+    .back-btn, [onclick*="back"], [onclick*="close"], [onclick*="return"] {
+        cursor: pointer !important;
+        position: relative !important;
+        z-index: 9999 !important;
+        pointer-events: auto !important;
+    }
+
+    /* 3. Принудительно показываем кнопки выбора цвета/карт в Угадай Карту */
+    .card-actions, .card-controls, .card-buttons, .card-guess-btns,
+    [id*="card-action"], [id*="card-step"], [id*="color-select"] {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-top: 15px !important;
+        margin-bottom: 20px !important;
+    }
+</style>
+
 <script>
 (function() {
-    console.log("Реаниматор кнопок 'Играть' запущен!");
+    console.log("Фикс кнопки Назад и Игры в Карты подключен!");
 
-    // Главная функция запуска
-    window.launchAnyGame = function(gameType) {
-        console.log("Открываем игру:", gameType);
+    // ГЛАВНАЯ ФУНКЦИЯ ВОЗВРАТА НАЗАД К СПИСКУ ИГР
+    window.exitGameToHub = function() {
+        console.log("Возврат к выбору игр...");
 
-        // 1. Ищем контейнер со списком игр (хаб)
+        // Ищем контейнер с выбором игр
         const hub = document.getElementById('games-hub-view') 
-                 || document.getElementById('games-hub')
-                 || document.querySelector('.games-hub')
-                 || document.getElementById('tab-games');
+                 || document.getElementById('games-select-view') 
+                 || document.getElementById('games-select-screen')
+                 || document.querySelector('.game-select-card')?.parentElement;
 
-        // 2. Ищем экраны игр внутри этой страницы (по всем возможным ID)
-        let targetView = null;
-        if (gameType === 'dice') {
-            targetView = document.getElementById('game-dice-view') 
-                      || document.getElementById('dice-game-view') 
-                      || document.getElementById('game-dice') 
-                      || document.getElementById('view-dice')
-                      || document.getElementById('dice-screen');
-        } else if (gameType === 'card') {
-            targetView = document.getElementById('game-card-view') 
-                      || document.getElementById('card-game-view') 
-                      || document.getElementById('game-card') 
-                      || document.getElementById('view-card')
-                      || document.getElementById('card-screen');
-        } else if (gameType === 'balloon') {
-            targetView = document.getElementById('game-balloon-view') 
-                      || document.getElementById('balloon-game-view') 
-                      || document.getElementById('game-balloon') 
-                      || document.getElementById('view-balloon')
-                      || document.getElementById('balloon-screen');
+        // Находим все экраны игр
+        const allGameScreens = document.querySelectorAll(
+            '#game-dice-screen, #dice-game-screen, #game-dice-view, #screen-dice, ' +
+            '#game-card-screen, #card-game-screen, #game-card-view, #screen-card, ' +
+            '#game-balloon-screen, #balloon-game-screen, #game-balloon-view, #screen-balloon'
+        );
+
+        // Прячем экраны игр
+        allGameScreens.forEach(screen => {
+            if (screen) screen.style.display = 'none';
+        });
+
+        // Показываем хаб со списком игр
+        if (hub) {
+            hub.style.display = 'flex';
+            hub.style.flexDirection = 'column';
         }
 
-        // Если экран игры найден внутри файла profile.html:
-        if (targetView) {
-            // Скрываем хаб с карточками
-            const allHubCards = document.getElementById('games-hub-view') || document.querySelector('.games-header')?.parentElement;
-            if (allHubCards) allHubCards.style.display = 'none';
-
-            // Скрываем другие экраны игр
-            const allViews = [
-                document.getElementById('game-dice-view'), document.getElementById('dice-game-view'),
-                document.getElementById('game-card-view'), document.getElementById('card-game-view'),
-                document.getElementById('game-balloon-view'), document.getElementById('balloon-game-view')
-            ];
-            allViews.forEach(v => { if (v) v.style.display = 'none'; });
-
-            // Показываем нужный экран игры
-            targetView.style.display = 'block';
-            window.scrollTo(0, 0);
-            return;
-        }
-
-        // 3. ИНАЧЕ: если игры вынесены в отдельные файлы (game.html, card.html, balloon.html)
-        const params = window.location.search || '';
-        if (gameType === 'dice') {
-            window.location.href = 'game.html' + params;
-        } else if (gameType === 'card') {
-            window.location.href = 'card.html' + params;
-        } else if (gameType === 'balloon') {
-            window.location.href = 'balloon.html' + params;
-        }
+        window.scrollTo(0, 0);
     };
 
-    // Назначаем функции на все возможные старые имена
-    window.openGame = window.launchAnyGame;
-    window.launchGame = window.launchAnyGame;
-    window.selectGame = window.launchAnyGame;
-    window.openDice = () => window.launchAnyGame('dice');
-    window.openCards = () => window.launchAnyGame('card');
-    window.openBalloon = () => window.launchAnyGame('balloon');
+    // Привязываем возврат ко ВСЕМ возможным старым именам функций
+    window.closeGameScreen = window.exitGameToHub;
+    window.backToGameSelect = window.exitGameToHub;
+    window.backToGames = window.exitGameToHub;
+    window.backToHub = window.exitGameToHub;
+    window.returnToGames = window.exitGameToHub;
+    window.closeGame = window.exitGameToHub;
 
-    // Функция возврата обратно к карточкам выбора игр
-    window.closeGame = window.backToHub = function() {
-        const hub = document.getElementById('games-hub-view') || document.querySelector('.games-hub-view');
-        if (hub) hub.style.display = 'block';
-
-        const allViews = [
-            document.getElementById('game-dice-view'), document.getElementById('dice-game-view'),
-            document.getElementById('game-card-view'), document.getElementById('card-game-view'),
-            document.getElementById('game-balloon-view'), document.getElementById('balloon-game-view')
-        ];
-        allViews.forEach(v => { if (v) v.style.display = 'none'; });
-    };
-
-    // АВТОМАТИЧЕСКИЙ ЗАХВАТ КНОПОК: находит кнопки "Играть" на карточках и активирует их
-    function bindPlayButtons() {
-        // Находим все карточки на странице
-        const cards = document.querySelectorAll('div, section');
-        cards.forEach(card => {
-            const txt = card.innerText || '';
-            const btn = card.querySelector('button');
-            if (!btn || btn.dataset.fixed === 'true') return;
-
-            if (txt.includes('Крипто-Кубики') && btn.innerText.includes('Играть')) {
-                btn.dataset.fixed = 'true';
-                btn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); window.launchAnyGame('dice'); };
-            } else if (txt.includes('Угадай Карту') && btn.innerText.includes('Играть')) {
-                btn.dataset.fixed = 'true';
-                btn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); window.launchAnyGame('card'); };
-            } else if (txt.includes('Изумрудный Шарик') && btn.innerText.includes('Играть')) {
-                btn.dataset.fixed = 'true';
-                btn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); window.launchAnyGame('balloon'); };
+    // ПРИНУДИТЕЛЬНО ВЕШАЕМ КЛИК НА КНОПКУ "← Назад к играм"
+    function fixBackButton() {
+        const allButtons = document.querySelectorAll('button, div, a, span');
+        allButtons.forEach(btn => {
+            const txt = (btn.innerText || '').trim();
+            if (txt.includes('Назад к играм') || txt === '← Назад' || txt.includes('Назад')) {
+                btn.style.cursor = 'pointer';
+                btn.onclick = function(e) {
+                    if (e) { e.preventDefault(); e.stopPropagation(); }
+                    window.exitGameToHub();
+                };
             }
         });
     }
 
-    // Запускаем принудительное оживление сразу и через 300мс
-    bindPlayButtons();
-    setTimeout(bindPlayButtons, 300);
-    setTimeout(bindPlayButtons, 1000);
+    // РАЗБЛОКИРОВКА СТАВОК В КАРТАХ
+    function fixCardGameButtons() {
+        // Разблокируем кнопки выбора ставки (20, 50, 100, 200, 500)
+        const betBtns = document.querySelectorAll('[onclick*="card"], [onclick*="Bet"], .bet-btn');
+        betBtns.forEach(b => {
+            b.style.pointerEvents = 'auto';
+            b.removeAttribute('disabled');
+        });
+    }
+
+    // Запускаем оживление
+    fixBackButton();
+    fixCardGameButtons();
+    setTimeout(fixBackButton, 300);
+    setTimeout(fixBackButton, 1000);
+
+    // Следим за DOM, если экраны переключаются динамически
+    document.addEventListener('click', function(e) {
+        const target = e.target;
+        if (target && (target.innerText || '').includes('Назад к играм')) {
+            window.exitGameToHub();
+        }
+    });
 })();
 </script>
 <!-- ================== КОНЕЦ ФИКСА ================== -->
