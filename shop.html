@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Магазин | Vetruch Emerald</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg: #050a07;
+            --card-bg: #0c1810;
+            --border: #183020;
+            --accent: #00e676;
+            --accent-glow: rgba(0, 230, 118, 0.35);
+            --gold: #ffca28;
+            --text-main: #ffffff;
+            --text-muted: #5a7d66;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ВСПЛЫВАЮЩАЯ ПЛАШКА СВЕРХУ (TOAST) */
+        #purchaseToast {
+            position: fixed;
+            top: -90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 32px);
+            max-width: 380px;
+            background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
+            border: 2px solid var(--accent);
+            border-radius: 18px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 30px rgba(0, 230, 118, 0.45);
+            z-index: 10000;
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #purchaseToast.show {
+            top: 16px;
+        }
+        .toast-icon {
+            font-size: 26px;
+            filter: drop-shadow(0 0 8px var(--accent));
+        }
+        .toast-text-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+        .toast-text-sub {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* ВЕРХНЯЯ ШАПКА */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: #0f2216;
+            border: 1px solid #1a4226;
+            color: #69f0ae;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+        .back-btn:active { transform: scale(0.95); }
+
+        .balance-chip {
+            background: #0d1e13;
+            border: 1px solid var(--accent);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--accent);
+            box-shadow: 0 0 12px rgba(0, 230, 118, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* СПИСОК ТОВАРОВ */
+        .shop-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .shop-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.2s;
+        }
+        .shop-card.owned {
+            border-color: #1a4226;
+            background: linear-gradient(135deg, #09170e 0%, #06110a 100%);
+        }
+
+        .item-main {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .item-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: #102417;
+            border: 1px solid #1f422b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+            box-shadow: 0 0 14px rgba(0, 230, 118, 0.15);
+        }
+
+        .item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .item-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #142a1b;
+            padding-top: 12px;
+        }
+
+        .item-price {
+            font-size: 17px;
+            font-weight: 900;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-buy {
+            background: var(--accent);
+            color: #041409;
+            font-size: 14px;
+            font-weight: 900;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.35);
+            transition: transform 0.1s ease;
+        }
+        .btn-buy:active { transform: scale(0.95); }
+
+        .btn-buy.owned {
+            background: #142a1c !important;
+            color: #4e735a !important;
+            box-shadow: none !important;
+            cursor: default !important;
+        }
+
+        .tip-card {
+            background: #07150c;
+            border: 1px dashed #1a3824;
+            border-radius: 16px;
+            padding: 14px;
+            font-size: 12px;
+            color: #698c74;
+            line-height: 1.45;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ВСПЛЫВАЮЩАЯ ПЛАШКА СВЕРХУ -->
+    <div id="purchaseToast">
+        <div class="toast-icon">⚡</div>
+        <div>
+            <div class="toast-text-title">Предмет приобретён!</div>
+            <div class="toast-text-sub">Вы успешно приобрели предмет в магазине</div>
+        </div>
+    </div>
+
+    <!-- ВЕРХНЯЯ ШАПКА -->
+    <div class="header-bar">
+        <a href="profile.html" class="back-btn">⬅️ Меню</a>
+        <div class="balance-chip">
+            <span>💎</span>
+            <span id="shopBalance">0</span>
+        </div>
+    </div>
+
+    <!-- СПИСОК ТОВАРОВ -->
+    <div class="shop-container">
+
+        <!-- ЛОТ 1: АВТО-СБОР БОНУСОВ ЗА 1000 КРИСТАЛЛОВ -->
+        <div class="shop-card" id="cardAutoCollect">
+            <div class="item-main">
+                <div class="item-icon-box">⚡</div>
+                <div class="item-info">
+                    <div class="item-title">Авто-сбор бонусов</div>
+                    <div class="item-desc">Автоматически собирает ежедневную награду +300 💎 каждые 24ч даже если вы не нажали кнопку.</div>
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="item-price">
+                    <span>1 000</span>
+                    <span style="font-size: 15px;">💎</span>
+                </div>
+                <button class="btn-buy" id="btnBuyAutoCollect" onclick="buyAutoCollect()">Купить</button>
+            </div>
+        </div>
+
+        <!-- ПОДСКАЗКА -->
+        <div class="tip-card">
+            💡 <b>Как это работает?</b><br>
+            После покупки улучшения «Авто-сбор бонусов» ежедневная серия стриков будет продлеваться и собираться сама при заходе в бота.
+        </div>
+
+    </div>
+
+    <script>
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            try { tg.expand(); } catch(e) {}
+            if (tg.BackButton) {
+                tg.BackButton.show();
+                tg.BackButton.onClick(() => { window.location.href = 'profile.html'; });
+            }
+        }
+
+        // ================= USER ID И БАЛАНС =================
+        let rawUserId = tg?.initDataUnsafe?.user?.id;
+        if (!rawUserId) {
+            rawUserId = localStorage.getItem('vetruch_cached_uid') || 'player';
+        }
+        const userId = String(rawUserId);
+
+        const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
+        const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
+        const STORAGE_SPENT_KEY = 'vetruch_spent_' + userId;
+        const STORAGE_AUTO_KEY = 'vetruch_autocollect_' + userId;
+
+        let score = parseInt(localStorage.getItem(STORAGE_BALANCE_KEY), 10);
+        if (isNaN(score)) score = 1000;
+
+        let totalSpent = parseInt(localStorage.getItem(STORAGE_SPENT_KEY), 10) || 0;
+
+        function updateUI() {
+            document.getElementById('shopBalance').innerText = score.toLocaleString('ru-RU');
+            localStorage.setItem(STORAGE_BALANCE_KEY, score);
+            localStorage.setItem(STORAGE_SPENT_KEY, totalSpent);
+
+            if (tg?.CloudStorage) {
+                tg.CloudStorage.setItem(STORAGE_BALANCE_KEY, String(score));
+            }
+        }
+        updateUI();
+
+        // Проверяем статус товара
+        function checkItemStatus() {
+            const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
+            const btn = document.getElementById('btnBuyAutoCollect');
+            const card = document.getElementById('cardAutoCollect');
+
+            if (isOwned && btn && card) {
+                btn.innerText = "✓ Куплено";
+                btn.classList.add('owned');
+                card.classList.add('owned');
+            }
+        }
+        checkItemStatus();
+
+        // Показ верхней плашки
+        function showSuccessToast() {
+            const toast = document.getElementById('purchaseToast');
+            if (!toast) return;
+
+            toast.classList.add('show');
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Покупка Авто-сбора
+        function buyAutoCollect() {
+            const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
+            if (isOwned) {
+                alert("✓ Вы уже приобрели этот предмет!");
+                return;
+            }
+
+            const price = 1000;
+            if (score < price) {
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                alert("❌ Недостаточно кристаллов! Нужно 1 000 💎");
+                return;
+            }
+
+            // Списываем кристаллы
+            score -= price;
+            totalSpent += price;
+            localStorage.setItem(STORAGE_AUTO_KEY, 'true');
+            updateUI();
+            checkItemStatus();
+
+            // Запись в историю транзакций
+            addTransaction("Покупка: Авто-сбор бонусов", price, "minus");
+
+            // Показываем плашку сверху
+            showSuccessToast();
+        }
+
+        function addTransaction(title, amount, type) {
+            let txs = [];
+            try { txs = JSON.parse(localStorage.getItem(STORAGE_TX_KEY)) || []; } catch(e) {}
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+
+            txs.unshift({
+                title: title,
+                amount: (type === 'plus' ? '+' : '-') + Math.abs(amount),
+                type: type,
+                date: dateStr
+            });
+
+            if (txs.length > 30) txs.pop();
+            localStorage.setItem(STORAGE_TX_KEY, JSON.stringify(txs));
+        }
+    </script>
+</body>
+</html>
