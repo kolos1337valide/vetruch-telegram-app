@@ -2037,130 +2037,12 @@
             renderGamesLiveFeed();
         });
     </script>
-  <!-- ================== ПОЛНЫЙ ФИКС: НАЗАД + СКРОЛЛ КАРТ ================== -->
-<style>
-    /* 1. Добавляем отступ снизу и разрешаем скролл, чтобы нижнее меню не перекрывало кнопки карт */
-    #tab-games,
-    #game-dice-screen, #dice-game-screen, #game-dice-view,
-    #game-card-screen, #card-game-screen, #game-card-view,
-    #game-balloon-screen, #balloon-game-screen, #game-balloon-view,
-    .game-screen, .game-view {
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        max-height: 100vh !important;
-        padding-bottom: 140px !important; /* освобождает место под нижнее меню */
-        box-sizing: border-box !important;
-    }
-
-    /* 2. Делаем кнопку Назад всегда кликабельной поверх всего */
-    .back-btn, [onclick*="back"], [onclick*="close"], [onclick*="return"] {
-        cursor: pointer !important;
-        position: relative !important;
-        z-index: 9999 !important;
-        pointer-events: auto !important;
-    }
-
-    /* 3. Принудительно показываем кнопки выбора цвета/карт в Угадай Карту */
-    .card-actions, .card-controls, .card-buttons, .card-guess-btns,
-    [id*="card-action"], [id*="card-step"], [id*="color-select"] {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        margin-top: 15px !important;
-        margin-bottom: 20px !important;
-    }
-</style>
-
+<!-- ================== РАБОЧИЙ ФИКС: ИГРЫ + НАЗАД ================== -->
 <script>
 (function() {
-    console.log("Фикс кнопки Назад и Игры в Карты подключен!");
+    console.log("=== VETRUCH FINAL FIX ACTIVE ===");
 
-    // ГЛАВНАЯ ФУНКЦИЯ ВОЗВРАТА НАЗАД К СПИСКУ ИГР
-    window.exitGameToHub = function() {
-        console.log("Возврат к выбору игр...");
-
-        // Ищем контейнер с выбором игр
-        const hub = document.getElementById('games-hub-view') 
-                 || document.getElementById('games-select-view') 
-                 || document.getElementById('games-select-screen')
-                 || document.querySelector('.game-select-card')?.parentElement;
-
-        // Находим все экраны игр
-        const allGameScreens = document.querySelectorAll(
-            '#game-dice-screen, #dice-game-screen, #game-dice-view, #screen-dice, ' +
-            '#game-card-screen, #card-game-screen, #game-card-view, #screen-card, ' +
-            '#game-balloon-screen, #balloon-game-screen, #game-balloon-view, #screen-balloon'
-        );
-
-        // Прячем экраны игр
-        allGameScreens.forEach(screen => {
-            if (screen) screen.style.display = 'none';
-        });
-
-        // Показываем хаб со списком игр
-        if (hub) {
-            hub.style.display = 'flex';
-            hub.style.flexDirection = 'column';
-        }
-
-        window.scrollTo(0, 0);
-    };
-
-    // Привязываем возврат ко ВСЕМ возможным старым именам функций
-    window.closeGameScreen = window.exitGameToHub;
-    window.backToGameSelect = window.exitGameToHub;
-    window.backToGames = window.exitGameToHub;
-    window.backToHub = window.exitGameToHub;
-    window.returnToGames = window.exitGameToHub;
-    window.closeGame = window.exitGameToHub;
-
-    // ПРИНУДИТЕЛЬНО ВЕШАЕМ КЛИК НА КНОПКУ "← Назад к играм"
-    function fixBackButton() {
-        const allButtons = document.querySelectorAll('button, div, a, span');
-        allButtons.forEach(btn => {
-            const txt = (btn.innerText || '').trim();
-            if (txt.includes('Назад к играм') || txt === '← Назад' || txt.includes('Назад')) {
-                btn.style.cursor = 'pointer';
-                btn.onclick = function(e) {
-                    if (e) { e.preventDefault(); e.stopPropagation(); }
-                    window.exitGameToHub();
-                };
-            }
-        });
-    }
-
-    // РАЗБЛОКИРОВКА СТАВОК В КАРТАХ
-    function fixCardGameButtons() {
-        // Разблокируем кнопки выбора ставки (20, 50, 100, 200, 500)
-        const betBtns = document.querySelectorAll('[onclick*="card"], [onclick*="Bet"], .bet-btn');
-        betBtns.forEach(b => {
-            b.style.pointerEvents = 'auto';
-            b.removeAttribute('disabled');
-        });
-    }
-
-    // Запускаем оживление
-    fixBackButton();
-    fixCardGameButtons();
-    setTimeout(fixBackButton, 300);
-    setTimeout(fixBackButton, 1000);
-
-    // Следим за DOM, если экраны переключаются динамически
-    document.addEventListener('click', function(e) {
-        const target = e.target;
-        if (target && (target.innerText || '').includes('Назад к играм')) {
-            window.exitGameToHub();
-        }
-    });
-})();
-</script>
-<!-- ================== КОНЕЦ ФИКСА ================== -->
-<!-- ================== ФИКС: РАБОТА ИГР + НАЗАД + КАРТЫ ================== -->
-<script>
-(function() {
-    console.log("Фикс запуска игр успешно применился!");
-
-    // 1. Исправляем переключение вкладок без зацикливания
+    // 1. Исправленный переключатель вкладок (БЕЗ сброса игры обратно в hub)
     window.switchTab = function(tabName, btnElement) {
         if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
         document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
@@ -2178,14 +2060,13 @@
         }
     };
 
-    // 2. Исправляем запуск игр: скрываем нижнее меню во время раунда, чтобы были видны кнопки
+    // 2. Исправленное открытие экранов игр
     window.openGameScreen = function(screen) {
-        document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-        
+        // Активируем вкладку игр
+        document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         const gamesTab = document.getElementById('tab-games');
         if (gamesTab) gamesTab.classList.add('active');
-        
         const gamesNavBtn = document.querySelectorAll('.nav-item')[1];
         if (gamesNavBtn) gamesNavBtn.classList.add('active');
 
@@ -2195,17 +2076,19 @@
         const card = document.getElementById('game-card-view');
         const balloon = document.getElementById('game-balloon-view');
 
+        // Скрываем все 4 экрана
         if (hub) hub.style.display = 'none';
         if (dice) dice.style.display = 'none';
         if (card) card.style.display = 'none';
         if (balloon) balloon.style.display = 'none';
 
-        if (screen === 'hub' && hub) {
-            hub.style.display = 'block';
+        if (screen === 'hub') {
+            // Возврат к выбору игр
+            if (hub) hub.style.display = 'block';
             if (navbar) navbar.style.display = 'flex';
             if (typeof renderGamesLiveFeed === 'function') renderGamesLiveFeed();
         } else {
-            // Прячем нижнюю панель на время игры
+            // Внутри игры прячем нижнее меню, чтобы кнопки ставок и карт не перекрывались
             if (navbar) navbar.style.display = 'none';
 
             if (screen === 'dice' && dice) {
@@ -2226,25 +2109,54 @@
         if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
     };
 
-    // 3. Возврат к списку игр
+    // 3. Прямая привязка кликов прямо к кнопкам «Играть» и карточкам
+    function bindGameClicks() {
+        document.querySelectorAll('.game-select-card').forEach(card => {
+            const txt = (card.innerText || '').toLowerCase();
+            const btn = card.querySelector('button, .game-card-btn');
+
+            let targetGame = null;
+            if (txt.includes('кубик')) targetGame = 'dice';
+            else if (txt.includes('карт')) targetGame = 'card';
+            else if (txt.includes('шарик')) targetGame = 'balloon';
+
+            if (targetGame) {
+                card.onclick = function(e) {
+                    e.preventDefault();
+                    window.openGameScreen(targetGame);
+                };
+                if (btn) {
+                    btn.onclick = function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.openGameScreen(targetGame);
+                    };
+                }
+            }
+        });
+    }
+
+    // 4. Привязка всех кнопок «Назад к играм»
     window.exitGameToHub = function() { window.openGameScreen('hub'); };
     window.closeGameScreen = window.exitGameToHub;
     window.backToGameSelect = window.exitGameToHub;
     window.backToGames = window.exitGameToHub;
     window.backToHub = window.exitGameToHub;
-    window.returnToGames = window.exitGameToHub;
-    window.closeGame = window.exitGameToHub;
 
-    // 4. Оживление кнопки «← Назад к играм»
     document.addEventListener('click', function(e) {
-        const btn = e.target.closest('.back-to-hub, [onclick*="hub"]');
-        if (btn || (e.target && (e.target.innerText || '').includes('Назад к играм'))) {
+        const target = e.target;
+        if (target && (target.classList.contains('back-to-hub') || (target.innerText || '').includes('Назад к играм'))) {
             e.preventDefault();
             e.stopImmediatePropagation();
             window.openGameScreen('hub');
         }
     }, true);
+
+    bindGameClicks();
+    setTimeout(bindGameClicks, 300);
+    setTimeout(bindGameClicks, 1000);
 })();
 </script>
 </body>
 </html>
+
