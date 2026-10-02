@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -868,16 +869,27 @@
             </div>
         </div>
 
-        <!-- 4. МАГАЗИН (ПРЯМАЯ ПОКУПКА БЕЗ ПЕРЕХОДОВ ВНУТРЬ) -->
+        <!-- 4. МАГАЗИН (АККУРАТНЫЙ И НЕ ПЕРЕГРУЖЕННЫЙ) -->
         <div class="tab-page" id="tab-shop">
             <h2 style="margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;">🛍️ Магазин</h2>
-            <div class="game-select-card">
+            
+            <!-- Базовый предмет: Авто-сбор -->
+            <div class="game-select-card" style="margin-bottom: 12px;">
                 <div>
                     <b>⚡ Авто-сбор бонусов</b>
                     <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Сбор наград 24/7</p>
                 </div>
                 <button class="game-card-btn" id="btnShopBuyAutoCollect" onclick="buyAutoCollectDirect()">1 000 💎</button>
             </div>
+
+            <!-- Переход в полный магазин со стрим-предметами -->
+            <a href="shop.html" class="game-select-card" style="text-decoration: none; border-color: #2a5a3a; margin-bottom: 12px;">
+                <div>
+                    <b style="font-size: 15px; color: #ffca28;">🎁 Предметы со стрима</b>
+                    <p style="font-size: 12px; color: #5a7d66; margin-top: 4px;">Коллы слотов, бонуски, накиды 1к/3к ›</p>
+                </div>
+                <span class="game-card-btn" style="background: #ffca28; color: #041409;">Открыть</span>
+            </a>
         </div>
 
         <!-- 5. ПРОФИЛЬ -->
@@ -1576,7 +1588,7 @@
         }
         renderTransactions();
 
-        // ================= ЕЖЕДНЕВНЫЙ БОНУС =================
+        // ================= ЕЖЕДНЕВНЫЙ БОНУС (КД 24 ЧАСА) =================
         const COOLDOWN_24H = 24 * 60 * 60 * 1000;
 
         function checkDailyTimer() {
@@ -2258,3 +2270,4 @@
 </script>
 </body>
 </html>
+```
