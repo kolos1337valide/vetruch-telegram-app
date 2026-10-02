@@ -155,6 +155,7 @@
         .kcep-col-lbl { font-size: 10px; font-weight: 800; color: #557962; text-transform: uppercase; }
         .kcep-divider { width: 1px; height: 32px; background: #152c1d; }
 
+        /* КАРТОЧКА БАЛАНСА */
         .kcep-user-balance-card {
             padding: 16px 20px;
             background: linear-gradient(135deg, #0d1e13 0%, #07150c 100%);
@@ -170,6 +171,7 @@
             display: flex; align-items: center; gap: 10px;
         }
 
+        /* СТРИКИ */
         .kcep-streak-card { display: flex; gap: 14px; align-items: flex-start; }
         .kcep-streak-icon-box {
             width: 44px; height: 44px; background: #122619; border: 1px solid #1f422b;
@@ -199,6 +201,11 @@
             transition: all 0.2s ease;
         }
         .action-btn:active { transform: scale(0.97); }
+        .action-btn.disabled {
+            background: #112217 !important; color: #5a7d66 !important;
+            border: 1px solid #1f3d2a; box-shadow: none !important;
+            cursor: not-allowed !important; font-size: 14px;
+        }
 
         .promo-card {
             background: linear-gradient(135deg, #0e1e14 0%, #08120b 60%, #00e676 170%);
@@ -321,6 +328,7 @@
             border: 2px solid #1b4728; border-radius: 22px; height: 190px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             margin-bottom: 16px; position: relative; overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.7);
         }
         .balloon-sphere {
             width: 75px; height: 75px; border-radius: 50%;
@@ -645,6 +653,7 @@
 
         <!-- 2. ИГРЫ -->
         <div class="tab-page" id="tab-games">
+            
             <div id="games-hub-view">
                 <h2 style="margin-bottom: 16px; font-size: 22px;">🎮 Выбор игры</h2>
                 
@@ -670,19 +679,6 @@
                         <p style="font-size: 12px; color: #5a7d66; margin-top: 4px;">Зажимай и надувай | RTP 95%</p>
                     </div>
                     <button class="game-card-btn">Играть</button>
-                </div>
-
-                <!-- БЛОК «ИСТОРИЯ ИГР» ПОД ВСЕМИ ИГРАМИ (КАК НА СКРИНШОТЕ 2) -->
-                <div style="margin-top: 26px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <div style="font-size: 18px; font-weight: 900; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-                            <span>🎮</span> История игр
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; color: #00e676; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.25); padding: 4px 10px; border-radius: 20px;">
-                            <span class="live-dot"></span> LIVE СТАВКИ
-                        </div>
-                    </div>
-                    <div class="tx-list" id="gamesLiveList"></div>
                 </div>
             </div>
 
@@ -862,7 +858,7 @@
                 </div>
             </div>
 
-            <!-- СТАТИСТИКА SUBO -->
+            <!-- 2x2 СЕТКА СТАТИСТИКИ SUBO -->
             <div class="subo-stats-grid">
                 <div class="subo-stat-card">
                     <div style="font-size: 16px; color: #4e735a;">💎</div>
@@ -926,7 +922,7 @@
                 </div>
             </div>
 
-            <!-- ЧИСТАЯ ИСТОРИЯ ТРАНЗАКЦИЙ В ПРОФИЛЕ -->
+            <!-- СПИСОК ТРАНЗАКЦИЙ В ПРОФИЛЕ -->
             <div id="txAnchor"></div>
             <div class="section-header-title">
                 <span>💳</span> История транзакций
@@ -1006,7 +1002,7 @@
 
         let realUsersTarget = parseInt(urlParams.get('users'), 10) || 4;
 
-        // ================= НАДЁЖНЫЙ БАЛАНС =================
+        // ================= НАДЁЖНОЕ ХРАНЕНИЕ И СИНХРОНИЗАЦИЯ БАЛАНСА =================
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
         const STORAGE_CLAIM_KEY = 'vetruch_claim_time_' + userId;
         const STORAGE_TX_KEY = 'vetruch_tx_history_' + userId;
@@ -1015,7 +1011,7 @@
         const STORAGE_REWARDS_KEY = 'vetruch_rewards_' + userId;
         const STORAGE_NOTICES_KEY = 'vetruch_notices_' + userId;
         const STORAGE_PROMOS_KEY = 'vetruch_promos_' + userId;
-        const STORAGE_GAMES_LOG_KEY = 'vetruch_games_feed_' + userId;
+        const STORAGE_GAMES_LOG_KEY = 'vetruch_game_history_' + userId;
 
         let serverBalParam = urlParams.get('balance');
         let serverScore = (serverBalParam !== null && !isNaN(parseInt(serverBalParam, 10))) 
@@ -1064,22 +1060,27 @@
                 const progress = Math.min(elapsed / duration, 1);
                 const easeOut = 1 - Math.pow(1 - progress, 3);
                 const currentVal = Math.floor(start + (end - start) * easeOut);
+                
                 el.innerText = currentVal.toLocaleString('ru-RU');
-                if (progress < 1) requestAnimationFrame(updateNumber);
-                else el.innerText = end.toLocaleString('ru-RU');
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    el.innerText = end.toLocaleString('ru-RU');
+                }
             }
             requestAnimationFrame(updateNumber);
         }
 
         function runCountersIntro() {
-            animateCounter(document.getElementById('hugeRewardAnim'), 0, 0, 1600);
+            animateCounter(document.getElementById('hugeRewardAnim'), 0, 22666854, 1600);
             animateCounter(document.getElementById('headerBalance'), 0, score, 1400);
             animateCounter(document.getElementById('centerBalanceAnim'), 0, score, 1400);
             animateCounter(document.getElementById('userCountDisplay'), 0, realUsersTarget, 1000);
             animateCounter(document.getElementById('totalEarnedDisplay'), 0, totalEarned, 1500);
         }
 
-        // ПРЕЛОАДЕР
+        // ================= ПРЕЛОАДЕР =================
         function forceClosePreloader() {
             const preloader = document.getElementById('preloader');
             if (preloader && preloader.style.display !== 'none') {
@@ -1101,6 +1102,7 @@
                 forceClosePreloader();
             }
         }, 30);
+
         setTimeout(forceClosePreloader, 600);
 
         function switchTab(tabName, btnElement) {
@@ -1109,7 +1111,10 @@
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tab-' + tabName)?.classList.add('active');
             if (btnElement) btnElement.classList.add('active');
-            if (tabName === 'games') openGameScreen('hub');
+
+            if (tabName === 'games') {
+                openGameScreen('hub');
+            }
         }
 
         function scrollToTxBlock() {
@@ -1117,7 +1122,7 @@
             if (heading) heading.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // ПРЯМОЕ ПЕРЕКЛЮЧЕНИЕ ИГР
+        // ПРЯМОЕ ПЕРЕКЛЮЧЕНИЕ ИГР (ИСПРАВЛЕНО ДЛЯ КЛИКОВ С ГЛАВНОЙ)
         function openGameScreen(screen) {
             const gamesNavBtn = document.querySelectorAll('.nav-item')[1];
             switchTab('games', gamesNavBtn);
@@ -1132,10 +1137,8 @@
             if (card) card.style.display = 'none';
             if (balloon) balloon.style.display = 'none';
 
-            if (screen === 'hub' && hub) {
-                hub.style.display = 'block';
-                renderGamesLiveFeed();
-            } else if (screen === 'dice' && dice) dice.style.display = 'block';
+            if (screen === 'hub' && hub) hub.style.display = 'block';
+            else if (screen === 'dice' && dice) dice.style.display = 'block';
             else if (screen === 'card' && card) {
                 card.style.display = 'block';
                 initCardGameUI();
@@ -1149,6 +1152,7 @@
         function updateBalances() {
             score = parseInt(score, 10) || 0;
             const formatted = score.toLocaleString('ru-RU');
+            
             document.querySelectorAll('.sync-balance').forEach(el => { el.innerText = formatted; });
             safeSet('headerBalance', formatted);
             safeSet('centerBalanceAnim', formatted);
@@ -1167,76 +1171,19 @@
         }
         updateBalances();
 
-        // ================= СИСТЕМА ИСТОРИИ ИГР (МАССОВКА + ВЫИГРЫШИ ДО 1000) =================
-        const MODERN_NICKS = [
-            "markov.eth", "gleb_k", "drainer", "vanya_m", "alxndr",
-            "mironov", "kris_t", "f1ash", "danil.crypto", "shurik",
-            "n1k1ta", "flame_x", "romanov_off", "artyom.sol", "kolyasik",
-            "vlados", "timur_dev", "shadow_k", "ne_trogai", "alex_kick"
-        ];
-
-        const GAMES_INFO = [
-            { name: "Карты", icon: "🃏", mults: [1.2, 2.0] },
-            { name: "Кубики", icon: "🎲", mults: [1.02, 1.71, 2.05, 3.41] },
-            { name: "Шарик", icon: "🎈", mults: [1.14, 1.35, 1.62, 2.10, 2.80] }
-        ];
-
-        const FAKE_BETS = [20, 30, 50, 75, 100, 150, 200];
-
-        function getGamesLiveFeed() {
-            try { return JSON.parse(localStorage.getItem(STORAGE_GAMES_LOG_KEY)) || []; } catch(e) { return []; }
-        }
-
-        function saveGamesLiveFeed(list) {
-            localStorage.setItem(STORAGE_GAMES_LOG_KEY, JSON.stringify(list.slice(0, 30)));
-        }
-
-        function generateFakeBet() {
-            const user = MODERN_NICKS[Math.floor(Math.random() * MODERN_NICKS.length)];
-            const game = GAMES_INFO[Math.floor(Math.random() * GAMES_INFO.length)];
-            const bet = FAKE_BETS[Math.floor(Math.random() * FAKE_BETS.length)];
-            
-            // Шанс победы около 45%
-            const isWin = Math.random() < 0.45;
-            let mult = 0;
-            let payout = 0;
-
-            if (isWin) {
-                mult = game.mults[Math.floor(Math.random() * game.mults.length)];
-                payout = Math.floor(bet * mult);
-                // ОГРАНИЧЕНИЕ: ВЫИГРЫШ НЕ БОЛЬШЕ 1000 КРИСТАЛЛОВ
-                if (payout > 1000) {
-                    payout = Math.floor(Math.random() * 200) + 750;
-                    mult = +(payout / bet).toFixed(2);
-                }
-            }
-
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            return {
-                user: user,
-                isReal: false,
-                game: game.name,
-                icon: game.icon,
-                bet: bet,
-                isWin: isWin,
-                payout: payout,
-                mult: mult,
-                time: timeStr
-            };
-        }
-
+        // ================= ЗАПИСЬ В ИСТОРИЮ ИГР (ДЛЯ game-history.html) =================
         function logPlayerGame(gameName, gameIcon, bet, isWin, payout, mult) {
-            let list = getGamesLiveFeed();
+            let list = [];
+            try { list = JSON.parse(localStorage.getItem(STORAGE_GAMES_LOG_KEY)) || []; } catch(e) {}
+            
             const now = new Date();
             const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
             list.unshift({
                 user: rawUsername || "Вы",
-                isReal: true,
-                game: gameName,
-                icon: gameIcon,
+                isRealPlayer: true,
+                gameName: gameName,
+                gameIcon: gameIcon,
                 bet: bet,
                 isWin: isWin,
                 payout: payout,
@@ -1244,54 +1191,9 @@
                 time: timeStr
             });
 
-            saveGamesLiveFeed(list);
-            renderGamesLiveFeed();
+            if (list.length > 30) list.pop();
+            localStorage.setItem(STORAGE_GAMES_LOG_KEY, JSON.stringify(list));
         }
-
-        function renderGamesLiveFeed() {
-            const listEl = document.getElementById('gamesLiveList');
-            if (!listEl) return;
-            let feed = getGamesLiveFeed();
-
-            if (feed.length === 0) {
-                for (let i = 0; i < 6; i++) {
-                    feed.push(generateFakeBet());
-                }
-                saveGamesLiveFeed(feed);
-            }
-
-            listEl.innerHTML = feed.map(item => `
-                <div class="tx-card">
-                    <div class="tx-left">
-                        <div class="tx-icon-circle ${item.isWin ? 'plus' : 'minus'}">${item.icon}</div>
-                        <div class="tx-info">
-                            <div class="tx-title">
-                                <span>${item.user}</span>
-                                ${item.isReal ? '<span style="background:#00e676;color:#041409;font-size:9px;font-weight:900;padding:1px 5px;border-radius:4px;margin-left:4px;">ВЫ</span>' : ''}
-                            </div>
-                            <div class="tx-date">${item.game} • Ставка ${item.bet} 💎 • ${item.time}</div>
-                        </div>
-                    </div>
-                    <div class="tx-amount ${item.isWin ? 'plus' : 'minus'}">
-                        ${item.isWin ? `+${item.payout} 💎` : `-${item.bet} 💎`}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Новая ставка массовки каждые 60-110 секунд
-        function scheduleFakeFeed() {
-            const delay = Math.floor(Math.random() * (110000 - 60000 + 1)) + 60000;
-            setTimeout(() => {
-                const newBet = generateFakeBet();
-                let list = getGamesLiveFeed();
-                list.unshift(newBet);
-                saveGamesLiveFeed(list);
-                renderGamesLiveFeed();
-                scheduleFakeFeed();
-            }, delay);
-        }
-        scheduleFakeFeed();
 
         // ================= УВЕДОМЛЕНИЯ =================
         function getNotices() {
@@ -1488,7 +1390,7 @@
         }
         renderTransactions();
 
-        // ================= ЕЖЕДНЕВНЫЙ БОНУС (КД 24 ЧАСА) =================
+        // ================= ЕЖЕДНЕВНЫЙ БОНУС =================
         const COOLDOWN_24H = 24 * 60 * 60 * 1000;
 
         function checkDailyTimer() {
@@ -1496,6 +1398,14 @@
             const now = Date.now();
             const diff = now - lastClaim;
             const btn = document.getElementById('dailyBtn');
+
+            // АВТОМАТИЧЕСКИЙ СБОР ПРИ НАЛИЧИИ КУПЛЕННОГО ПРЕДМЕТА ИЗ МАГАЗИНА
+            const isAutoCollect = localStorage.getItem('vetruch_autocollect_' + userId) === 'true';
+            if (isAutoCollect && diff >= COOLDOWN_24H) {
+                claimDailyReward();
+                addNotice("Авто-сбор бонуса", "Ваш автоматический сборщик забрал +300 💎 ежедневной награды!");
+                return;
+            }
 
             if (!btn) return;
 
@@ -2159,4 +2069,3 @@
 </script>
 </body>
 </html>
-
