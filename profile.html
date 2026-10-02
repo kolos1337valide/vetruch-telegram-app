@@ -22,6 +22,45 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* ПЛАШКА УСПЕШНОЙ ПОКУПКИ СВЕРХУ */
+        #purchaseToast {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 32px);
+            max-width: 380px;
+            background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
+            border: 2px solid #00e676;
+            border-radius: 18px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 30px rgba(0, 230, 118, 0.45);
+            z-index: 100000;
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #purchaseToast.show {
+            top: 16px;
+        }
+        .toast-icon {
+            font-size: 26px;
+            filter: drop-shadow(0 0 8px #00e676);
+        }
+        .toast-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+        .toast-sub {
+            font-size: 11px;
+            color: #00e676;
+            font-weight: 700;
+            margin-top: 2px;
         }
 
         #preloader {
@@ -91,7 +130,6 @@
             margin-bottom: 18px;
             padding: 2px 2px;
         }
-
         .kcep-user-block { display: flex; align-items: center; gap: 12px; }
         .kcep-avatar-circle {
             width: 48px; height: 48px; border-radius: 50%;
@@ -99,7 +137,6 @@
             box-shadow: 0 0 15px rgba(0, 230, 118, 0.25);
             display: flex; align-items: center; justify-content: center; font-size: 24px;
         }
-
         .kcep-greeting { display: flex; flex-direction: column; gap: 2px; }
         .kcep-sub-text { font-size: 12px; color: #698c74; font-weight: 600; }
         .kcep-nick-text { font-size: 18px; font-weight: 900; color: #ffffff; }
@@ -137,7 +174,6 @@
             font-size: 11px; font-weight: 900; color: #8fa898;
             letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 12px;
         }
-
         .kcep-huge-amount {
             font-size: 38px; font-weight: 900; color: #ffffff;
             letter-spacing: -0.5px; margin-bottom: 18px;
@@ -155,7 +191,6 @@
         .kcep-col-lbl { font-size: 10px; font-weight: 800; color: #557962; text-transform: uppercase; }
         .kcep-divider { width: 1px; height: 32px; background: #152c1d; }
 
-        /* КАРТОЧКА БАЛАНСА */
         .kcep-user-balance-card {
             padding: 16px 20px;
             background: linear-gradient(135deg, #0d1e13 0%, #07150c 100%);
@@ -171,7 +206,6 @@
             display: flex; align-items: center; gap: 10px;
         }
 
-        /* СТРИКИ */
         .kcep-streak-card { display: flex; gap: 14px; align-items: flex-start; }
         .kcep-streak-icon-box {
             width: 44px; height: 44px; background: #122619; border: 1px solid #1f422b;
@@ -201,11 +235,6 @@
             transition: all 0.2s ease;
         }
         .action-btn:active { transform: scale(0.97); }
-        .action-btn.disabled {
-            background: #112217 !important; color: #5a7d66 !important;
-            border: 1px solid #1f3d2a; box-shadow: none !important;
-            cursor: not-allowed !important; font-size: 14px;
-        }
 
         .promo-card {
             background: linear-gradient(135deg, #0e1e14 0%, #08120b 60%, #00e676 170%);
@@ -219,7 +248,7 @@
         .game-select-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 18px;
             padding: 18px; margin-bottom: 14px; display: flex; justify-content: space-between;
-            align-items: center; cursor: pointer; color: inherit; width: 100%;
+            align-items: center; color: inherit; width: 100%;
         }
         .game-select-card:active { transform: scale(0.98); border-color: #00e676; }
         .game-card-btn {
@@ -529,6 +558,15 @@
 </head>
 <body>
 
+    <!-- ВСПЛЫВАЮЩАЯ ПЛАШКА ПОКУПКИ СВЕРХУ -->
+    <div id="purchaseToast">
+        <span class="toast-icon">⚡</span>
+        <div>
+            <div class="toast-title">Предмет приобретён!</div>
+            <div class="toast-sub">Вы успешно приобрели предмет в магазине</div>
+        </div>
+    </div>
+
     <!-- ЭКРАН ЗАГРУЗКИ -->
     <div id="preloader">
         <div class="logo-circle">🍀</div>
@@ -830,15 +868,15 @@
             </div>
         </div>
 
-        <!-- 4. МАГАЗИН (ОТКРЫВАЕТ НОВЫЙ ФАЙЛ SHOP.HTML С ЦЕНОЙ 1000) -->
+        <!-- 4. МАГАЗИН (ПРЯМАЯ ПОКУПКА БЕЗ ПЕРЕХОДОВ ВНУТРЬ) -->
         <div class="tab-page" id="tab-shop">
             <h2 style="margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;">🛍️ Магазин</h2>
-            <div class="game-select-card" onclick="window.location.href='shop.html'" style="cursor: pointer;">
+            <div class="game-select-card">
                 <div>
                     <b>⚡ Авто-сбор бонусов</b>
                     <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Сбор наград 24/7</p>
                 </div>
-                <button class="game-card-btn" onclick="window.location.href='shop.html'">1 000 💎</button>
+                <button class="game-card-btn" id="btnShopBuyAutoCollect" onclick="buyAutoCollectDirect()">1 000 💎</button>
             </div>
         </div>
 
@@ -1023,6 +1061,7 @@
         const STORAGE_NOTICES_KEY = 'vetruch_notices_' + userId;
         const STORAGE_PROMOS_KEY = 'vetruch_promos_' + userId;
         const STORAGE_GAMES_LOG_KEY = 'vetruch_games_feed_' + userId;
+        const STORAGE_AUTO_KEY = 'vetruch_autocollect_' + userId;
 
         let serverBalParam = urlParams.get('balance');
         let serverScore = (serverBalParam !== null && !isNaN(parseInt(serverBalParam, 10))) 
@@ -1117,6 +1156,7 @@
             document.getElementById('tab-' + tabName)?.classList.add('active');
             if (btnElement) btnElement.classList.add('active');
             if (tabName === 'games') openGameScreen('hub');
+            if (tabName === 'shop') checkShopButtonState();
         }
 
         function scrollToTxBlock() {
@@ -1139,14 +1179,14 @@
             if (card) card.style.display = 'none';
             if (balloon) balloon.style.display = 'none';
 
-            if (screen === 'hub' && hub) {
+            if (screen === 'hub') {
                 hub.style.display = 'block';
                 renderGamesLiveFeed();
-            } else if (screen === 'dice' && dice) dice.style.display = 'block';
-            else if (screen === 'card' && card) {
+            } else if (screen === 'dice') dice.style.display = 'block';
+            else if (screen === 'card') {
                 card.style.display = 'block';
                 initCardGameUI();
-            } else if (screen === 'balloon' && balloon) {
+            } else if (screen === 'balloon') {
                 balloon.style.display = 'block';
                 resetBalloonUI();
             }
@@ -1174,7 +1214,51 @@
         }
         updateBalances();
 
-        // ================= СИСТЕМА ИСТОРИИ ИГР (МАССОВКА + ВЫИГРЫШИ ДО 1000) =================
+        // ================= ПОКУПКА В МАГАЗИНЕ =================
+        function buyAutoCollectDirect() {
+            const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
+            if (isOwned) {
+                alert("✓ Этот предмет уже куплен и активен!");
+                return;
+            }
+
+            const price = 1000;
+            if (score < price) {
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                alert("❌ Недостаточно кристаллов! Для покупки нужно 1 000 💎");
+                return;
+            }
+
+            score -= price;
+            totalSpent += price;
+            localStorage.setItem(STORAGE_AUTO_KEY, 'true');
+            updateBalances();
+            checkShopButtonState();
+
+            addTransaction("Покупка: Авто-сбор", price, "minus");
+
+            const toast = document.getElementById('purchaseToast');
+            if (toast) {
+                toast.classList.add('show');
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        function checkShopButtonState() {
+            const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
+            const btn = document.getElementById('btnShopBuyAutoCollect');
+            if (isOwned && btn) {
+                btn.innerText = "✓ Куплено";
+                btn.style.background = "#142a1c";
+                btn.style.color = "#4e735a";
+                btn.style.cursor = "default";
+            }
+        }
+
+        // ================= СИСТЕМА ИСТОРИИ ИГР =================
         const MODERN_NICKS = [
             "markov.eth", "gleb_k", "drainer", "vanya_m", "alxndr",
             "mironov", "kris_t", "f1ash", "danil.crypto", "shurik",
@@ -1203,7 +1287,6 @@
             const game = GAMES_INFO[Math.floor(Math.random() * GAMES_INFO.length)];
             const bet = FAKE_BETS[Math.floor(Math.random() * FAKE_BETS.length)];
             
-            // Шанс победы около 45%
             const isWin = Math.random() < 0.45;
             let mult = 0;
             let payout = 0;
@@ -1211,7 +1294,6 @@
             if (isWin) {
                 mult = game.mults[Math.floor(Math.random() * game.mults.length)];
                 payout = Math.floor(bet * mult);
-                // ОГРАНИЧЕНИЕ: ВЫИГРЫШ НЕ БОЛЬШЕ 1000 КРИСТАЛЛОВ
                 if (payout > 1000) {
                     payout = Math.floor(Math.random() * 200) + 750;
                     mult = +(payout / bet).toFixed(2);
@@ -1286,7 +1368,6 @@
             `).join('');
         }
 
-        // Новая ставка массовки каждые 60-110 секунд
         function scheduleFakeFeed() {
             const delay = Math.floor(Math.random() * (110000 - 60000 + 1)) + 60000;
             setTimeout(() => {
@@ -1504,8 +1585,8 @@
             const diff = now - lastClaim;
             const btn = document.getElementById('dailyBtn');
 
-            // АВТО-СБОР ЕСЛИ КУПЛЕН В МАГАЗИНЕ
-            const isAutoCollect = localStorage.getItem('vetruch_autocollect_' + userId) === 'true';
+            // АВТОМАТИЧЕСКИЙ СБОР ПРИ НАЛИЧИИ КУПЛЕННОГО ПРЕДМЕТА ИЗ МАГАЗИНА
+            const isAutoCollect = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
             if (isAutoCollect && diff >= COOLDOWN_24H) {
                 claimDailyReward();
                 return;
@@ -2049,6 +2130,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderTransactions();
             renderGamesLiveFeed();
+            checkShopButtonState();
         });
     </script>
 <!-- ================== РАБОЧИЙ ФИКС: ИГРЫ + НАЗАД ================== -->
@@ -2071,6 +2153,9 @@
             window.openGameScreen('hub');
         } else {
             if (navbar) navbar.style.display = 'flex';
+        }
+        if (tabName === 'shop') {
+            if (typeof checkShopButtonState === 'function') checkShopButtonState();
         }
     };
 
