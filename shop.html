@@ -122,6 +122,7 @@
             width: 100%;
             max-width: 420px;
             margin: 0 auto;
+            padding-bottom: 30px;
         }
 
         .shop-card {
@@ -210,6 +211,12 @@
         }
         .btn-buy:active { transform: scale(0.95); }
 
+        .btn-buy.gold {
+            background: var(--gold);
+            color: #1e1300;
+            box-shadow: 0 4px 15px rgba(255, 202, 40, 0.35);
+        }
+
         .btn-buy.owned {
             background: #142a1c !important;
             color: #4e735a !important;
@@ -252,7 +259,7 @@
     <!-- СПИСОК ТОВАРОВ -->
     <div class="shop-container">
 
-        <!-- ЛОТ 1: АВТО-СБОР БОНУСОВ ЗА 1000 КРИСТАЛЛОВ -->
+        <!-- 1. АВТО-СБОР БОНУСОВ -->
         <div class="shop-card" id="cardAutoCollect">
             <div class="item-main">
                 <div class="item-icon-box">⚡</div>
@@ -267,6 +274,78 @@
                     <span style="font-size: 15px;">💎</span>
                 </div>
                 <button class="btn-buy" id="btnBuyAutoCollect" onclick="buyAutoCollect()">Купить</button>
+            </div>
+        </div>
+
+        <!-- 2. КОЛЛ СЛОТА (3 000 💎) -->
+        <div class="shop-card" id="cardSlotCall">
+            <div class="item-main">
+                <div class="item-icon-box" style="background: #231d10; border-color: #4a3c18;">🎰</div>
+                <div class="item-info">
+                    <div class="item-title">Колл слота</div>
+                    <div class="item-desc">Заказ и прокрутка любого выбранного вами слота в прямом эфире стрима Vetruch.</div>
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="item-price" style="color: var(--gold);">
+                    <span>3 000</span>
+                    <span style="font-size: 15px;">💎</span>
+                </div>
+                <button class="btn-buy gold" onclick="alert('Предмет: Колл слота (3 000 💎)\nИнтерфейс добавлен! Подключение к админке сделаем на следующем этапе.')">Купить</button>
+            </div>
+        </div>
+
+        <!-- 3. НАКИД 1К (60 000 💎) -->
+        <div class="shop-card" id="cardNakid1k">
+            <div class="item-main">
+                <div class="item-icon-box" style="background: #231d10; border-color: #4a3c18;">💸</div>
+                <div class="item-info">
+                    <div class="item-title">Накид 1к</div>
+                    <div class="item-desc">Прямой донат и накид 1 000 ₽ на ваш баланс или выбранную игру во время стрима.</div>
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="item-price" style="color: var(--gold);">
+                    <span>60 000</span>
+                    <span style="font-size: 15px;">💎</span>
+                </div>
+                <button class="btn-buy gold" onclick="alert('Предмет: Накид 1к (60 000 💎)\nИнтерфейс добавлен! Подключение к админке сделаем на следующем этапе.')">Купить</button>
+            </div>
+        </div>
+
+        <!-- 4. БОНУСКА ЗА 2К (80 000 💎) -->
+        <div class="shop-card" id="cardBonuska2k">
+            <div class="item-main">
+                <div class="item-icon-box" style="background: #231d10; border-color: #4a3c18;">🎁</div>
+                <div class="item-info">
+                    <div class="item-title">Бонуска за 2к</div>
+                    <div class="item-desc">Покупка бонусного раунда (Bonus Buy) стоимостью 2 000 ₽ в слоте по вашему выбору.</div>
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="item-price" style="color: var(--gold);">
+                    <span>80 000</span>
+                    <span style="font-size: 15px;">💎</span>
+                </div>
+                <button class="btn-buy gold" onclick="alert('Предмет: Бонуска за 2к (80 000 💎)\nИнтерфейс добавлен! Подключение к админке сделаем на следующем этапе.')">Купить</button>
+            </div>
+        </div>
+
+        <!-- 5. НАКИД 3К (200 000 💎) -->
+        <div class="shop-card" id="cardNakid3k">
+            <div class="item-main">
+                <div class="item-icon-box" style="background: #231d10; border-color: #4a3c18;">👑</div>
+                <div class="item-info">
+                    <div class="item-title">Накид 3к</div>
+                    <div class="item-desc">Крупный накид 3 000 ₽ на стриме Vetruch с выводом или игрой в прямом эфире.</div>
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="item-price" style="color: var(--gold);">
+                    <span>200 000</span>
+                    <span style="font-size: 15px;">💎</span>
+                </div>
+                <button class="btn-buy gold" onclick="alert('Предмет: Накид 3к (200 000 💎)\nИнтерфейс добавлен! Подключение к админке сделаем на следующем этапе.')">Купить</button>
             </div>
         </div>
 
