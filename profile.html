@@ -2155,5 +2155,96 @@
 })();
 </script>
 <!-- ================== КОНЕЦ ФИКСА ================== -->
+<!-- ================== ФИКС: РАБОТА ИГР + НАЗАД + КАРТЫ ================== -->
+<script>
+(function() {
+    console.log("Фикс запуска игр успешно применился!");
+
+    // 1. Исправляем переключение вкладок без зацикливания
+    window.switchTab = function(tabName, btnElement) {
+        if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
+        document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        
+        const targetTab = document.getElementById('tab-' + tabName);
+        if (targetTab) targetTab.classList.add('active');
+        if (btnElement) btnElement.classList.add('active');
+
+        const navbar = document.querySelector('.navbar');
+        if (tabName === 'games') {
+            window.openGameScreen('hub');
+        } else {
+            if (navbar) navbar.style.display = 'flex';
+        }
+    };
+
+    // 2. Исправляем запуск игр: скрываем нижнее меню во время раунда, чтобы были видны кнопки
+    window.openGameScreen = function(screen) {
+        document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+        
+        const gamesTab = document.getElementById('tab-games');
+        if (gamesTab) gamesTab.classList.add('active');
+        
+        const gamesNavBtn = document.querySelectorAll('.nav-item')[1];
+        if (gamesNavBtn) gamesNavBtn.classList.add('active');
+
+        const navbar = document.querySelector('.navbar');
+        const hub = document.getElementById('games-hub-view');
+        const dice = document.getElementById('game-dice-view');
+        const card = document.getElementById('game-card-view');
+        const balloon = document.getElementById('game-balloon-view');
+
+        if (hub) hub.style.display = 'none';
+        if (dice) dice.style.display = 'none';
+        if (card) card.style.display = 'none';
+        if (balloon) balloon.style.display = 'none';
+
+        if (screen === 'hub' && hub) {
+            hub.style.display = 'block';
+            if (navbar) navbar.style.display = 'flex';
+            if (typeof renderGamesLiveFeed === 'function') renderGamesLiveFeed();
+        } else {
+            // Прячем нижнюю панель на время игры
+            if (navbar) navbar.style.display = 'none';
+
+            if (screen === 'dice' && dice) {
+                dice.style.display = 'block';
+            } else if (screen === 'card' && card) {
+                card.style.display = 'block';
+                if (typeof initCardGameUI === 'function') initCardGameUI();
+            } else if (screen === 'balloon' && balloon) {
+                balloon.style.display = 'block';
+                if (typeof resetBalloonUI === 'function') resetBalloonUI();
+            }
+        }
+
+        const contentEl = document.querySelector('.content');
+        if (contentEl) contentEl.scrollTop = 0;
+        window.scrollTo(0, 0);
+
+        if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
+    };
+
+    // 3. Возврат к списку игр
+    window.exitGameToHub = function() { window.openGameScreen('hub'); };
+    window.closeGameScreen = window.exitGameToHub;
+    window.backToGameSelect = window.exitGameToHub;
+    window.backToGames = window.exitGameToHub;
+    window.backToHub = window.exitGameToHub;
+    window.returnToGames = window.exitGameToHub;
+    window.closeGame = window.exitGameToHub;
+
+    // 4. Оживление кнопки «← Назад к играм»
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.back-to-hub, [onclick*="hub"]');
+        if (btn || (e.target && (e.target.innerText || '').includes('Назад к играм'))) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            window.openGameScreen('hub');
+        }
+    }, true);
+})();
+</script>
 </body>
 </html>
