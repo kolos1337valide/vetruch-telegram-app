@@ -751,6 +751,19 @@
         .order-modal-btn.gray { background: #10241a; color: #5a7d66; }
         .order-modal-btn:active { transform: scale(0.97); }
         .order-modal-btn:disabled { opacity: 0.5; }
+
+        @keyframes autoHidePreloader {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+#preloader {
+  animation: autoHidePreloader 0.3s ease 2s forwards;
+}
+
     </style>
 </head>
 <body>
