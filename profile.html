@@ -480,6 +480,7 @@
             font-size: 14px; font-weight: 900; cursor: pointer;
         }
 
+        /* КАРТОЧКА АДМИНКИ В ПРОФИЛЕ */
         .admin-box {
             background: #0c1810; border: 2px solid #00e676; border-radius: 20px;
             padding: 16px; margin-bottom: 16px; box-shadow: 0 0 25px rgba(0, 230, 118, 0.2);
@@ -498,6 +499,16 @@
             width: 100%; padding: 13px; background: linear-gradient(180deg, #00e676 0%, #00994c 100%);
             border: none; border-radius: 12px; color: #041409; font-size: 15px; font-weight: 900;
             cursor: pointer; box-shadow: 0 4px 15px rgba(0, 230, 118, 0.35);
+        }
+
+        /* Кнопки быстрых сумм в админке */
+        .quick-btn {
+            background: #08160d; border: 1px solid #14301d; border-radius: 10px;
+            padding: 9px 4px; color: #fff; font-size: 12px; font-weight: 800;
+            cursor: pointer; text-align: center; transition: all 0.15s ease;
+        }
+        .quick-btn:active {
+            background: #0d2b18; border-color: #00e676; color: #00e676; transform: scale(0.97);
         }
 
         /* СПИСОК ТРАНЗАКЦИЙ В ПРОФИЛЕ */
@@ -566,7 +577,6 @@
         .nav-item.active .nav-label { color: #00e676; }
     
         /* ================= ЗАДАНИЯ ================= */
-        /* Тема меняется одной настройкой TASKS_THEME в скрипте: aurora | ocean | mint */
         #tab-tasks {
             --t-g1: #00e676; --t-g2: #7c5cff;
             --t-card-a: #0f2a21; --t-card-b: #15102f;
@@ -630,7 +640,6 @@
             border: 1px solid var(--t-border);
             box-shadow: var(--t-shadow), inset 0 1px 0 rgba(255,255,255,0.06);
         }
-        /* Градиентная рамка */
         .task-card::before {
             content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1px;
             background: linear-gradient(135deg, var(--t-g1), transparent 42%, var(--t-g2));
@@ -657,11 +666,6 @@
         .task-tag.red    { background: rgba(239,68,68,0.18);   color: #fca5a5; border-color: rgba(239,68,68,0.40); }
         .task-tag.amber  { background: rgba(250,204,21,0.16);  color: #fde047; border-color: rgba(250,204,21,0.40); }
         .task-tag.purple { background: rgba(168,85,247,0.18);  color: #d8b4fe; border-color: rgba(168,85,247,0.40); }
-        #tab-tasks[data-theme="mint"] .task-tag.blue   { background: rgba(99,102,241,0.12);  color: #4338ca; }
-        #tab-tasks[data-theme="mint"] .task-tag.orange { background: rgba(234,88,12,0.10);   color: #c2410c; }
-        #tab-tasks[data-theme="mint"] .task-tag.red    { background: rgba(220,38,38,0.10);   color: #b91c1c; }
-        #tab-tasks[data-theme="mint"] .task-tag.amber  { background: rgba(202,138,4,0.14);   color: #92400e; }
-        #tab-tasks[data-theme="mint"] .task-tag.purple { background: rgba(147,51,234,0.12);  color: #7e22ce; }
         .task-title { font-size: 15px; font-weight: 900; line-height: 1.25; color: var(--t-title); }
         .task-reward {
             font-size: 14px; font-weight: 900; color: var(--t-reward-color); white-space: nowrap;
@@ -685,68 +689,70 @@
             width: 100%; padding: 13px 18px; font-size: 14px; border-radius: 14px;
             background: var(--t-btn-bg); color: var(--t-btn-color); box-shadow: var(--t-btn-shadow);
         }
-    /* ===== ОКНО ЗАКАЗА (юзернейм) ===== */
-#orderModal {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    z-index: 100000;
-    display: none;
-    align-items: center; justify-content: center;
-    padding: 20px;
-}
-#orderModal.show { display: flex; }
-.order-modal-box {
-    background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
-    border: 2px solid #00e676;
-    border-radius: 22px;
-    padding: 24px 20px;
-    width: 100%; max-width: 340px;
-    box-shadow: 0 10px 40px rgba(0,230,118,0.35);
-    animation: orderIn 0.25s ease;
-}
-@keyframes orderIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-.order-modal-title {
-    font-size: 18px; font-weight: 900; text-align: center; margin-bottom: 8px;
-}
-.order-modal-sub {
-    font-size: 12px; color: #698c74; text-align: center;
-    line-height: 1.45; margin-bottom: 16px;
-}
-.order-modal-input {
-    width: 100%;
-    background: #06110a;
-    border: 1.5px solid #1b3823;
-    border-radius: 14px;
-    padding: 14px;
-    color: #00e676;
-    font-size: 16px; font-weight: 800;
-    text-align: center; outline: none;
-    margin-bottom: 14px;
-    -webkit-user-select: text;
-    user-select: text;
-}
-.order-modal-input:focus {
-    border-color: #00e676;
-    box-shadow: 0 0 12px rgba(0,230,118,0.3);
-}
-.order-modal-btn {
-    width: 100%; padding: 15px; border: none;
-    border-radius: 14px; font-size: 15px; font-weight: 900;
-    cursor: pointer; margin-bottom: 8px;
-}
-.order-modal-btn.green {
-    background: linear-gradient(135deg, #00e676 0%, #00b359 100%);
-    color: #041409;
-    box-shadow: 0 4px 20px rgba(0,230,118,0.4);
-}
-.order-modal-btn.gray { background: #10241a; color: #5a7d66; }
-.order-modal-btn:active { transform: scale(0.97); }
-.order-modal-btn:disabled { opacity: 0.5; }
-</style>
+
+        /* ===== ОКНО ЗАКАЗА (юзернейм + комментарий) ===== */
+        #orderModal {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
+            z-index: 100000;
+            display: none;
+            align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        #orderModal.show { display: flex; }
+        .order-modal-box {
+            background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
+            border: 2px solid #00e676;
+            border-radius: 24px;
+            padding: 22px 20px;
+            width: 100%; max-width: 360px;
+            box-shadow: 0 10px 40px rgba(0,230,118,0.35);
+            animation: orderIn 0.25s ease;
+        }
+        @keyframes orderIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .order-modal-title {
+            font-size: 18px; font-weight: 900; text-align: center; margin-bottom: 6px;
+        }
+        .order-modal-sub {
+            font-size: 12px; color: #698c74; text-align: center;
+            line-height: 1.45; margin-bottom: 14px;
+        }
+        .order-modal-input {
+            width: 100%;
+            background: #06110a;
+            border: 1.5px solid #1b3823;
+            border-radius: 14px;
+            padding: 13px 14px;
+            color: #00e676;
+            font-size: 15px; font-weight: 800;
+            text-align: left; outline: none;
+            margin-bottom: 10px;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+        .order-modal-input:focus {
+            border-color: #00e676;
+            box-shadow: 0 0 12px rgba(0,230,118,0.3);
+        }
+        .order-modal-btn {
+            width: 100%; padding: 14px; border: none;
+            border-radius: 14px; font-size: 15px; font-weight: 900;
+            cursor: pointer; margin-bottom: 8px;
+        }
+        .order-modal-btn.green {
+            background: linear-gradient(135deg, #00e676 0%, #00b359 100%);
+            color: #041409;
+            box-shadow: 0 4px 20px rgba(0,230,118,0.4);
+        }
+        .order-modal-btn.gray { background: #10241a; color: #5a7d66; }
+        .order-modal-btn:active { transform: scale(0.97); }
+        .order-modal-btn:disabled { opacity: 0.5; }
+    </style>
 </head>
 <body>
 
@@ -1176,34 +1182,15 @@
                 </div>
             </div>
 
-            <!-- АДМИН-ПАНЕЛЬ -->
-                        <div class="admin-box" id="adminBox">
-                <div class="admin-header">👑 Админ-панель (Накрутка)</div>
-                <button class="admin-btn" onclick="openAdminPanel()"
-                    style="background:linear-gradient(135deg,#ffb300,#ff8f00); color:#1e1300; box-shadow:0 4px 15px rgba(255,179,0,0.4);">
-                    🌐 ОТКРЫТЬ АДМИН-ПАНЕЛЬ
+            <!-- АДМИН-ПАНЕЛЬ КНОПКА (ОТКРЫТИЕ ВНУТРИ ПРИЛОЖЕНИЯ) -->
+            <div class="admin-box" id="adminBox">
+                <div class="admin-header">👑 Админ-панель</div>
+                <button type="button" class="admin-btn" onclick="openAdminPanel()"
+                    style="background:linear-gradient(135deg,#ffb300,#ff8f00); color:#1e1300; box-shadow:0 4px 15px rgba(255,179,0,0.4); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <span>⚙️ ОТКРЫТЬ ПАНЕЛЬ УПРАВЛЕНИЯ</span>
+                    <span id="adminOrdersIndicator" style="background:#ff3d57; color:#fff; font-size:11px; padding:2px 7px; border-radius:10px; display:none;">0</span>
                 </button>
-                <div class="admin-form">
-                    <input type="text" id="adminTargetId" class="admin-field" placeholder="ID игрока (или свой ID)">
-                    <input type="number" id="adminAmount" class="admin-field" placeholder="Количество кристаллов 💎">
-                    <button class="admin-btn" onclick="handleAdminGive()">Подтвердить перевод</button>
-                </div>
             </div>
-
-            <!-- ОКНО ЗАКАЗА: ввод юзернейма -->
-<div id="orderModal">
-    <div class="order-modal-box">
-        <div class="order-modal-title" id="orderModalTitle">Заказ</div>
-        <div class="order-modal-sub">
-            Чтобы админ связался с вами, укажите ваш <b>юзернейм в Telegram</b>.<br>
-            Заявка придёт админам в панель управления.
-        </div>
-        <input type="text" class="order-modal-input" id="orderUsernameInput"
-               placeholder="@username" autocapitalize="none" autocomplete="off">
-        <button class="order-modal-btn green" id="orderSendBtn" onclick="confirmOrder()">✅ ОТПРАВИТЬ ЗАЯВКУ</button>
-        <button class="order-modal-btn gray" onclick="closeOrderModal()">Отмена</button>
-    </div>
-</div>
 
             <!-- СПИСОК ТРАНЗАКЦИЙ В ПРОФИЛЕ -->
             <div id="txAnchor"></div>
@@ -1214,6 +1201,95 @@
 
         </div>
 
+        <!-- 6. ЭКРАН АДМИН-ПАНЕЛИ (ПОЛНОСТЬЮ ВНУТРИ ПРИЛОЖЕНИЯ, БЕЗ САЙТА) -->
+        <div id="admin-screen-view" style="display: none; width: 100%; max-width: 420px; animation: fadeIn 0.25s ease;">
+            
+            <!-- Шапка экрана админки с возвратом -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <button type="button" class="back-to-hub" onclick="closeAdminPanel()" style="margin-bottom: 0;">← Назад в профиль</button>
+                <div style="font-size: 11px; color: #00e676; background: #071f11; border: 1px solid #14301d; padding: 6px 12px; border-radius: 12px; font-weight: 800;">
+                    👑 VETRUCH CONTROL
+                </div>
+            </div>
+
+            <!-- 1. ВЕРХНИЙ БЛОК: ЗАЯВКИ И УВЕДОМЛЕНИЯ О ПОКУПКАХ ИЗ МАГАЗИНА -->
+            <div class="kcep-card" style="border: 2px solid #ffca28; margin-bottom: 14px; box-shadow: 0 0 25px rgba(255, 202, 40, 0.15);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="font-size: 15px; font-weight: 900; color: #ffca28; display: flex; align-items: center; gap: 8px;">
+                        <span>🔔</span> Заказы из магазина
+                        <span id="adminOrdersBadge" style="background:#ffca28; color:#1e1300; font-size:10px; padding:2px 8px; border-radius:10px; font-weight:900;">0</span>
+                    </div>
+                    <div style="font-size: 11px; color: #ff5252; cursor: pointer; font-weight: 800;" onclick="clearAdminOrders()">Очистить все</div>
+                </div>
+                <div id="adminOrdersList" style="display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto;">
+                    <!-- Заказы выводятся здесь -->
+                </div>
+            </div>
+
+            <!-- 2. БЛОК НАКРУТКИ КРИСТАЛЛОВ -->
+            <div class="kcep-card" style="margin-bottom: 14px;">
+                <div style="font-size: 15px; font-weight: 900; color: #00e676; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <span>💎</span> Начисление кристаллов
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; color: #649673; margin-bottom: 4px;">
+                            <span>ID ПОЛЬЗОВАТЕЛЯ TELEGRAM</span>
+                            <span style="color: #00e676; cursor: pointer;" onclick="pasteAdminMyId()">Вставить мой ID</span>
+                        </div>
+                        <input type="text" id="adminScreenTargetId" class="admin-field" placeholder="Например: 978548564" inputmode="numeric">
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; font-weight: 800; color: #649673; margin-bottom: 4px;">СУММА КРИСТАЛЛОВ</div>
+                        <input type="number" id="adminScreenAmount" class="admin-field" placeholder="Введите число 💎">
+                    </div>
+
+                    <!-- Быстрые кнопки -->
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 4px 0;">
+                        <button type="button" class="quick-btn" onclick="setAdminScreenQuick(1000)">+1 000</button>
+                        <button type="button" class="quick-btn" onclick="setAdminScreenQuick(5000)">+5 000</button>
+                        <button type="button" class="quick-btn" onclick="setAdminScreenQuick(10000)">+10 000</button>
+                        <button type="button" class="quick-btn" onclick="setAdminScreenQuick(50000)">+50 000</button>
+                        <button type="button" class="quick-btn" onclick="setAdminScreenQuick(100000)">+100 000</button>
+                        <button type="button" class="quick-btn" onclick="setAdminScreenQuick(500000)">+500 000</button>
+                    </div>
+
+                    <button type="button" class="admin-btn" onclick="submitAdminScreenBoost()">🚀 НАЧИСЛИТЬ КРИСТАЛЛЫ</button>
+                </div>
+            </div>
+
+            <!-- 3. ИСТОРИЯ НАЧИСЛЕНИЙ -->
+            <div class="kcep-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div style="font-size: 13px; font-weight: 800; color: #649673; text-transform: uppercase;">
+                        🕒 Недавние начисления
+                    </div>
+                    <div style="font-size: 11px; color: #ff5252; cursor: pointer; font-weight: 800;" onclick="clearAdminBoostHistory()">Очистить</div>
+                </div>
+                <div id="adminBoostHistoryList" style="display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto;">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ОКНО ЗАКАЗА: ввод юзернейма и комментария -->
+    <div id="orderModal">
+        <div class="order-modal-box">
+            <div class="order-modal-title" id="orderModalTitle">Заказ</div>
+            <div class="order-modal-sub">
+                Укажите ваш <b>Telegram юзернейм</b> и комментарий к заказу.<br>
+                Заявка моментально появится в админке стримера!
+            </div>
+            <input type="text" class="order-modal-input" id="orderUsernameInput"
+                   placeholder="@username в Telegram" autocapitalize="none" autocomplete="off">
+            <textarea class="order-modal-input" id="orderCommentInput" rows="2"
+                   placeholder="Комментарий (какой слот покрутить, пожелания к стриму)"
+                   style="resize: none; font-size: 13px; text-align: left; height: auto; min-height: 56px;"></textarea>
+            <button class="order-modal-btn green" id="orderSendBtn" onclick="confirmOrder()">✅ ОТПРАВИТЬ ЗАЯВКУ</button>
+            <button class="order-modal-btn gray" onclick="closeOrderModal()">Отмена</button>
+        </div>
     </div>
 
     <!-- НАВИГАЦИЯ -->
@@ -1279,8 +1355,7 @@
         if (ADMIN_IDS.includes(userId)) {
             const adminBox = document.getElementById('adminBox');
             if (adminBox) adminBox.style.display = 'block';
-            const adminInput = document.getElementById('adminTargetId');
-            if (adminInput) adminInput.value = userId;
+            updateAdminOrdersIndicator();
         }
 
         let realUsersTarget = parseInt(urlParams.get('users'), 10) || 0;
@@ -1296,6 +1371,8 @@
         const STORAGE_PROMOS_KEY = 'vetruch_promos_' + userId;
         const STORAGE_GAMES_LOG_KEY = 'vetruch_games_feed_' + userId;
         const STORAGE_AUTO_KEY = 'vetruch_autocollect_' + userId;
+        const STORAGE_ADMIN_ORDERS_KEY = 'vetruch_admin_orders';
+        const STORAGE_ADMIN_BOOST_KEY = 'vetruch_admin_boost_history';
 
         let serverBalParam = urlParams.get('balance');
         let serverScore = (serverBalParam !== null && !isNaN(parseInt(serverBalParam, 10))) 
@@ -1384,6 +1461,10 @@
         setTimeout(forceClosePreloader, 600);
 
         function switchTab(tabName, btnElement) {
+            // Если была открыта админка - скрываем её
+            const adminScreen = document.getElementById('admin-screen-view');
+            if (adminScreen) adminScreen.style.display = 'none';
+
             if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
             document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
@@ -1481,8 +1562,19 @@
             }
         }
 
-            // ================= ЗАКАЗЫ СО СТРИМА (НАКИДЫ, БОНУСКА, КОЛЛ) =================
-        const SERVER_URL = "https://ИМЯ-ТВОЕГО-СЕРВИСА.onrender.com"; // ← ВПИШИ АДРЕС СЕРВЕРА!
+        function checkShopButtonState() {
+            const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
+            const btn = document.getElementById('btnShopBuyAutoCollect');
+            if (isOwned && btn) {
+                btn.innerText = "✓ Куплено";
+                btn.style.background = "#142a1c";
+                btn.style.color = "#4e735a";
+                btn.style.cursor = "default";
+            }
+        }
+
+        // ================= ЗАКАЗЫ СО СТРИМА (НАКИДЫ, БОНУСКА, КОЛЛ) =================
+        const SERVER_URL = "https://ИМЯ-ТВОЕГО-СЕРВИСА.onrender.com";
         const SECRET_KEY = "vetruch_secret_2024";
 
         let currentOrderItem = null;
@@ -1495,16 +1587,22 @@
             }
 
             currentOrderItem = { name: name, price: price };
-
             document.getElementById('orderModalTitle').innerText = name;
 
-            const input = document.getElementById('orderUsernameInput');
-            input.value = '';
+            const userInput = document.getElementById('orderUsernameInput');
+            const commentInput = document.getElementById('orderCommentInput');
+            
+            userInput.value = '';
+            commentInput.value = '';
+            
             const myUsername = tg?.initDataUnsafe?.user?.username;
-            if (myUsername) input.value = '@' + myUsername; // Telegram сам подставит юз, если знает
+            if (myUsername) userInput.value = '@' + myUsername;
 
             document.getElementById('orderModal').classList.add('show');
-            setTimeout(() => input.focus(), 300);
+            setTimeout(() => {
+                if (!userInput.value) userInput.focus();
+                else commentInput.focus();
+            }, 300);
         }
 
         function closeOrderModal() {
@@ -1516,42 +1614,66 @@
             if (!currentOrderItem) return;
 
             let username = document.getElementById('orderUsernameInput').value.trim().replace('@', '');
+            let comment = document.getElementById('orderCommentInput').value.trim();
+
             if (!username || username.length < 3) {
-                alert("⚠️ Введите ваш юзернейм в Telegram (например @vanya)");
+                alert("⚠️ Пожалуйста, введите ваш юзернейм в Telegram (например @vanya)");
                 return;
             }
 
-            score -= currentOrderItem.price;
-            totalSpent += currentOrderItem.price;
+            const itemPrice = currentOrderItem.price;
+            const itemName = currentOrderItem.name;
+
+            // Списываем кристаллы
+            score -= itemPrice;
+            totalSpent += itemPrice;
             updateBalances();
-            addTransaction(`Заказ: ${currentOrderItem.name}`, currentOrderItem.price, "minus");
+            addTransaction(`Заказ: ${itemName}`, itemPrice, "minus");
+
+            // Сохраняем заказ в базу заказов для Админ-панели
+            let orders = [];
+            try { orders = JSON.parse(localStorage.getItem(STORAGE_ADMIN_ORDERS_KEY) || '[]'); } catch(e) {}
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' ' + now.toLocaleDateString('ru-RU');
+
+            orders.unshift({
+                id: Date.now(),
+                item: itemName,
+                price: itemPrice,
+                username: username,
+                comment: comment || 'Без комментария',
+                tg_name: tg?.initDataUnsafe?.user?.first_name || rawUsername || '',
+                tg_id: userId,
+                date: timeStr
+            });
+            localStorage.setItem(STORAGE_ADMIN_ORDERS_KEY, JSON.stringify(orders.slice(0, 50)));
+            updateAdminOrdersIndicator();
 
             const sendBtn = document.getElementById('orderSendBtn');
             sendBtn.disabled = true;
             sendBtn.innerText = "⏳ ОТПРАВЛЯЕМ...";
 
+            // Отправка на бэкенд (если настроен)
             try {
                 await fetch(SERVER_URL + '/api/buy', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         secret: SECRET_KEY,
-                        item: currentOrderItem.name,
-                        price: currentOrderItem.price,
+                        item: itemName,
+                        price: itemPrice,
                         username: username,
+                        comment: comment || '',
                         tg_name: tg?.initDataUnsafe?.user?.first_name || '',
                         tg_id: tg?.initDataUnsafe?.user?.id || 0
                     })
                 });
             } catch (e) {
-                console.warn('Не удалось отправить заявку:', e);
-                alert("Кристаллы списаны, но заявка не дошла до сервера.\nНапишите админу напрямую: @" + username);
+                console.warn('Сервер Render недоступен, заказ сохранён локально в админке:', e);
             }
 
             sendBtn.disabled = false;
             sendBtn.innerText = "✅ ОТПРАВИТЬ ЗАЯВКУ";
-
-            const itemName = currentOrderItem.name;
             closeOrderModal();
 
             const toast = document.getElementById('purchaseToast');
@@ -1559,28 +1681,195 @@
                 const title = toast.querySelector('.toast-title');
                 const sub = toast.querySelector('.toast-sub');
                 if (title) title.innerText = `Заявка отправлена: ${itemName}!`;
-                if (sub) sub.innerText = 'Админ свяжется с вами в Telegram!';
+                if (sub) sub.innerText = 'Администратор стрима свяжется с вами в Telegram!';
                 toast.classList.add('show');
                 if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                 setTimeout(() => toast.classList.remove('show'), 3500);
             }
         }
 
-        // закрыть окошко по тапу на тёмный фон
+        // Закрытие модалки заказа по клику на фон
         document.getElementById('orderModal').addEventListener('click', function(e) {
             if (e.target.id === 'orderModal') closeOrderModal();
         });
 
-        // открыть админку новой вкладкой (в Telegram так: tg.openLink)
-        function openAdminPanel() {
-            const url = "https://kolos1337valide.github.io/vetruch-telegram-app/admin.html";
-            if (tg && tg.openLink) {
-                tg.openLink(url);
-            } else {
-                window.open(url, '_blank');
+        // ================= АДМИН-ПАНЕЛЬ (ВНУТРИ МИНИ-АППА, БЕЗ САЙТА) =================
+        function updateAdminOrdersIndicator() {
+            let orders = [];
+            try { orders = JSON.parse(localStorage.getItem(STORAGE_ADMIN_ORDERS_KEY) || '[]'); } catch(e) {}
+            const indicator = document.getElementById('adminOrdersIndicator');
+            if (indicator) {
+                if (orders.length > 0) {
+                    indicator.innerText = orders.length;
+                    indicator.style.display = 'inline-block';
+                } else {
+                    indicator.style.display = 'none';
+                }
             }
         }
 
+        function openAdminPanel() {
+            // Скрываем все вкладки и нижний бар
+            document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            const navbar = document.querySelector('.navbar');
+            if (navbar) navbar.style.display = 'none';
+
+            // Показываем экран админки
+            const adminScreen = document.getElementById('admin-screen-view');
+            if (adminScreen) adminScreen.style.display = 'block';
+
+            // Инициализация полей и списков
+            const targetInput = document.getElementById('adminScreenTargetId');
+            if (targetInput && !targetInput.value) targetInput.value = userId;
+
+            renderAdminOrders();
+            loadAdminBoostHistory();
+
+            const contentEl = document.querySelector('.content');
+            if (contentEl) contentEl.scrollTop = 0;
+            window.scrollTo(0, 0);
+
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
+        function closeAdminPanel() {
+            const adminScreen = document.getElementById('admin-screen-view');
+            if (adminScreen) adminScreen.style.display = 'none';
+
+            const navbar = document.querySelector('.navbar');
+            if (navbar) navbar.style.display = 'flex';
+
+            switchTab('profile', document.querySelectorAll('.nav-item')[4]);
+        }
+
+        function pasteAdminMyId() {
+            document.getElementById('adminScreenTargetId').value = userId;
+        }
+
+        function setAdminScreenQuick(val) {
+            document.getElementById('adminScreenAmount').value = val;
+        }
+
+        function renderAdminOrders() {
+            const listEl = document.getElementById('adminOrdersList');
+            const badgeEl = document.getElementById('adminOrdersBadge');
+            if (!listEl) return;
+
+            let orders = [];
+            try { orders = JSON.parse(localStorage.getItem(STORAGE_ADMIN_ORDERS_KEY) || '[]'); } catch(e) {}
+
+            if (badgeEl) badgeEl.innerText = orders.length;
+            updateAdminOrdersIndicator();
+
+            if (orders.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; color:#5a7d66; font-size:12px; padding:18px 8px;">Заявок пока нет.<br>Когда зритель закажет накид, бонуску или колл, заявка с ником и комментарием появится здесь.</div>';
+                return;
+            }
+
+            listEl.innerHTML = orders.map((o, idx) => `
+                <div style="background: #07150c; border: 1px solid #1a3824; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <b style="color: #ffca28; font-size: 14px;">${escapeHtml(o.item)}</b>
+                            <div style="font-size: 11px; color: #8fa898; margin-top: 2px;">
+                                Игрок: <b style="color: #00e676;">@${escapeHtml(o.username)}</b> ${o.tg_name ? '(' + escapeHtml(o.tg_name) + ')' : ''}
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; font-weight: 900; color: #ff5252;">-${Number(o.price).toLocaleString('ru-RU')} 💎</div>
+                    </div>
+                    <div style="background: #040d07; border: 1px solid #102417; border-radius: 10px; padding: 8px 10px; font-size: 12px; color: #ffffff; line-height: 1.4;">
+                        💬 <b>Комментарий:</b> ${escapeHtml(o.comment || 'Без комментария')}
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2px;">
+                        <span style="font-size: 10px; color: #4e735a;">${escapeHtml(o.date || '')}</span>
+                        <div style="display: flex; gap: 6px;">
+                            <a href="https://t.me/${escapeHtml(o.username)}" target="_blank" style="background:#0f2a1b; border:1px solid #1b4728; color:#00e676; padding:5px 10px; border-radius:8px; font-size:11px; font-weight:800; text-decoration:none;">Написать</a>
+                            <button type="button" onclick="removeAdminOrder(${idx})" style="background:#240e12; border:1px solid #4a1c24; color:#ff5252; padding:5px 10px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">✓ Выполнено</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeAdminOrder(idx) {
+            let orders = [];
+            try { orders = JSON.parse(localStorage.getItem(STORAGE_ADMIN_ORDERS_KEY) || '[]'); } catch(e) {}
+            orders.splice(idx, 1);
+            localStorage.setItem(STORAGE_ADMIN_ORDERS_KEY, JSON.stringify(orders));
+            renderAdminOrders();
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        function clearAdminOrders() {
+            if (!confirm("Очистить весь список заявок магазина?")) return;
+            localStorage.removeItem(STORAGE_ADMIN_ORDERS_KEY);
+            renderAdminOrders();
+        }
+
+        function submitAdminScreenBoost() {
+            const targetId = document.getElementById('adminScreenTargetId').value.trim();
+            const amount = parseInt(document.getElementById('adminScreenAmount').value, 10);
+
+            if (!targetId || isNaN(amount) || amount <= 0) {
+                alert("❌ Введите корректный ID и сумму кристаллов!");
+                return;
+            }
+
+            // Начисление себе
+            if (targetId === userId) {
+                score += amount;
+                totalEarned += amount;
+                updateBalances();
+                addTransaction("Админ начисление", amount, "plus");
+                addNotice("Пополнение баланса", `Вам начислено +${amount.toLocaleString('ru-RU')} 💎 от Администратора!`);
+            }
+
+            // Сохраняем в историю начислений
+            let boosts = [];
+            try { boosts = JSON.parse(localStorage.getItem(STORAGE_ADMIN_BOOST_KEY) || '[]'); } catch(e) {}
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' ' + now.toLocaleDateString('ru-RU');
+            boosts.unshift({ id: targetId, amount: amount, date: timeStr });
+            localStorage.setItem(STORAGE_ADMIN_BOOST_KEY, JSON.stringify(boosts.slice(0, 15)));
+            loadAdminBoostHistory();
+
+            const cmd = `/give ${targetId} ${amount}`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(cmd);
+            }
+
+            alert(`✅ Начислено +${amount.toLocaleString('ru-RU')} 💎 игроку [${targetId}]!\nКоманда ${cmd} скопирована.`);
+            document.getElementById('adminScreenAmount').value = '';
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        function loadAdminBoostHistory() {
+            const listEl = document.getElementById('adminBoostHistoryList');
+            if (!listEl) return;
+            let boosts = [];
+            try { boosts = JSON.parse(localStorage.getItem(STORAGE_ADMIN_BOOST_KEY) || '[]'); } catch(e) {}
+
+            if (boosts.length === 0) {
+                listEl.innerHTML = '<div style="font-size:12px; color:#40684c; text-align:center; padding:12px;">История начислений пока пуста</div>';
+                return;
+            }
+
+            listEl.innerHTML = boosts.map(b => `
+                <div style="background:#050d07; border:1px solid #14301d; border-radius:12px; padding:9px 12px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-size:13px; font-weight:800; color:#fff;">ID: ${escapeHtml(b.id)}</div>
+                        <div style="font-size:10px; color:#527a5e;">${escapeHtml(b.date)}</div>
+                    </div>
+                    <div style="font-size:13px; font-weight:900; color:#00e676;">+${Number(b.amount).toLocaleString('ru-RU')} 💎</div>
+                </div>
+            `).join('');
+        }
+
+        function clearAdminBoostHistory() {
+            localStorage.removeItem(STORAGE_ADMIN_BOOST_KEY);
+            loadAdminBoostHistory();
+        }
 
         // ================= СИСТЕМА ИСТОРИИ ИГР =================
         function getGamesLiveFeed() {
@@ -1616,14 +1905,13 @@
             return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
         }
 
-        // Показываем только настоящие игры этого игрока (их пишет logPlayerGame)
         function renderGamesLiveFeed() {
             const listEl = document.getElementById('gamesLiveList');
             if (!listEl) return;
 
             const all = getGamesLiveFeed();
             const feed = all.filter(item => item.isReal);
-            if (feed.length !== all.length) saveGamesLiveFeed(feed); // вычищаем старые выдуманные записи
+            if (feed.length !== all.length) saveGamesLiveFeed(feed);
 
             if (feed.length === 0) {
                 listEl.innerHTML = '<div style="text-align:center;color:#5a7d66;font-size:13px;padding:18px 8px;">Пока нет игр.<br>Сыграй, и результат появится здесь.</div>';
@@ -1650,15 +1938,11 @@
         }
 
         // ================= ЗАДАНИЯ =================
-        // Ссылки: впиши свои
         const TG_CHANNEL_URL = 'https://t.me/vetruchtut';
-        const YOUTUBE_URL = '';   // TODO: ссылка на YouTube-канал
+        const YOUTUBE_URL = '';
         const TASKS_BOT_USERNAME = 'Vetruchkick_bot';
-        // Цветовая тема заданий: 'aurora' (зелёно-фиолетовая), 'ocean' (зелёно-голубая), 'mint' (зелёно-белая).
-        // Для проверки на телефоне можно добавить к ссылке ?tasks_theme=ocean
         const TASKS_THEME = 'aurora';
 
-        // action: 'link' открывает ссылку, 'share' делится ссылкой на бота, 'soon' показывает подсказку
         const TASKS = [
             {
                 id: 'tg_channel', icon: '📢', reward: 1500,
@@ -1691,10 +1975,6 @@
             }
         ];
 
-        // Статусы заданий (todo / pending / done) и прогресс должен отдавать СЕРВЕР:
-        // он проверяет подписки, считает рефералов и принимает ручные заявки.
-        // Пока сервера нет, все задания показываются как невыполненные и баллы за них не начисляются.
-        // Для предпросмотра внешнего вида открой приложение со ссылкой ...?tasks_demo=1
         function loadTaskStatuses() {
             if (urlParams.get('tasks_demo') === '1') {
                 return {
@@ -1892,42 +2172,6 @@
             }
         }
 
-        // ================= НАКРУТКА АДМИНА =================
-        function handleAdminGive() {
-            if (!ADMIN_IDS.includes(userId)) return;
-
-            const targetId = document.getElementById('adminTargetId').value.trim();
-            const amount = parseInt(document.getElementById('adminAmount').value, 10);
-
-            if (!targetId || isNaN(amount) || amount <= 0) {
-                alert("❌ Введите корректный ID и сумму!");
-                return;
-            }
-
-            if (targetId === userId) {
-                score += amount;
-                totalEarned += amount;
-                updateBalances();
-                addNotice("Пополнение баланса", `Вам начислено +${amount.toLocaleString('ru-RU')} 💎 от Администратора!`);
-            }
-
-            const deepLink = `https://t.me/Vetruchkick_bot?start=give_${targetId}_${amount}`;
-            const cmd = `/give ${targetId} ${amount}`;
-
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(cmd);
-            }
-
-            if (tg && tg.openTelegramLink) {
-                tg.openTelegramLink(deepLink);
-            } else {
-                window.open(deepLink, '_blank');
-            }
-
-            alert(`✅ Игроку [${targetId}] отправлено начисление +${amount.toLocaleString('ru-RU')} 💎!\n\nКоманда ${cmd} скопирована.`);
-            document.getElementById('adminAmount').value = '';
-        }
-
         // ================= ТРАНЗАКЦИИ =================
         function getTransactions() {
             try { return JSON.parse(localStorage.getItem(STORAGE_TX_KEY)) || []; } catch(e) { return []; }
@@ -1985,7 +2229,7 @@
         }
         renderTransactions();
 
-        // ================= ЕЖЕДНЕВНЫЙ БОНУС (КД 24 ЧАСА) =================
+        // ================= ЕЖЕДНЕВНЫЙ БОНУС =================
         const COOLDOWN_24H = 24 * 60 * 60 * 1000;
 
         function checkDailyTimer() {
@@ -1994,7 +2238,6 @@
             const diff = now - lastClaim;
             const btn = document.getElementById('dailyBtn');
 
-            // АВТОМАТИЧЕСКИЙ СБОР ПРИ НАЛИЧИИ КУПЛЕННОГО ПРЕДМЕТА ИЗ МАГАЗИНА
             const isAutoCollect = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
             if (isAutoCollect && diff >= COOLDOWN_24H) {
                 claimDailyReward();
@@ -2549,6 +2792,10 @@
 
     // 1. Исправленный переключатель вкладок
     window.switchTab = function(tabName, btnElement) {
+        // Скрываем экран админки при переключении
+        const adminScreen = document.getElementById('admin-screen-view');
+        if (adminScreen) adminScreen.style.display = 'none';
+
         if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
         document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -2662,197 +2909,4 @@
 })();
 </script>
 </body>
-    <!-- ================== ВЕТРУЧ-ПАТЧ: вставлять один раз перед </body> ================== -->
-<script>
-(function() {
-    // ⚠️ ВПИШИ СЮДА АДРЕС СВОЕГО СЕРВЕРА (тот же, что в admin.html)
-    const SERVER_URL = "https://ИМЯ-ТВОЕГО-СЕРВИСА.onrender.com";
-    const SECRET_KEY = "vetruch_secret_2024"; // тот же, что в bot.py
-
-    const tg = window.Telegram?.WebApp;
-
-    // ---------- 1. ЧИСТИМ ВСЁ СТАРОЕ И КРИВОЕ ----------
-    document.querySelectorAll('#orderModal').forEach(el => el.remove());
-
-    // ---------- 2. СТИЛИ ОКНА ЗАКАЗА ----------
-    const css = document.createElement('style');
-    css.textContent = `
-        #orderModal {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 1000000;
-            display: none;
-            align-items: center; justify-content: center;
-            padding: 20px;
-        }
-        #orderModal.show { display: flex; }
-        .order-modal-box {
-            background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
-            border: 2px solid #00e676;
-            border-radius: 22px;
-            padding: 24px 20px;
-            width: 100%; max-width: 340px;
-            box-shadow: 0 10px 40px rgba(0,230,118,0.35);
-            animation: vpOrderIn 0.25s ease;
-        }
-        @keyframes vpOrderIn { from { opacity: 0; transform: scale(0.9);} to { opacity: 1; transform: scale(1);} }
-        .order-modal-title { font-size: 18px; font-weight: 900; text-align: center; margin-bottom: 8px; }
-        .order-modal-sub { font-size: 12px; color: #698c74; text-align: center; line-height: 1.45; margin-bottom: 16px; }
-        .order-modal-input {
-            width: 100%; background: #06110a;
-            border: 1.5px solid #1b3823; border-radius: 14px;
-            padding: 14px; color: #00e676;
-            font-size: 16px; font-weight: 800; text-align: center;
-            outline: none; margin-bottom: 14px;
-            user-select: text; -webkit-user-select: text;
-        }
-        .order-modal-input:focus { border-color: #00e676; box-shadow: 0 0 12px rgba(0,230,118,0.3); }
-        .vp-modal-btn {
-            width: 100%; padding: 15px; border: none; border-radius: 14px;
-            font-size: 15px; font-weight: 900; cursor: pointer; margin-bottom: 8px;
-            display: block;
-        }
-        .vp-modal-btn.green {
-            background: linear-gradient(135deg, #00e676 0%, #00b359 100%);
-            color: #041409; box-shadow: 0 4px 20px rgba(0,230,118,0.4);
-        }
-        .vp-modal-btn.gray { background: #10241a; color: #5a7d66; }
-        .vp-modal-btn:active { transform: scale(0.97); }
-        .vp-modal-btn:disabled { opacity: 0.5; }
-    `;
-    document.head.appendChild(css);
-
-    // ---------- 3. САМО ОКНО ЗАКАЗА ----------
-    document.body.insertAdjacentHTML('beforeend', `
-        <div id="orderModal">
-            <div class="order-modal-box">
-                <div class="order-modal-title" id="vpOrderTitle">Заказ</div>
-                <div class="order-modal-sub">
-                    Чтобы админ связался с вами, укажите ваш <b>юзернейм в Telegram</b>.<br>
-                    Заявка придёт админам в панель управления.
-                </div>
-                <input type="text" class="order-modal-input" id="vpOrderUsername"
-                       placeholder="@username" autocapitalize="none" autocomplete="off">
-                <button class="vp-modal-btn green" id="vpOrderSend">✅ ОТПРАВИТЬ ЗАЯВКУ</button>
-                <button class="vp-modal-btn gray" id="vpOrderCancel">Отмена</button>
-            </div>
-        </div>
-    `);
-
-    const modal = document.getElementById('orderModal');
-    const modalTitle = document.getElementById('vpOrderTitle');
-    const modalInput = document.getElementById('vpOrderUsername');
-    const sendBtn = document.getElementById('vpOrderSend');
-
-    modal.addEventListener('click', e => { if (e.target === modal) closeOrder(); });
-    document.getElementById('vpOrderCancel').addEventListener('click', closeOrder);
-
-    let currentOrderItem = null;
-
-    function closeOrder() {
-        modal.classList.remove('show');
-        currentOrderItem = null;
-    }
-
-    // ---------- 4. ЗАМЕНЯЕМ ПОКУПКУ (старая buyStreamItem перестаёт работать) ----------
-    window.buyStreamItem = function(name, price) {
-        if (typeof score === 'undefined') return;
-
-        if (score < price) {
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-            alert('❌ Недостаточно кристаллов! Для заказа нужно ' + price.toLocaleString('ru-RU') + ' 💎');
-            return;
-        }
-
-        currentOrderItem = { name: name, price: price };
-        modalTitle.innerText = name;
-
-        modalInput.value = '';
-        const myUsername = tg?.initDataUnsafe?.user?.username;
-        if (myUsername) modalInput.value = '@' + myUsername;
-
-        modal.classList.add('show');
-        setTimeout(() => modalInput.focus(), 300);
-    };
-
-    sendBtn.addEventListener('click', async function() {
-        if (!currentOrderItem) return;
-
-        const username = modalInput.value.trim().replace('@', '');
-        if (!username || username.length < 3) {
-            alert('⚠️ Введите ваш юзернейм в Telegram (например @vanya)');
-            return;
-        }
-
-        const price = currentOrderItem.price;
-        const itemName = currentOrderItem.name;
-
-        // списываем кристаллы (твои же функции из профиля)
-        score -= price;
-        totalSpent += price;
-        updateBalances();
-        addTransaction('Заказ: ' + itemName, price, 'minus');
-
-        sendBtn.disabled = true;
-        sendBtn.innerText = '⏳ ОТПРАВЛЯЕМ...';
-
-        try {
-            await fetch(SERVER_URL + '/api/buy', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    secret: SECRET_KEY,
-                    item: itemName,
-                    price: price,
-                    username: username,
-                    tg_name: tg?.initDataUnsafe?.user?.first_name || '',
-                    tg_id: tg?.initDataUnsafe?.user?.id || 0
-                })
-            });
-        } catch (e) {
-            console.warn('Заявка не дошла до сервера:', e);
-            alert('Кристаллы списаны, но заявка не дошла до сервера.\nНапишите админу напрямую: @' + username);
-        }
-
-        sendBtn.disabled = false;
-        sendBtn.innerText = '✅ ОТПРАВИТЬ ЗАЯВКУ';
-        closeOrder();
-
-        // зелёная плашка сверху, как в остальном приложении
-        const toast = document.getElementById('purchaseToast');
-        if (toast) {
-            const title = toast.querySelector('.toast-title');
-            const sub = toast.querySelector('.toast-sub');
-            if (title) title.innerText = 'Заявка отправлена: ' + itemName + '!';
-            if (sub) sub.innerText = 'Админ свяжется с вами в Telegram!';
-            toast.classList.add('show');
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            setTimeout(() => toast.classList.remove('show'), 3500);
-        }
-    });
-
-    // ---------- 5. АДМИН-БЛОК: ОСТАВЛЯЕМ ТОЛЬКО КНОПКУ ВХОДА ----------
-    // Старый adminBox твой код показывает только админам (display:block),
-    // поэтому просто выпотрошим его и оставим одну кнопку.
-    const adminBox = document.getElementById('adminBox');
-    if (adminBox) {
-        adminBox.innerHTML = `
-            <div class="admin-header">👑 Админ</div>
-            <button id="vpAdminOpen" style="
-                width: 100%; padding: 14px; border: none; border-radius: 12px;
-                background: linear-gradient(135deg, #ffb300 0%, #ff8f00 100%);
-                color: #1e1300; font-size: 15px; font-weight: 900;
-                cursor: pointer; box-shadow: 0 4px 15px rgba(255,179,0,0.4);
-            ">🌐 ОТКРЫТЬ АДМИН-ПАНЕЛЬ</button>
-        `;
-        document.getElementById('vpAdminOpen').addEventListener('click', function() {
-            const url = 'https://kolos1337valide.github.io/vetruch-telegram-app/admin.html';
-            if (tg && tg.openLink) tg.openLink(url);      // откроется новой вкладкой/браузером
-            else window.open(url, '_blank');
-        });
-    }
-})();
-</script>
-<!-- ================== КОНЕЦ ВЕТРУЧ-ПАТЧА ================== -->
 </html>
