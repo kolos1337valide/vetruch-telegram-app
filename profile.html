@@ -1418,6 +1418,18 @@
         }
 
         const tg = window.Telegram?.WebApp;
+        const tg = window.Telegram?.WebApp;
+if (tg) {
+    try { tg.expand(); } catch(e) {}
+}
+const avatarUrl = tg?.initDataUnsafe?.user?.photo_url;
+const avatar = document.getElementById("telegramAvatar");
+
+if (avatarUrl && avatar) {
+    avatar.src = avatarUrl;
+    avatar.style.display = "block";
+}
+
         if (tg) {
             try { tg.expand(); } catch(e) {}
         }
