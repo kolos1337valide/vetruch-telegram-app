@@ -564,6 +564,127 @@
         }
         .nav-item.active .nav-icon { fill: #06150b; }
         .nav-item.active .nav-label { color: #00e676; }
+    
+        /* ================= ЗАДАНИЯ ================= */
+        /* Тема меняется одной настройкой TASKS_THEME в скрипте: aurora | ocean | mint */
+        #tab-tasks {
+            --t-g1: #00e676; --t-g2: #7c5cff;
+            --t-card-a: #0f2a21; --t-card-b: #15102f;
+            --t-border: rgba(255,255,255,0.07);
+            --t-title: #ffffff; --t-desc: #93b5a4;
+            --t-icon-bg: linear-gradient(135deg, rgba(0,230,118,0.24), rgba(124,92,255,0.26));
+            --t-icon-border: rgba(0,230,118,0.38);
+            --t-reward-bg: linear-gradient(135deg, rgba(0,230,118,0.18), rgba(124,92,255,0.20));
+            --t-reward-border: rgba(0,230,118,0.38);
+            --t-reward-color: #eafff3;
+            --t-btn-bg: linear-gradient(135deg, #00e676 0%, #00d4a0 55%, #7c5cff 135%);
+            --t-btn-color: #031a0e;
+            --t-btn-shadow: 0 6px 20px rgba(0,230,118,0.35);
+            --t-track: rgba(255,255,255,0.09);
+            --t-fill: linear-gradient(90deg, #00e676, #38bdf8, #7c5cff);
+            --t-label: #eafff3;
+            --t-status: #00e676;
+            --t-check-color: #031a0e;
+            --t-shadow: 0 10px 28px rgba(0,0,0,0.5);
+        }
+        #tab-tasks[data-theme="ocean"] {
+            --t-g1: #00e676; --t-g2: #22d3ee;
+            --t-card-a: #0c2b24; --t-card-b: #0a2034;
+            --t-icon-bg: linear-gradient(135deg, rgba(0,230,118,0.24), rgba(34,211,238,0.26));
+            --t-icon-border: rgba(34,211,238,0.40);
+            --t-reward-bg: linear-gradient(135deg, rgba(0,230,118,0.18), rgba(34,211,238,0.20));
+            --t-reward-border: rgba(34,211,238,0.40);
+            --t-btn-bg: linear-gradient(135deg, #00e676 0%, #00d9b8 55%, #22d3ee 135%);
+            --t-fill: linear-gradient(90deg, #00e676, #22d3ee, #38bdf8);
+        }
+        #tab-tasks[data-theme="mint"] {
+            --t-g1: #00c46a; --t-g2: #7dffc0;
+            --t-card-a: #f7fffb; --t-card-b: #d6f4e4;
+            --t-border: rgba(0,150,80,0.28);
+            --t-title: #0a2a1b; --t-desc: #3c6a54;
+            --t-icon-bg: linear-gradient(135deg, #ffffff, #c4efd7);
+            --t-icon-border: rgba(0,170,90,0.38);
+            --t-reward-bg: linear-gradient(135deg, #ffffff, #cff3e0);
+            --t-reward-border: rgba(0,170,90,0.45);
+            --t-reward-color: #08753f;
+            --t-btn-bg: linear-gradient(135deg, #00b862 0%, #00e676 60%, #7dffc0 130%);
+            --t-btn-color: #03180d;
+            --t-btn-shadow: 0 6px 18px rgba(0,196,106,0.38);
+            --t-track: rgba(0,120,70,0.16);
+            --t-fill: linear-gradient(90deg, #00b862, #00e676);
+            --t-label: #0a2a1b;
+            --t-status: #08a35a;
+            --t-check-color: #ffffff;
+            --t-shadow: 0 10px 26px rgba(0,0,0,0.45);
+        }
+
+        .tasks-title {
+            margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;
+            background: linear-gradient(90deg, #ffffff 0%, #9dffcb 55%, #8be9ff 125%);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .task-card {
+            position: relative; border-radius: 20px; padding: 16px; margin-bottom: 14px;
+            display: flex; flex-direction: column; gap: 12px;
+            background: linear-gradient(160deg, var(--t-card-a), var(--t-card-b));
+            border: 1px solid var(--t-border);
+            box-shadow: var(--t-shadow), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+        /* Градиентная рамка */
+        .task-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1px;
+            background: linear-gradient(135deg, var(--t-g1), transparent 42%, var(--t-g2));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            opacity: 0.75; pointer-events: none;
+        }
+        .task-card.done { opacity: 0.8; }
+        .task-top { display: flex; align-items: flex-start; gap: 12px; }
+        .task-icon {
+            width: 46px; height: 46px; border-radius: 15px; background: var(--t-icon-bg);
+            border: 1px solid var(--t-icon-border); display: flex; align-items: center;
+            justify-content: center; font-size: 22px; flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        }
+        .task-main { flex: 1; min-width: 0; }
+        .task-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 7px; }
+        .task-tag {
+            font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 8px;
+            border: 1px solid transparent; white-space: nowrap;
+        }
+        .task-tag.blue   { background: rgba(99,102,241,0.18);  color: #b4bffd; border-color: rgba(99,102,241,0.40); }
+        .task-tag.orange { background: rgba(251,146,60,0.16);  color: #fdba74; border-color: rgba(251,146,60,0.40); }
+        .task-tag.red    { background: rgba(239,68,68,0.18);   color: #fca5a5; border-color: rgba(239,68,68,0.40); }
+        .task-tag.amber  { background: rgba(250,204,21,0.16);  color: #fde047; border-color: rgba(250,204,21,0.40); }
+        .task-tag.purple { background: rgba(168,85,247,0.18);  color: #d8b4fe; border-color: rgba(168,85,247,0.40); }
+        #tab-tasks[data-theme="mint"] .task-tag.blue   { background: rgba(99,102,241,0.12);  color: #4338ca; }
+        #tab-tasks[data-theme="mint"] .task-tag.orange { background: rgba(234,88,12,0.10);   color: #c2410c; }
+        #tab-tasks[data-theme="mint"] .task-tag.red    { background: rgba(220,38,38,0.10);   color: #b91c1c; }
+        #tab-tasks[data-theme="mint"] .task-tag.amber  { background: rgba(202,138,4,0.14);   color: #92400e; }
+        #tab-tasks[data-theme="mint"] .task-tag.purple { background: rgba(147,51,234,0.12);  color: #7e22ce; }
+        .task-title { font-size: 15px; font-weight: 900; line-height: 1.25; color: var(--t-title); }
+        .task-reward {
+            font-size: 14px; font-weight: 900; color: var(--t-reward-color); white-space: nowrap;
+            display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+            background: var(--t-reward-bg); border: 1px solid var(--t-reward-border);
+            padding: 5px 10px; border-radius: 12px;
+        }
+        .task-desc { font-size: 13px; line-height: 1.5; color: var(--t-desc); }
+        .task-status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: var(--t-status); }
+        .task-status.pending { color: #f5b301; }
+        .task-check {
+            width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center;
+            justify-content: center; font-size: 12px; font-weight: 900; color: var(--t-check-color);
+            background: linear-gradient(135deg, var(--t-g1), var(--t-g2));
+        }
+        .task-progress-row { display: flex; align-items: center; gap: 10px; }
+        .task-progress-track { flex: 1; height: 7px; background: var(--t-track); border-radius: 7px; overflow: hidden; }
+        .task-progress-fill { height: 100%; background: var(--t-fill); border-radius: 7px; box-shadow: 0 0 10px var(--t-g1); }
+        .task-progress-label { font-size: 12px; font-weight: 800; color: var(--t-label); }
+        .task-btn {
+            width: 100%; padding: 13px 18px; font-size: 14px; border-radius: 14px;
+            background: var(--t-btn-bg); color: var(--t-btn-color); box-shadow: var(--t-btn-shadow);
+        }
     </style>
 </head>
 <body>
@@ -859,23 +980,8 @@
 
         <!-- 3. ЗАДАНИЯ -->
         <div class="tab-page" id="tab-tasks">
-            <h2 style="margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;">📋 Задания</h2>
-            
-            <div class="game-select-card" style="margin-bottom: 10px;">
-                <div>
-                    <b style="font-size: 15px;">📢 Подписка на канал</b>
-                    <p style="font-size: 12px; color: #00e676; margin-top: 3px;">+500 💎</p>
-                </div>
-                <button class="game-card-btn" onclick="alert('Перейдите в канал проекта для подписки!')">Выполнить</button>
-            </div>
-
-            <div class="game-select-card" style="margin-bottom: 10px;">
-                <div>
-                    <b style="font-size: 15px;">👥 Пригласить друга</b>
-                    <p style="font-size: 12px; color: #00e676; margin-top: 3px;">+1 000 💎</p>
-                </div>
-                <button class="game-card-btn" onclick="alert('Отправьте ссылку на бота другу!')">Пригласить</button>
-            </div>
+            <h2 class="tasks-title">📋 Задания</h2>
+            <div id="tasksList"></div>
         </div>
 
         <!-- 4. МАГАЗИН (ВСЕ ПРЕДМЕТЫ В ОДНОМ СТИЛЕ В ОДНОЙ ВКЛАДКЕ) -->
@@ -1405,6 +1511,147 @@
                 </div>
             `).join('');
         }
+
+        // ================= ЗАДАНИЯ =================
+        // Ссылки: впиши свои
+        const TG_CHANNEL_URL = 'https://t.me/Vetruchkick';
+        const YOUTUBE_URL = '';   // TODO: ссылка на YouTube-канал
+        const TASKS_BOT_USERNAME = 'Vetruchkick_bot';
+        // Цветовая тема заданий: 'aurora' (зелёно-фиолетовая), 'ocean' (зелёно-голубая), 'mint' (зелёно-белая).
+        // Для проверки на телефоне можно добавить к ссылке ?tasks_theme=ocean
+        const TASKS_THEME = 'aurora';
+
+        // action: 'link' открывает ссылку, 'share' делится ссылкой на бота, 'soon' показывает подсказку
+        const TASKS = [
+            {
+                id: 'tg_channel', icon: '📢', reward: 1500,
+                tags: [{ text: 'Подписка на ТГ канал', color: 'blue' }],
+                title: 'Подпишитесь на ТГ канал.',
+                desc: 'Наш главный инфоцентр: анонсы, новости и эксклюзивные подгоны только для подписчиков телеги.',
+                button: 'Подписаться', action: 'link', url: TG_CHANNEL_URL
+            },
+            {
+                id: 'youtube', icon: '▶️', reward: 1250,
+                tags: [{ text: 'Ручное', color: 'orange' }],
+                title: 'Подпишитесь на Ютуб.',
+                desc: 'Станьте частью семьи. Подпишитесь на наш ютуб-канал и не пропускайте новые видео!',
+                button: 'Подписаться', action: 'link', url: YOUTUBE_URL
+            },
+            {
+                id: 'kick_link', icon: '🔗', reward: 200,
+                tags: [{ text: 'Kick', color: 'red' }, { text: 'Нужен Kick', color: 'amber' }],
+                title: 'Привяжи аккаунт Kick',
+                desc: 'Привяжи свой Kick, чтобы участвовать в стрим-заданиях и розыгрышах. Нажми «Привязать» ниже.',
+                button: 'Привязать', action: 'soon',
+                hint: 'Привязка Kick подключается вместе с серверной частью, скоро будет доступна.'
+            },
+            {
+                id: 'friends_3', icon: '👥', reward: 2000, progressMax: 3,
+                tags: [{ text: 'Друзья', color: 'purple' }],
+                title: 'Пригласи 3 друзей',
+                desc: 'Пригласи 3 друзей по своей реф-ссылке (реф должен привязать Kick).',
+                button: 'Пригласить', action: 'share'
+            }
+        ];
+
+        // Статусы заданий (todo / pending / done) и прогресс должен отдавать СЕРВЕР:
+        // он проверяет подписки, считает рефералов и принимает ручные заявки.
+        // Пока сервера нет, все задания показываются как невыполненные и баллы за них не начисляются.
+        // Для предпросмотра внешнего вида открой приложение со ссылкой ...?tasks_demo=1
+        function loadTaskStatuses() {
+            if (urlParams.get('tasks_demo') === '1') {
+                return {
+                    tg_channel: { state: 'done' },
+                    youtube: { state: 'done' },
+                    friends_3: { state: 'todo', cur: 0 }
+                };
+            }
+            return {};
+        }
+
+        function taskHint(message) {
+            if (tg && tg.showAlert) tg.showAlert(message); else alert(message);
+        }
+
+        function openTaskLink(url) {
+            if (!url) { taskHint('Ссылка скоро появится.'); return; }
+            if (tg && tg.openTelegramLink && /^https:\/\/t\.me\//.test(url)) tg.openTelegramLink(url);
+            else if (tg && tg.openLink) tg.openLink(url);
+            else window.open(url, '_blank');
+        }
+
+        function onTaskAction(taskId) {
+            const task = TASKS.find(t => t.id === taskId);
+            if (!task) return;
+            if (task.action === 'link') {
+                openTaskLink(task.url);
+            } else if (task.action === 'share') {
+                const botLink = 'https://t.me/' + TASKS_BOT_USERNAME + '?start=ref_' + encodeURIComponent(userId);
+                const text = 'Залетай в Vetruch Emerald, играй и забирай награды!';
+                openTaskLink('https://t.me/share/url?url=' + encodeURIComponent(botLink) + '&text=' + encodeURIComponent(text));
+            } else {
+                taskHint(task.hint || 'Скоро.');
+            }
+        }
+
+        function renderTasks() {
+            const listEl = document.getElementById('tasksList');
+            if (!listEl) return;
+            const statuses = loadTaskStatuses();
+            const tabEl = document.getElementById('tab-tasks');
+            if (tabEl) tabEl.dataset.theme = urlParams.get('tasks_theme') || TASKS_THEME;
+
+            listEl.innerHTML = TASKS.map(task => {
+                const st = statuses[task.id] || { state: 'todo', cur: 0 };
+                const done = st.state === 'done';
+                const tags = task.tags.map(t => `<span class="task-tag ${t.color}">${escapeHtml(t.text)}</span>`).join('');
+
+                let bottom = '';
+                if (done) {
+                    bottom = '<div class="task-status"><span class="task-check">✓</span> Выполнено</div>';
+                } else if (st.state === 'pending') {
+                    bottom = '<div class="task-status pending"><span class="task-check">⏳</span> На проверке</div>';
+                } else {
+                    if (task.progressMax) {
+                        const cur = Math.min(Number(st.cur) || 0, task.progressMax);
+                        const pct = Math.round(cur / task.progressMax * 100);
+                        bottom += `
+                            <div class="task-progress-row">
+                                <div class="task-progress-track"><div class="task-progress-fill" style="width:${pct}%"></div></div>
+                                <div class="task-progress-label">${cur} / ${task.progressMax}</div>
+                            </div>`;
+                    }
+                    bottom += `<button class="game-card-btn task-btn" data-task="${task.id}">${escapeHtml(task.button)}</button>`;
+                }
+
+                return `
+                    <div class="task-card ${done ? 'done' : ''}">
+                        <div class="task-top">
+                            <div class="task-icon">${task.icon}</div>
+                            <div class="task-main">
+                                <div class="task-tags">${tags}</div>
+                                <div class="task-title">${escapeHtml(task.title)}</div>
+                            </div>
+                            <div class="task-reward">💎 ${task.reward.toLocaleString('ru-RU')}</div>
+                        </div>
+                        <div class="task-desc">${escapeHtml(task.desc)}</div>
+                        ${bottom}
+                    </div>`;
+            }).join('');
+        }
+
+        (function initTasks() {
+            const start = () => {
+                renderTasks();
+                const listEl = document.getElementById('tasksList');
+                if (listEl) listEl.addEventListener('click', e => {
+                    const btn = e.target.closest('[data-task]');
+                    if (btn) onTaskAction(btn.dataset.task);
+                });
+            };
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+            else start();
+        })();
 
         // ================= УВЕДОМЛЕНИЯ =================
         function getNotices() {
