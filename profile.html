@@ -244,16 +244,26 @@
         .promo-reward { font-size: 16px; font-weight: 900; color: #00e676; margin-bottom: 4px; }
         .promo-sub { font-size: 12px; color: #5a7d66; }
 
-        /* ИГРЫ */
+        /* ИГРЫ И МАГАЗИН: СТИЛЬ КАРТОЧЕК */
         .game-select-card {
             background: #0c1810; border: 1px solid #183020; border-radius: 18px;
-            padding: 18px; margin-bottom: 14px; display: flex; justify-content: space-between;
+            padding: 16px 18px; margin-bottom: 12px; display: flex; justify-content: space-between;
             align-items: center; color: inherit; width: 100%;
         }
         .game-select-card:active { transform: scale(0.98); border-color: #00e676; }
         .game-card-btn {
             background: #00e676; color: #041409; font-weight: 900; border: none;
-            padding: 10px 18px; border-radius: 10px; cursor: pointer;
+            padding: 10px 18px; border-radius: 12px; cursor: pointer;
+            font-size: 13px; white-space: nowrap; flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+            transition: transform 0.1s ease;
+        }
+        .game-card-btn:active { transform: scale(0.95); }
+
+        .game-card-btn.gold {
+            background: #ffca28;
+            color: #1e1300;
+            box-shadow: 0 4px 15px rgba(255, 202, 40, 0.35);
         }
 
         .back-to-hub {
@@ -868,27 +878,54 @@
             </div>
         </div>
 
-        <!-- 4. МАГАЗИН (АККУРАТНЫЙ И НЕ ПЕРЕГРУЖЕННЫЙ) -->
+        <!-- 4. МАГАЗИН (ВСЕ ПРЕДМЕТЫ В ОДНОМ СТИЛЕ В ОДНОЙ ВКЛАДКЕ) -->
         <div class="tab-page" id="tab-shop">
             <h2 style="margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;">🛍️ Магазин</h2>
             
-            <!-- Базовый предмет: Авто-сбор -->
-            <div class="game-select-card" style="margin-bottom: 12px;">
+            <!-- 1. Авто-сбор бонусов -->
+            <div class="game-select-card">
                 <div>
-                    <b>⚡ Авто-сбор бонусов</b>
+                    <b style="font-size: 15px;">⚡ Авто-сбор бонусов</b>
                     <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Сбор наград 24/7</p>
                 </div>
                 <button class="game-card-btn" id="btnShopBuyAutoCollect" onclick="buyAutoCollectDirect()">1 000 💎</button>
             </div>
 
-            <!-- Переход в полный магазин со стрим-предметами -->
-            <a href="shop.html" class="game-select-card" style="text-decoration: none; border-color: #2a5a3a; margin-bottom: 12px;">
+            <!-- 2. Колл слота (3 000 💎) -->
+            <div class="game-select-card">
                 <div>
-                    <b style="font-size: 15px; color: #ffca28;">🎁 Предметы со стрима</b>
-                    <p style="font-size: 12px; color: #5a7d66; margin-top: 4px;">Коллы слотов, бонуски, накиды</p>
+                    <b style="font-size: 15px;">🎰 Колл слота</b>
+                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Заказ любого слота на стриме</p>
                 </div>
-                <span class="game-card-btn" style="background: #ffca28; color: #041409;">Открыть</span>
-            </a>
+                <button class="game-card-btn gold" onclick="buyStreamItem('Колл слота', 3000)">3 000 💎</button>
+            </div>
+
+            <!-- 3. Накид 1к (60 000 💎) -->
+            <div class="game-select-card">
+                <div>
+                    <b style="font-size: 15px;">💸 Накид 1к</b>
+                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Накид 1 000 ₽ на стриме</p>
+                </div>
+                <button class="game-card-btn gold" onclick="buyStreamItem('Накид 1к', 60000)">60 000 💎</button>
+            </div>
+
+            <!-- 4. Бонуска за 2к (80 000 💎) -->
+            <div class="game-select-card">
+                <div>
+                    <b style="font-size: 15px;">🎁 Бонуска за 2к</b>
+                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Покупка бонуски за 2 000 ₽ на стриме</p>
+                </div>
+                <button class="game-card-btn gold" onclick="buyStreamItem('Бонуска за 2к', 80000)">80 000 💎</button>
+            </div>
+
+            <!-- 5. Накид 3к (200 000 💎) -->
+            <div class="game-select-card">
+                <div>
+                    <b style="font-size: 15px;">👑 Накид 3к</b>
+                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Накид 3 000 ₽ на стриме</p>
+                </div>
+                <button class="game-card-btn gold" onclick="buyStreamItem('Накид 3к', 200000)">200 000 💎</button>
+            </div>
         </div>
 
         <!-- 5. ПРОФИЛЬ -->
@@ -1258,6 +1295,38 @@
             }
         }
 
+        // Покупка стрим-предмета (заказ слота, накид, бонуска)
+        function buyStreamItem(name, price) {
+            if (score < price) {
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                alert(`❌ Недостаточно кристаллов! Для заказа нужно ${price.toLocaleString('ru-RU')} 💎`);
+                return;
+            }
+
+            if (!confirm(`Подтвердите заказ «${name}» за ${price.toLocaleString('ru-RU')} 💎?`)) {
+                return;
+            }
+
+            score -= price;
+            totalSpent += price;
+            updateBalances();
+
+            addTransaction(`Заказ: ${name}`, price, "minus");
+
+            const toast = document.getElementById('purchaseToast');
+            if (toast) {
+                const title = toast.querySelector('.toast-title');
+                const sub = toast.querySelector('.toast-sub');
+                if (title) title.innerText = `Заказ оформлен: ${name}!`;
+                if (sub) sub.innerText = `Списано ${price.toLocaleString('ru-RU')} 💎. Ожидайте выполнения на стриме.`;
+                toast.classList.add('show');
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3500);
+            }
+        }
+
         function checkShopButtonState() {
             const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
             const btn = document.getElementById('btnShopBuyAutoCollect');
@@ -1265,6 +1334,7 @@
                 btn.innerText = "✓ Куплено";
                 btn.style.background = "#142a1c";
                 btn.style.color = "#4e735a";
+                btn.style.boxShadow = "none";
                 btn.style.cursor = "default";
             }
         }
@@ -2149,7 +2219,7 @@
 (function() {
     console.log("=== VETRUCH FINAL FIX ACTIVE ===");
 
-    // 1. Исправленный переключатель вкладок (БЕЗ сброса игры обратно в hub)
+    // 1. Исправленный переключатель вкладок
     window.switchTab = function(tabName, btnElement) {
         if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
         document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
@@ -2172,7 +2242,6 @@
 
     // 2. Исправленное открытие экранов игр
     window.openGameScreen = function(screen) {
-        // Активируем вкладку игр
         document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         const gamesTab = document.getElementById('tab-games');
@@ -2186,19 +2255,16 @@
         const card = document.getElementById('game-card-view');
         const balloon = document.getElementById('game-balloon-view');
 
-        // Скрываем все 4 экрана
         if (hub) hub.style.display = 'none';
         if (dice) dice.style.display = 'none';
         if (card) card.style.display = 'none';
         if (balloon) balloon.style.display = 'none';
 
         if (screen === 'hub') {
-            // Возврат к выбору игр
             if (hub) hub.style.display = 'block';
             if (navbar) navbar.style.display = 'flex';
             if (typeof renderGamesLiveFeed === 'function') renderGamesLiveFeed();
         } else {
-            // Внутри игры прячем нижнее меню, чтобы кнопки ставок и карт не перекрывались
             if (navbar) navbar.style.display = 'none';
 
             if (screen === 'dice' && dice) {
