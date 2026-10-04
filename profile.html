@@ -1065,53 +1065,79 @@
 
         <!-- 4. МАГАЗИН (ВСЕ ПРЕДМЕТЫ В ОДНОМ СТИЛЕ В ОДНОЙ ВКЛАДКЕ) -->
         <div class="tab-page" id="tab-shop">
-            <h2 style="margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;">🛍️ Магазин</h2>
-            
-            <!-- 1. Авто-сбор бонусов -->
-            <div class="game-select-card">
-                <div>
-                    <b style="font-size: 15px;">⚡ Авто-сбор бонусов</b>
-                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Сбор наград 24/7</p>
-                </div>
-                <button class="game-card-btn" id="btnShopBuyAutoCollect" onclick="buyAutoCollectDirect()">1 000 💎</button>
-            </div>
+    <h2 style="margin: 15px 0 18px; font-size: 22px; font-weight: 900;">
+        🛍️ Магазин
+    </h2>
 
-            <!-- 2. Колл слота (3 000 💎) -->
-            <div class="game-select-card">
-                <div>
-                    <b style="font-size: 15px;">🎰 Колл слота</b>
-                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Заказ любого слота на стриме</p>
-                </div>
-                <button class="game-card-btn gold" onclick="buyStreamItem('Колл слота', 3000)">3 000 💎</button>
-            </div>
+    <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;">
 
-            <!-- 3. Накид 1к (60 000 💎) -->
-            <div class="game-select-card">
-                <div>
-                    <b style="font-size: 15px;">💸 Накид 1к</b>
-                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Накид 1 000 ₽ на стриме</p>
-                </div>
-                <button class="game-card-btn gold" onclick="buyStreamItem('Накид 1к', 60000)">60 000 💎</button>
-            </div>
-
-            <!-- 4. Бонуска за 2к (80 000 💎) -->
-            <div class="game-select-card">
-                <div>
-                    <b style="font-size: 15px;">🎁 Бонуска за 2к</b>
-                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Покупка бонуски за 2 000 ₽ на стриме</p>
-                </div>
-                <button class="game-card-btn gold" onclick="buyStreamItem('Бонуска за 2к', 80000)">80 000 💎</button>
-            </div>
-
-            <!-- 5. Накид 3к (200 000 💎) -->
-            <div class="game-select-card">
-                <div>
-                    <b style="font-size: 15px;">👑 Накид 3к</b>
-                    <p style="font-size: 12px; color: #4e735a; margin-top: 4px;">Накид 3 000 ₽ на стриме</p>
-                </div>
-                <button class="game-card-btn gold" onclick="buyStreamItem('Накид 3к', 200000)">200 000 💎</button>
-            </div>
+        <div class="game-select-card" style="display:block; padding:8px;">
+            <img src="iphone-duo.png" alt="iPhone Duo"
+                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+            <b style="display:block; margin:8px 2px;">iPhone Duo</b>
+            <button class="game-card-btn gold"
+                onclick="buyStreamItem('iPhone Duo', 1500000)">1 500 000 💎</button>
         </div>
+
+        <div class="game-select-card" style="display:block; padding:8px;">
+            <img src="rubles-5000.png" alt="5 000 рублей"
+                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+            <b style="display:block; margin:8px 2px;">5 000 рублей</b>
+            <button class="game-card-btn gold"
+                onclick="buyStreamItem('5 000 рублей', 65000)">65 000 💎</button>
+        </div>
+
+        <div class="game-select-card" style="display:block; padding:8px;">
+            <img src="rubles-1000.png" alt="1 000 рублей"
+                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+            <b style="display:block; margin:8px 2px;">1 000 рублей</b>
+            <button class="game-card-btn gold"
+                onclick="buyStreamItem('1 000 рублей', 15000)">15 000 💎</button>
+        </div>
+
+        <div class="game-select-card" style="display:block; padding:8px;">
+            <img src="rubles-2500.png" alt="2 500 рублей"
+                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+            <b style="display:block; margin:8px 2px;">2 500 рублей</b>
+            <button class="game-card-btn gold"
+                onclick="buyStreamItem('2 500 рублей', 45000)">45 000 💎</button>
+        </div>
+
+        <div class="game-select-card" style="display:block; padding:8px;">
+            <img src="bonus-10000.png" alt="Бонуска за 10 000 рублей"
+                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+            <b style="display:block; margin:8px 2px;">Бонуска за 10 000 ₽</b>
+            <button class="game-card-btn gold"
+                onclick="buyStreamItem('Бонуска за 10 000 ₽', 100000)">100 000 💎</button>
+        </div>
+
+        <div class="game-select-card" style="display:block; padding:8px;">
+            <img src="slot-streamer.png" alt="Выбрать слот для стримера"
+                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+            <b style="display:block; margin:8px 2px;">Выбрать слот для стримера</b>
+            <button class="game-card-btn gold"
+                onclick="buyStreamItem('Выбрать слот для стримера', 5000)">5 000 💎</button>
+        </div>
+
+        <div class="game-select-card" style="display:block; padding:8px;">
+            <img src="vip-og.png" alt="VIP либо OG в чате"
+                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+            <b style="display:block; margin:8px 2px;">VIP либо OG в чате</b>
+            <button class="game-card-btn gold"
+                onclick="buyStreamItem('VIP либо OG в чате', 45000)">45 000 💎</button>
+        </div>
+
+        <div class="game-select-card" style="display:block; padding:8px;">
+            <img src="iphone-18-pro-max.png" alt="iPhone 18 Pro Max"
+                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+            <b style="display:block; margin:8px 2px;">iPhone 18 Pro Max</b>
+            <button class="game-card-btn gold"
+                onclick="buyStreamItem('iPhone 18 Pro Max', 1300000)">1 300 000 💎</button>
+        </div>
+
+    </div>
+</div>
+
 
         <!-- 5. ПРОФИЛЬ -->
         <div class="tab-page" id="tab-profile">
