@@ -1177,8 +1177,12 @@
             </div>
 
             <!-- АДМИН-ПАНЕЛЬ -->
-            <div class="admin-box" id="adminBox">
+                        <div class="admin-box" id="adminBox">
                 <div class="admin-header">👑 Админ-панель (Накрутка)</div>
+                <button class="admin-btn" onclick="openAdminPanel()"
+                    style="background:linear-gradient(135deg,#ffb300,#ff8f00); color:#1e1300; box-shadow:0 4px 15px rgba(255,179,0,0.4);">
+                    🌐 ОТКРЫТЬ АДМИН-ПАНЕЛЬ
+                </button>
                 <div class="admin-form">
                     <input type="text" id="adminTargetId" class="admin-field" placeholder="ID игрока (или свой ID)">
                     <input type="number" id="adminAmount" class="admin-field" placeholder="Количество кристаллов 💎">
@@ -1477,7 +1481,12 @@
             }
         }
 
-        // Покупка стрим-предмета (заказ слота, накид, бонуска)
+            // ================= ЗАКАЗЫ СО СТРИМА (НАКИДЫ, БОНУСКА, КОЛЛ) =================
+        const SERVER_URL = "https://ИМЯ-ТВОЕГО-СЕРВИСА.onrender.com"; // ← ВПИШИ АДРЕС СЕРВЕРА!
+        const SECRET_KEY = "vetruch_secret_2024";
+
+        let currentOrderItem = null;
+
         function buyStreamItem(name, price) {
             if (score < price) {
                 if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
@@ -1485,41 +1494,93 @@
                 return;
             }
 
-            if (!confirm(`Подтвердите заказ «${name}» за ${price.toLocaleString('ru-RU')} 💎?`)) {
+            currentOrderItem = { name: name, price: price };
+
+            document.getElementById('orderModalTitle').innerText = name;
+
+            const input = document.getElementById('orderUsernameInput');
+            input.value = '';
+            const myUsername = tg?.initDataUnsafe?.user?.username;
+            if (myUsername) input.value = '@' + myUsername; // Telegram сам подставит юз, если знает
+
+            document.getElementById('orderModal').classList.add('show');
+            setTimeout(() => input.focus(), 300);
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.remove('show');
+            currentOrderItem = null;
+        }
+
+        async function confirmOrder() {
+            if (!currentOrderItem) return;
+
+            let username = document.getElementById('orderUsernameInput').value.trim().replace('@', '');
+            if (!username || username.length < 3) {
+                alert("⚠️ Введите ваш юзернейм в Telegram (например @vanya)");
                 return;
             }
 
-            score -= price;
-            totalSpent += price;
+            score -= currentOrderItem.price;
+            totalSpent += currentOrderItem.price;
             updateBalances();
+            addTransaction(`Заказ: ${currentOrderItem.name}`, currentOrderItem.price, "minus");
 
-            addTransaction(`Заказ: ${name}`, price, "minus");
+            const sendBtn = document.getElementById('orderSendBtn');
+            sendBtn.disabled = true;
+            sendBtn.innerText = "⏳ ОТПРАВЛЯЕМ...";
+
+            try {
+                await fetch(SERVER_URL + '/api/buy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        secret: SECRET_KEY,
+                        item: currentOrderItem.name,
+                        price: currentOrderItem.price,
+                        username: username,
+                        tg_name: tg?.initDataUnsafe?.user?.first_name || '',
+                        tg_id: tg?.initDataUnsafe?.user?.id || 0
+                    })
+                });
+            } catch (e) {
+                console.warn('Не удалось отправить заявку:', e);
+                alert("Кристаллы списаны, но заявка не дошла до сервера.\nНапишите админу напрямую: @" + username);
+            }
+
+            sendBtn.disabled = false;
+            sendBtn.innerText = "✅ ОТПРАВИТЬ ЗАЯВКУ";
+
+            const itemName = currentOrderItem.name;
+            closeOrderModal();
 
             const toast = document.getElementById('purchaseToast');
             if (toast) {
                 const title = toast.querySelector('.toast-title');
                 const sub = toast.querySelector('.toast-sub');
-                if (title) title.innerText = `Заказ оформлен: ${name}!`;
-                if (sub) sub.innerText = `Списано ${price.toLocaleString('ru-RU')} 💎. Ожидайте выполнения на стриме.`;
+                if (title) title.innerText = `Заявка отправлена: ${itemName}!`;
+                if (sub) sub.innerText = 'Админ свяжется с вами в Telegram!';
                 toast.classList.add('show');
                 if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3500);
+                setTimeout(() => toast.classList.remove('show'), 3500);
             }
         }
 
-        function checkShopButtonState() {
-            const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
-            const btn = document.getElementById('btnShopBuyAutoCollect');
-            if (isOwned && btn) {
-                btn.innerText = "✓ Куплено";
-                btn.style.background = "#142a1c";
-                btn.style.color = "#4e735a";
-                btn.style.boxShadow = "none";
-                btn.style.cursor = "default";
+        // закрыть окошко по тапу на тёмный фон
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target.id === 'orderModal') closeOrderModal();
+        });
+
+        // открыть админку новой вкладкой (в Telegram так: tg.openLink)
+        function openAdminPanel() {
+            const url = "https://kolos1337valide.github.io/vetruch-telegram-app/admin.html";
+            if (tg && tg.openLink) {
+                tg.openLink(url);
+            } else {
+                window.open(url, '_blank');
             }
         }
+
 
         // ================= СИСТЕМА ИСТОРИИ ИГР =================
         function getGamesLiveFeed() {
