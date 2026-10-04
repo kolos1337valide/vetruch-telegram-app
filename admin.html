@@ -44,7 +44,6 @@
             gap: 16px;
         }
 
-        /* Шапка */
         .admin-header {
             background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
             border: 1px solid var(--border);
@@ -68,7 +67,6 @@
         .admin-title { font-size: 17px; font-weight: 900; letter-spacing: 0.5px; }
         .admin-subtitle { font-size: 11px; color: var(--accent); font-weight: 700; text-transform: uppercase; }
 
-        /* Карточка формы */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -103,7 +101,6 @@
         }
         .input-box:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
 
-        /* Быстрые кнопки сумм */
         .quick-amounts {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -128,7 +125,6 @@
             transform: scale(0.97);
         }
 
-        /* Главная кнопка */
         .btn-submit {
             background: linear-gradient(135deg, #00e676 0%, #00b359 100%);
             color: #031207;
@@ -147,7 +143,6 @@
         }
         .btn-submit:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(0, 230, 118, 0.2); }
 
-        /* Список недавних игроков */
         .history-list {
             display: flex;
             flex-direction: column;
@@ -170,7 +165,99 @@
         .history-id { font-size: 13px; font-weight: 800; color: #fff; }
         .history-amount { font-size: 12px; font-weight: 900; color: var(--accent); }
 
-        /* Баннер подсказки */
+        /* ===== ЗАЯВКИ ИЗ МАГАЗИНА ===== */
+        .section-title {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .new-badge {
+            background: #ff3d57;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 2px 9px;
+            border-radius: 10px;
+            display: none;
+        }
+        .new-badge.show { display: inline-block; }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .order-item {
+            background: #050d07;
+            border: 1px solid #2a1810;
+            border-radius: 16px;
+            padding: 14px;
+            animation: orderIn 0.3s ease;
+        }
+        .order-item.done {
+            opacity: 0.45;
+            border-color: var(--border);
+        }
+        @keyframes orderIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .order-name {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--gold);
+        }
+        .order-time { font-size: 11px; color: #40684c; font-weight: 700; }
+        .order-user { font-size: 13px; color: #fff; font-weight: 700; margin-bottom: 4px; }
+        .order-user small { color: #527a5e; font-weight: 600; }
+        .order-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .order-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+        .order-btn.write {
+            background: #00e676;
+            color: #041409;
+        }
+        .order-btn.done-btn {
+            background: #14241a;
+            color: #649673;
+            flex: 0 0 auto;
+            padding: 10px 14px;
+        }
+        .order-btn:active { transform: scale(0.95); }
+
+        .empty-text {
+            font-size: 12px;
+            color: #40684c;
+            text-align: center;
+            padding: 12px;
+        }
+
         .tip-box {
             background: #06110a;
             border: 1px dashed var(--border);
@@ -187,13 +274,12 @@
 
     <div class="container">
 
-        <!-- Шапка -->
         <div class="admin-header">
             <div class="header-title-box">
                 <div class="admin-icon">👑</div>
                 <div>
                     <div class="admin-title">Vetruch Control</div>
-                    <div class="admin-subtitle">Панель накрутки 💎</div>
+                    <div class="admin-subtitle">Панель админа 💎</div>
                 </div>
             </div>
             <div style="font-size: 11px; color: var(--accent); background: #071f11; padding: 6px 10px; border-radius: 10px; font-weight: 800;">
@@ -201,7 +287,18 @@
             </div>
         </div>
 
-        <!-- Форма накрутки -->
+        <!-- ЗАЯВКИ ИЗ МАГАЗИНА -->
+        <div class="card">
+            <div class="section-title">
+                <span>🛒 Заявки из магазина</span>
+                <span class="new-badge" id="ordersBadge">0</span>
+            </div>
+            <div class="orders-list" id="ordersList">
+                <div class="empty-text">Заявок пока нет...</div>
+            </div>
+        </div>
+
+        <!-- ФОРМА НАКРУТКИ -->
         <div class="card">
             <div class="field-group">
                 <div class="field-label">
@@ -218,7 +315,6 @@
                 <input type="number" id="amountInput" class="input-box" placeholder="Введите сумму или выберите ниже">
             </div>
 
-            <!-- Быстрые кнопки -->
             <div class="quick-amounts">
                 <button class="quick-btn" onclick="setQuickAmount(1000, this)">+1 000</button>
                 <button class="quick-btn" onclick="setQuickAmount(5000, this)">+5 000</button>
@@ -228,26 +324,18 @@
                 <button class="quick-btn" onclick="setQuickAmount(500000, this)">+500 000</button>
             </div>
 
-            <!-- Кнопка накрутки -->
             <button class="btn-submit" onclick="submitBoost()">
                 <span>🚀 НАЧИСЛИТЬ КРИСТАЛЛЫ</span>
             </button>
         </div>
 
-        <!-- История начислений -->
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-weight: 800; font-size: 13px; text-transform: uppercase; color: var(--text-muted);">
-                    🕒 Недавние начисления
-                </div>
-                <div style="font-size: 11px; color: #ff3d57; cursor: pointer;" onclick="clearHistory()">Очистить</div>
-            </div>
+            <div class="section-title">🕒 Недавние начисления</div>
             <div class="history-list" id="historyList">
-                <div style="font-size: 12px; color: #40684c; text-align: center; padding: 12px;">История пока пуста</div>
+                <div class="empty-text">История пока пуста</div>
             </div>
         </div>
 
-        <!-- Подсказка -->
         <div class="tip-box">
             💡 <b>Как узнать ID игрока?</b><br>
             Любой игрок может посмотреть свой ID в боте во вкладке <b>«Профиль»</b>, либо через официального бота <code>@userinfobot</code>.
@@ -256,10 +344,13 @@
     </div>
 
     <script>
+        // ⚠️ МЕНЯЙ ЭТО: адрес твоего бота на сервере
+        const SERVER_URL = "https://ИМЯ-ТВОЕГО-СЕРВИСА.onrender.com";
+        const SECRET_KEY = "vetruch_secret_2024"; // как в bot.py
+
         const BOT_USERNAME = "Vetruchkick_bot";
         let currentAdminId = "1067693099";
 
-        // Определяем ID того, кто открыл админку
         try {
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.ready();
@@ -281,12 +372,92 @@
             if (btn) btn.classList.add('active');
         }
 
-        // Загрузка истории начислений
+        // ============ ЗАЯВКИ ИЗ МАГАЗИНА ============
+        let lastOrders = [];          // что было в прошлый раз
+        let newOrdersCount = 0;       // сколько новых не видел админ
+
+        async function loadOrders() {
+            try {
+                const r = await fetch(SERVER_URL + '/api/orders?secret=' + SECRET_KEY);
+                const data = await r.json();
+                if (!data.ok) return;
+
+                // Считаем, сколько появилось новых (тех, что не видели раньше)
+                if (lastOrders.length > 0) {
+                    const oldIds = new Set(lastOrders.map(o => o.id));
+                    const fresh = data.orders.filter(o => !o.done && !oldIds.has(o.id));
+                    if (fresh.length > 0) {
+                        newOrdersCount += fresh.length;
+                        const tg = window.Telegram?.WebApp;
+                        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                    }
+                }
+                lastOrders = data.orders;
+
+                renderOrders();
+            } catch (e) {
+                console.warn('Сервер не отвечает:', e);
+            }
+        }
+
+        function renderOrders() {
+            const list = document.getElementById('ordersList');
+            const badge = document.getElementById('ordersBadge');
+
+            badge.style.display = newOrdersCount > 0 ? 'inline-block' : 'none';
+            badge.innerText = newOrdersCount;
+
+            // Клик по бейджу = "я всё увидел"
+            badge.onclick = () => { newOrdersCount = 0; renderOrders(); };
+
+            if (lastOrders.length === 0) {
+                list.innerHTML = '<div class="empty-text">Заявок пока нет...</div>';
+                return;
+            }
+
+            list.innerHTML = lastOrders.map(order => `
+                <div class="order-item ${order.done ? 'done' : ''}">
+                    <div class="order-top">
+                        <div class="order-name">${order.item}</div>
+                        <div class="order-time">${order.time}</div>
+                    </div>
+                    <div class="order-user">
+                        👤 @${order.username} <small>(${order.tg_name || 'без имени'}, ID: ${order.tg_id || '—'})</small>
+                    </div>
+                    <div style="font-size: 12px; color: #649673; font-weight: 700; margin-bottom: 4px;">
+                        Оплачено: ${Number(order.price).toLocaleString('ru-RU')} 💎
+                    </div>
+                    <div class="order-buttons">
+                        <a class="order-btn write" href="https://t.me/${order.username}" target="_blank">✉️ НАПИСАТЬ В ЛС</a>
+                        ${order.done ? '' : `<button class="order-btn done-btn" onclick="markDone(${order.id})">✅ Готово</button>`}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function markDone(orderId) {
+            try {
+                await fetch(SERVER_URL + '/api/order_done', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ secret: SECRET_KEY, id: orderId })
+                });
+                loadOrders(); // сразу обновляем список
+            } catch (e) {
+                alert('Не удалось связаться с сервером');
+            }
+        }
+
+        // Проверяем заявки сразу и потом каждые 8 секунд
+        loadOrders();
+        setInterval(loadOrders, 8000);
+
+        // ============ ИСТОРИЯ НАЧИСЛЕНИЙ ============
         function loadHistory() {
             const list = document.getElementById('historyList');
             const data = JSON.parse(localStorage.getItem('vetruch_admin_history') || '[]');
             if (data.length === 0) {
-                list.innerHTML = `<div style="font-size: 12px; color: #40684c; text-align: center; padding: 12px;">История пока пуста</div>`;
+                list.innerHTML = `<div class="empty-text">История пока пуста</div>`;
                 return;
             }
             list.innerHTML = data.map(item => `
@@ -318,7 +489,6 @@
             loadHistory();
         }
 
-        // Главное действие: отправка накрутки
         function submitBoost() {
             const targetId = document.getElementById('targetIdInput').value.trim();
             const amount = parseInt(document.getElementById('amountInput').value.trim(), 10);
@@ -331,12 +501,10 @@
             const command = `/give ${targetId} ${amount}`;
             const deepLink = `https://t.me/${BOT_USERNAME}?start=give_${targetId}_${amount}`;
 
-            // Копируем команду в буфер обмена
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(command);
             }
 
-            // Если открыто внутри Telegram Mini App
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
                 window.Telegram.WebApp.openTelegramLink(deepLink);
             } else {
