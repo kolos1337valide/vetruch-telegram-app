@@ -489,7 +489,6 @@
         .admin-header {
             font-size: 16px; font-weight: 900; color: #00e676; display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
         }
-        .admin-form { display: flex; flex-direction: column; gap: 10px; }
         .admin-field {
             width: 100%; background: #06110a; border: 1px solid #1b3823;
             color: #ffffff; font-size: 14px; font-weight: 700; padding: 12px; border-radius: 12px; outline: none;
@@ -1201,12 +1200,12 @@
 
         </div>
 
-        <!-- 6. ЭКРАН АДМИН-ПАНЕЛИ (ПОЛНОСТЬЮ ВНУТРИ ПРИЛОЖЕНИЯ, БЕЗ САЙТА) -->
+        <!-- 6. ЭКРАН АДМИН-ПАНЕЛИ (ПОЛНОСТЬЮ ВНУТРИ ПРИЛОЖЕНИЯ, БЕЗ ВЫХОДА В БРАУЗЕР) -->
         <div id="admin-screen-view" style="display: none; width: 100%; max-width: 420px; animation: fadeIn 0.25s ease;">
             
             <!-- Шапка экрана админки с возвратом -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                <button type="button" class="back-to-hub" onclick="closeAdminPanel()" style="margin-bottom: 0;">← Назад в профиль</button>
+                <button type="button" class="admin-back-btn" onclick="closeAdminPanel()" style="background: #0f2216; border: 1px solid #1a4226; color: #69f0ae; padding: 8px 14px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 0;">← Назад в профиль</button>
                 <div style="font-size: 11px; color: #00e676; background: #071f11; border: 1px solid #14301d; padding: 6px 12px; border-radius: 12px; font-weight: 800;">
                     👑 VETRUCH CONTROL
                 </div>
@@ -1461,7 +1460,7 @@
         setTimeout(forceClosePreloader, 600);
 
         function switchTab(tabName, btnElement) {
-            // Если была открыта админка - скрываем её
+            // Обязательно прячем экран админки, чтобы он не накладывался на вкладки
             const adminScreen = document.getElementById('admin-screen-view');
             if (adminScreen) adminScreen.style.display = 'none';
 
@@ -1481,6 +1480,10 @@
 
         // ПРЯМОЕ ПЕРЕКЛЮЧЕНИЕ ИГР
         function openGameScreen(screen) {
+            // Прячем админку, если вдруг была открыта
+            const adminScreen = document.getElementById('admin-screen-view');
+            if (adminScreen) adminScreen.style.display = 'none';
+
             const gamesNavBtn = document.querySelectorAll('.nav-item')[1];
             switchTab('games', gamesNavBtn);
 
@@ -1653,7 +1656,6 @@
             sendBtn.disabled = true;
             sendBtn.innerText = "⏳ ОТПРАВЛЯЕМ...";
 
-            // Отправка на бэкенд (если настроен)
             try {
                 await fetch(SERVER_URL + '/api/buy', {
                     method: 'POST',
@@ -1688,7 +1690,6 @@
             }
         }
 
-        // Закрытие модалки заказа по клику на фон
         document.getElementById('orderModal').addEventListener('click', function(e) {
             if (e.target.id === 'orderModal') closeOrderModal();
         });
@@ -1719,7 +1720,6 @@
             const adminScreen = document.getElementById('admin-screen-view');
             if (adminScreen) adminScreen.style.display = 'block';
 
-            // Инициализация полей и списков
             const targetInput = document.getElementById('adminScreenTargetId');
             if (targetInput && !targetInput.value) targetInput.value = userId;
 
@@ -2785,128 +2785,124 @@
             checkShopButtonState();
         });
     </script>
-<!-- ================== РАБОЧИЙ ФИКС: ИГРЫ + НАЗАД ================== -->
-<script>
-(function() {
-    console.log("=== VETRUCH FINAL FIX ACTIVE ===");
 
-    // 1. Исправленный переключатель вкладок
-    window.switchTab = function(tabName, btnElement) {
-        // Скрываем экран админки при переключении
-        const adminScreen = document.getElementById('admin-screen-view');
-        if (adminScreen) adminScreen.style.display = 'none';
+    <!-- ================== НАВИГАЦИЯ И КЛИКИ ================== -->
+    <script>
+    (function() {
+        console.log("=== VETRUCH FINAL FIX ACTIVE ===");
 
-        if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
-        document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-        
-        const targetTab = document.getElementById('tab-' + tabName);
-        if (targetTab) targetTab.classList.add('active');
-        if (btnElement) btnElement.classList.add('active');
+        window.switchTab = function(tabName, btnElement) {
+            const adminScreen = document.getElementById('admin-screen-view');
+            if (adminScreen) adminScreen.style.display = 'none';
 
-        const navbar = document.querySelector('.navbar');
-        if (tabName === 'games') {
-            window.openGameScreen('hub');
-        } else {
-            if (navbar) navbar.style.display = 'flex';
-        }
-        if (tabName === 'shop') {
-            if (typeof checkShopButtonState === 'function') checkShopButtonState();
-        }
-    };
+            if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            
+            const targetTab = document.getElementById('tab-' + tabName);
+            if (targetTab) targetTab.classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
 
-    // 2. Исправленное открытие экранов игр
-    window.openGameScreen = function(screen) {
-        document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-        const gamesTab = document.getElementById('tab-games');
-        if (gamesTab) gamesTab.classList.add('active');
-        const gamesNavBtn = document.querySelectorAll('.nav-item')[1];
-        if (gamesNavBtn) gamesNavBtn.classList.add('active');
-
-        const navbar = document.querySelector('.navbar');
-        const hub = document.getElementById('games-hub-view');
-        const dice = document.getElementById('game-dice-view');
-        const card = document.getElementById('game-card-view');
-        const balloon = document.getElementById('game-balloon-view');
-
-        if (hub) hub.style.display = 'none';
-        if (dice) dice.style.display = 'none';
-        if (card) card.style.display = 'none';
-        if (balloon) balloon.style.display = 'none';
-
-        if (screen === 'hub') {
-            if (hub) hub.style.display = 'block';
-            if (navbar) navbar.style.display = 'flex';
-            if (typeof renderGamesLiveFeed === 'function') renderGamesLiveFeed();
-        } else {
-            if (navbar) navbar.style.display = 'none';
-
-            if (screen === 'dice' && dice) {
-                dice.style.display = 'block';
-            } else if (screen === 'card' && card) {
-                card.style.display = 'block';
-                if (typeof initCardGameUI === 'function') initCardGameUI();
-            } else if (screen === 'balloon' && balloon) {
-                balloon.style.display = 'block';
-                if (typeof resetBalloonUI === 'function') resetBalloonUI();
+            const navbar = document.querySelector('.navbar');
+            if (tabName === 'games') {
+                window.openGameScreen('hub');
+            } else {
+                if (navbar) navbar.style.display = 'flex';
             }
-        }
+            if (tabName === 'shop') {
+                if (typeof checkShopButtonState === 'function') checkShopButtonState();
+            }
+        };
 
-        const contentEl = document.querySelector('.content');
-        if (contentEl) contentEl.scrollTop = 0;
-        window.scrollTo(0, 0);
+        window.openGameScreen = function(screen) {
+            const adminScreen = document.getElementById('admin-screen-view');
+            if (adminScreen) adminScreen.style.display = 'none';
 
-        if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
-    };
+            document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            const gamesTab = document.getElementById('tab-games');
+            if (gamesTab) gamesTab.classList.add('active');
+            const gamesNavBtn = document.querySelectorAll('.nav-item')[1];
+            if (gamesNavBtn) gamesNavBtn.classList.add('active');
 
-    // 3. Прямая привязка кликов прямо к кнопкам «Играть» и карточкам
-    function bindGameClicks() {
-        document.querySelectorAll('.game-select-card').forEach(card => {
-            const txt = (card.innerText || '').toLowerCase();
-            const btn = card.querySelector('button, .game-card-btn');
+            const navbar = document.querySelector('.navbar');
+            const hub = document.getElementById('games-hub-view');
+            const dice = document.getElementById('game-dice-view');
+            const card = document.getElementById('game-card-view');
+            const balloon = document.getElementById('game-balloon-view');
 
-            let targetGame = null;
-            if (txt.includes('кубик')) targetGame = 'dice';
-            else if (txt.includes('карт')) targetGame = 'card';
-            else if (txt.includes('шарик')) targetGame = 'balloon';
+            if (hub) hub.style.display = 'none';
+            if (dice) dice.style.display = 'none';
+            if (card) card.style.display = 'none';
+            if (balloon) balloon.style.display = 'none';
 
-            if (targetGame) {
-                card.onclick = function(e) {
-                    e.preventDefault();
-                    window.openGameScreen(targetGame);
-                };
-                if (btn) {
-                    btn.onclick = function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        window.openGameScreen(targetGame);
-                    };
+            if (screen === 'hub') {
+                if (hub) hub.style.display = 'block';
+                if (navbar) navbar.style.display = 'flex';
+                if (typeof renderGamesLiveFeed === 'function') renderGamesLiveFeed();
+            } else {
+                if (navbar) navbar.style.display = 'none';
+
+                if (screen === 'dice' && dice) {
+                    dice.style.display = 'block';
+                } else if (screen === 'card' && card) {
+                    card.style.display = 'block';
+                    if (typeof initCardGameUI === 'function') initCardGameUI();
+                } else if (screen === 'balloon' && balloon) {
+                    balloon.style.display = 'block';
+                    if (typeof resetBalloonUI === 'function') resetBalloonUI();
                 }
             }
-        });
-    }
 
-    // 4. Привязка всех кнопок «Назад к играм»
-    window.exitGameToHub = function() { window.openGameScreen('hub'); };
-    window.closeGameScreen = window.exitGameToHub;
-    window.backToGameSelect = window.exitGameToHub;
-    window.backToGames = window.exitGameToHub;
-    window.backToHub = window.exitGameToHub;
+            const contentEl = document.querySelector('.content');
+            if (contentEl) contentEl.scrollTop = 0;
+            window.scrollTo(0, 0);
 
-    document.addEventListener('click', function(e) {
-        const target = e.target;
-        if (target && (target.classList.contains('back-to-hub') || (target.innerText || '').includes('Назад к играм'))) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            window.openGameScreen('hub');
+            if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
+        };
+
+        function bindGameClicks() {
+            document.querySelectorAll('#games-hub-view .game-select-card').forEach(card => {
+                const txt = (card.innerText || '').toLowerCase();
+                const btn = card.querySelector('button, .game-card-btn');
+
+                let targetGame = null;
+                if (txt.includes('кубик')) targetGame = 'dice';
+                else if (txt.includes('карт')) targetGame = 'card';
+                else if (txt.includes('шарик')) targetGame = 'balloon';
+
+                if (targetGame) {
+                    card.onclick = function(e) {
+                        e.preventDefault();
+                        window.openGameScreen(targetGame);
+                    };
+                    if (btn) {
+                        btn.onclick = function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.openGameScreen(targetGame);
+                        };
+                    }
+                }
+            });
         }
-    }, true);
 
-    bindGameClicks();
-    setTimeout(bindGameClicks, 300);
-    setTimeout(bindGameClicks, 1000);
-})();
-</script>
+        window.exitGameToHub = function() { window.openGameScreen('hub'); };
+
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+            // Срабатывает только для возврата из конкретных игр в хаб игр
+            if (target && (target.classList.contains('back-to-hub') || (target.innerText || '').includes('Назад к играм'))) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                window.openGameScreen('hub');
+            }
+        }, true);
+
+        bindGameClicks();
+        setTimeout(bindGameClicks, 300);
+        setTimeout(bindGameClicks, 1000);
+    })();
+    </script>
 </body>
 </html>
