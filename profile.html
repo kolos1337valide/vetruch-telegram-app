@@ -734,7 +734,7 @@
                             <span>🎮</span> История игр
                         </div>
                         <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; color: #00e676; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.25); padding: 4px 10px; border-radius: 20px;">
-                            <span class="live-dot"></span> LIVE СТАВКИ
+                            ВАШИ ИГРЫ
                         </div>
                     </div>
                     <div class="tx-list" id="gamesLiveList"></div>
@@ -1097,7 +1097,7 @@
             if (adminInput) adminInput.value = userId;
         }
 
-        let realUsersTarget = parseInt(urlParams.get('users'), 10) || 4;
+        let realUsersTarget = parseInt(urlParams.get('users'), 10) || 0;
 
         // ================= НАДЁЖНОЕ ХРАНЕНИЕ И СИНХРОНИЗАЦИЯ БАЛАНСА =================
         const STORAGE_BALANCE_KEY = 'vetruch_balance_' + userId;
@@ -1133,7 +1133,7 @@
             }
         }
 
-        let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY), 10) || 17683;
+        let totalEarned = parseInt(localStorage.getItem(STORAGE_EARNED_KEY), 10) || 0;
         let totalSpent = parseInt(localStorage.getItem(STORAGE_SPENT_KEY), 10) || 0;
         let totalRewards = parseInt(localStorage.getItem(STORAGE_REWARDS_KEY), 10) || 0;
 
@@ -1340,61 +1340,12 @@
         }
 
         // ================= СИСТЕМА ИСТОРИИ ИГР =================
-        const MODERN_NICKS = [
-            "markov.eth", "gleb_k", "drainer", "vanya_m", "alxndr",
-            "mironov", "kris_t", "f1ash", "danil.crypto", "shurik",
-            "n1k1ta", "flame_x", "romanov_off", "artyom.sol", "kolyasik",
-            "vlados", "timur_dev", "shadow_k", "ne_trogai", "alex_kick"
-        ];
-
-        const GAMES_INFO = [
-            { name: "Карты", icon: "🃏", mults: [1.2, 2.0] },
-            { name: "Кубики", icon: "🎲", mults: [1.02, 1.71, 2.05, 3.41] },
-            { name: "Шарик", icon: "🎈", mults: [1.14, 1.35, 1.62, 2.10, 2.80] }
-        ];
-
-        const FAKE_BETS = [20, 30, 50, 75, 100, 150, 200];
-
         function getGamesLiveFeed() {
             try { return JSON.parse(localStorage.getItem(STORAGE_GAMES_LOG_KEY)) || []; } catch(e) { return []; }
         }
 
         function saveGamesLiveFeed(list) {
             localStorage.setItem(STORAGE_GAMES_LOG_KEY, JSON.stringify(list.slice(0, 30)));
-        }
-
-        function generateFakeBet() {
-            const user = MODERN_NICKS[Math.floor(Math.random() * MODERN_NICKS.length)];
-            const game = GAMES_INFO[Math.floor(Math.random() * GAMES_INFO.length)];
-            const bet = FAKE_BETS[Math.floor(Math.random() * FAKE_BETS.length)];
-            
-            const isWin = Math.random() < 0.45;
-            let mult = 0;
-            let payout = 0;
-
-            if (isWin) {
-                mult = game.mults[Math.floor(Math.random() * game.mults.length)];
-                payout = Math.floor(bet * mult);
-                if (payout > 1000) {
-                    payout = Math.floor(Math.random() * 200) + 750;
-                    mult = +(payout / bet).toFixed(2);
-                }
-            }
-
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            return {
-                user: user,
-                isReal: false,
-                game: game.name,
-                icon: game.icon,
-                bet: bet,
-                isWin: isWin,
-                payout: payout,
-                mult: mult,
-                time: timeStr
-            };
         }
 
         function logPlayerGame(gameName, gameIcon, bet, isWin, payout, mult) {
@@ -1418,49 +1369,42 @@
             renderGamesLiveFeed();
         }
 
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+
+        // Показываем только настоящие игры этого игрока (их пишет logPlayerGame)
         function renderGamesLiveFeed() {
             const listEl = document.getElementById('gamesLiveList');
             if (!listEl) return;
-            let feed = getGamesLiveFeed();
+
+            const all = getGamesLiveFeed();
+            const feed = all.filter(item => item.isReal);
+            if (feed.length !== all.length) saveGamesLiveFeed(feed); // вычищаем старые выдуманные записи
 
             if (feed.length === 0) {
-                for (let i = 0; i < 6; i++) {
-                    feed.push(generateFakeBet());
-                }
-                saveGamesLiveFeed(feed);
+                listEl.innerHTML = '<div style="text-align:center;color:#5a7d66;font-size:13px;padding:18px 8px;">Пока нет игр.<br>Сыграй, и результат появится здесь.</div>';
+                return;
             }
 
             listEl.innerHTML = feed.map(item => `
                 <div class="tx-card">
                     <div class="tx-left">
-                        <div class="tx-icon-circle ${item.isWin ? 'plus' : 'minus'}">${item.icon}</div>
+                        <div class="tx-icon-circle ${item.isWin ? 'plus' : 'minus'}">${escapeHtml(item.icon)}</div>
                         <div class="tx-info">
                             <div class="tx-title">
-                                <span>${item.user}</span>
-                                ${item.isReal ? '<span style="background:#00e676;color:#041409;font-size:9px;font-weight:900;padding:1px 5px;border-radius:4px;margin-left:4px;">ВЫ</span>' : ''}
+                                <span>${escapeHtml(item.user)}</span>
+                                <span style="background:#00e676;color:#041409;font-size:9px;font-weight:900;padding:1px 5px;border-radius:4px;margin-left:4px;">ВЫ</span>
                             </div>
-                            <div class="tx-date">${item.game} • Ставка ${item.bet} 💎 • ${item.time}</div>
+                            <div class="tx-date">${escapeHtml(item.game)} • Ставка ${Number(item.bet)} 💎 • ${escapeHtml(item.time)}</div>
                         </div>
                     </div>
                     <div class="tx-amount ${item.isWin ? 'plus' : 'minus'}">
-                        ${item.isWin ? `+${item.payout} 💎` : `-${item.bet} 💎`}
+                        ${item.isWin ? `+${Number(item.payout)} 💎` : `-${Number(item.bet)} 💎`}
                     </div>
                 </div>
             `).join('');
         }
-
-        function scheduleFakeFeed() {
-            const delay = Math.floor(Math.random() * (110000 - 60000 + 1)) + 60000;
-            setTimeout(() => {
-                const newBet = generateFakeBet();
-                let list = getGamesLiveFeed();
-                list.unshift(newBet);
-                saveGamesLiveFeed(list);
-                renderGamesLiveFeed();
-                scheduleFakeFeed();
-            }, delay);
-        }
-        scheduleFakeFeed();
 
         // ================= УВЕДОМЛЕНИЯ =================
         function getNotices() {
