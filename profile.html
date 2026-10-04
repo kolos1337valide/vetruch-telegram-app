@@ -764,6 +764,44 @@
   animation: autoHidePreloader 0.3s ease 2s forwards;
 }
 
+    /* Магазин: карточки в стиле заданий */
+#tab-shop .game-select-card {
+    background: linear-gradient(135deg, #101d2a 0%, #0b171d 100%) !important;
+    border: 1px solid #253d57 !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 0 12px rgba(0, 230, 118, 0.10),
+        inset 0 0 18px rgba(25, 75, 100, 0.12);
+}
+
+/* Тёмно-изумрудные кнопки товаров */
+#tab-shop .game-card-btn {
+    width: 100%;
+    margin-top: 4px;
+    padding: 12px 6px;
+    border-radius: 12px;
+    border: 1px solid #087a4b !important;
+    background: linear-gradient(135deg, #075c3b, #06452f) !important;
+    color: #dffff0 !important;
+    font-weight: 900;
+    box-shadow: 0 0 12px rgba(0, 230, 118, 0.15);
+}
+
+/* Подсветка кнопки при нажатии */
+#tab-shop .game-card-btn:active {
+    transform: scale(0.97);
+    background: linear-gradient(135deg, #087448, #07583b) !important;
+}
+
+/* Тонкая сине-фиолетовая подсветка рамки, как на карточке задания */
+#tab-shop .game-select-card:nth-child(odd) {
+    border-color: #31506a !important;
+}
+
+#tab-shop .game-select-card:nth-child(even) {
+    border-color: #254b46 !important;
+}
+
     </style>
 </head>
 <body>
