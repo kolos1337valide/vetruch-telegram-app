@@ -1186,6 +1186,21 @@
                 </div>
             </div>
 
+            <!-- ОКНО ЗАКАЗА: ввод юзернейма -->
+<div id="orderModal">
+    <div class="order-modal-box">
+        <div class="order-modal-title" id="orderModalTitle">Заказ</div>
+        <div class="order-modal-sub">
+            Чтобы админ связался с вами, укажите ваш <b>юзернейм в Telegram</b>.<br>
+            Заявка придёт админам в панель управления.
+        </div>
+        <input type="text" class="order-modal-input" id="orderUsernameInput"
+               placeholder="@username" autocapitalize="none" autocomplete="off">
+        <button class="order-modal-btn green" id="orderSendBtn" onclick="confirmOrder()">✅ ОТПРАВИТЬ ЗАЯВКУ</button>
+        <button class="order-modal-btn gray" onclick="closeOrderModal()">Отмена</button>
+    </div>
+</div>
+
             <!-- СПИСОК ТРАНЗАКЦИЙ В ПРОФИЛЕ -->
             <div id="txAnchor"></div>
             <div class="section-header-title">
