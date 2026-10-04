@@ -2662,4 +2662,197 @@
 })();
 </script>
 </body>
+    <!-- ================== ВЕТРУЧ-ПАТЧ: вставлять один раз перед </body> ================== -->
+<script>
+(function() {
+    // ⚠️ ВПИШИ СЮДА АДРЕС СВОЕГО СЕРВЕРА (тот же, что в admin.html)
+    const SERVER_URL = "https://ИМЯ-ТВОЕГО-СЕРВИСА.onrender.com";
+    const SECRET_KEY = "vetruch_secret_2024"; // тот же, что в bot.py
+
+    const tg = window.Telegram?.WebApp;
+
+    // ---------- 1. ЧИСТИМ ВСЁ СТАРОЕ И КРИВОЕ ----------
+    document.querySelectorAll('#orderModal').forEach(el => el.remove());
+
+    // ---------- 2. СТИЛИ ОКНА ЗАКАЗА ----------
+    const css = document.createElement('style');
+    css.textContent = `
+        #orderModal {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000000;
+            display: none;
+            align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        #orderModal.show { display: flex; }
+        .order-modal-box {
+            background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
+            border: 2px solid #00e676;
+            border-radius: 22px;
+            padding: 24px 20px;
+            width: 100%; max-width: 340px;
+            box-shadow: 0 10px 40px rgba(0,230,118,0.35);
+            animation: vpOrderIn 0.25s ease;
+        }
+        @keyframes vpOrderIn { from { opacity: 0; transform: scale(0.9);} to { opacity: 1; transform: scale(1);} }
+        .order-modal-title { font-size: 18px; font-weight: 900; text-align: center; margin-bottom: 8px; }
+        .order-modal-sub { font-size: 12px; color: #698c74; text-align: center; line-height: 1.45; margin-bottom: 16px; }
+        .order-modal-input {
+            width: 100%; background: #06110a;
+            border: 1.5px solid #1b3823; border-radius: 14px;
+            padding: 14px; color: #00e676;
+            font-size: 16px; font-weight: 800; text-align: center;
+            outline: none; margin-bottom: 14px;
+            user-select: text; -webkit-user-select: text;
+        }
+        .order-modal-input:focus { border-color: #00e676; box-shadow: 0 0 12px rgba(0,230,118,0.3); }
+        .vp-modal-btn {
+            width: 100%; padding: 15px; border: none; border-radius: 14px;
+            font-size: 15px; font-weight: 900; cursor: pointer; margin-bottom: 8px;
+            display: block;
+        }
+        .vp-modal-btn.green {
+            background: linear-gradient(135deg, #00e676 0%, #00b359 100%);
+            color: #041409; box-shadow: 0 4px 20px rgba(0,230,118,0.4);
+        }
+        .vp-modal-btn.gray { background: #10241a; color: #5a7d66; }
+        .vp-modal-btn:active { transform: scale(0.97); }
+        .vp-modal-btn:disabled { opacity: 0.5; }
+    `;
+    document.head.appendChild(css);
+
+    // ---------- 3. САМО ОКНО ЗАКАЗА ----------
+    document.body.insertAdjacentHTML('beforeend', `
+        <div id="orderModal">
+            <div class="order-modal-box">
+                <div class="order-modal-title" id="vpOrderTitle">Заказ</div>
+                <div class="order-modal-sub">
+                    Чтобы админ связался с вами, укажите ваш <b>юзернейм в Telegram</b>.<br>
+                    Заявка придёт админам в панель управления.
+                </div>
+                <input type="text" class="order-modal-input" id="vpOrderUsername"
+                       placeholder="@username" autocapitalize="none" autocomplete="off">
+                <button class="vp-modal-btn green" id="vpOrderSend">✅ ОТПРАВИТЬ ЗАЯВКУ</button>
+                <button class="vp-modal-btn gray" id="vpOrderCancel">Отмена</button>
+            </div>
+        </div>
+    `);
+
+    const modal = document.getElementById('orderModal');
+    const modalTitle = document.getElementById('vpOrderTitle');
+    const modalInput = document.getElementById('vpOrderUsername');
+    const sendBtn = document.getElementById('vpOrderSend');
+
+    modal.addEventListener('click', e => { if (e.target === modal) closeOrder(); });
+    document.getElementById('vpOrderCancel').addEventListener('click', closeOrder);
+
+    let currentOrderItem = null;
+
+    function closeOrder() {
+        modal.classList.remove('show');
+        currentOrderItem = null;
+    }
+
+    // ---------- 4. ЗАМЕНЯЕМ ПОКУПКУ (старая buyStreamItem перестаёт работать) ----------
+    window.buyStreamItem = function(name, price) {
+        if (typeof score === 'undefined') return;
+
+        if (score < price) {
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+            alert('❌ Недостаточно кристаллов! Для заказа нужно ' + price.toLocaleString('ru-RU') + ' 💎');
+            return;
+        }
+
+        currentOrderItem = { name: name, price: price };
+        modalTitle.innerText = name;
+
+        modalInput.value = '';
+        const myUsername = tg?.initDataUnsafe?.user?.username;
+        if (myUsername) modalInput.value = '@' + myUsername;
+
+        modal.classList.add('show');
+        setTimeout(() => modalInput.focus(), 300);
+    };
+
+    sendBtn.addEventListener('click', async function() {
+        if (!currentOrderItem) return;
+
+        const username = modalInput.value.trim().replace('@', '');
+        if (!username || username.length < 3) {
+            alert('⚠️ Введите ваш юзернейм в Telegram (например @vanya)');
+            return;
+        }
+
+        const price = currentOrderItem.price;
+        const itemName = currentOrderItem.name;
+
+        // списываем кристаллы (твои же функции из профиля)
+        score -= price;
+        totalSpent += price;
+        updateBalances();
+        addTransaction('Заказ: ' + itemName, price, 'minus');
+
+        sendBtn.disabled = true;
+        sendBtn.innerText = '⏳ ОТПРАВЛЯЕМ...';
+
+        try {
+            await fetch(SERVER_URL + '/api/buy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    secret: SECRET_KEY,
+                    item: itemName,
+                    price: price,
+                    username: username,
+                    tg_name: tg?.initDataUnsafe?.user?.first_name || '',
+                    tg_id: tg?.initDataUnsafe?.user?.id || 0
+                })
+            });
+        } catch (e) {
+            console.warn('Заявка не дошла до сервера:', e);
+            alert('Кристаллы списаны, но заявка не дошла до сервера.\nНапишите админу напрямую: @' + username);
+        }
+
+        sendBtn.disabled = false;
+        sendBtn.innerText = '✅ ОТПРАВИТЬ ЗАЯВКУ';
+        closeOrder();
+
+        // зелёная плашка сверху, как в остальном приложении
+        const toast = document.getElementById('purchaseToast');
+        if (toast) {
+            const title = toast.querySelector('.toast-title');
+            const sub = toast.querySelector('.toast-sub');
+            if (title) title.innerText = 'Заявка отправлена: ' + itemName + '!';
+            if (sub) sub.innerText = 'Админ свяжется с вами в Telegram!';
+            toast.classList.add('show');
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+    });
+
+    // ---------- 5. АДМИН-БЛОК: ОСТАВЛЯЕМ ТОЛЬКО КНОПКУ ВХОДА ----------
+    // Старый adminBox твой код показывает только админам (display:block),
+    // поэтому просто выпотрошим его и оставим одну кнопку.
+    const adminBox = document.getElementById('adminBox');
+    if (adminBox) {
+        adminBox.innerHTML = `
+            <div class="admin-header">👑 Админ</div>
+            <button id="vpAdminOpen" style="
+                width: 100%; padding: 14px; border: none; border-radius: 12px;
+                background: linear-gradient(135deg, #ffb300 0%, #ff8f00 100%);
+                color: #1e1300; font-size: 15px; font-weight: 900;
+                cursor: pointer; box-shadow: 0 4px 15px rgba(255,179,0,0.4);
+            ">🌐 ОТКРЫТЬ АДМИН-ПАНЕЛЬ</button>
+        `;
+        document.getElementById('vpAdminOpen').addEventListener('click', function() {
+            const url = 'https://kolos1337valide.github.io/vetruch-telegram-app/admin.html';
+            if (tg && tg.openLink) tg.openLink(url);      // откроется новой вкладкой/браузером
+            else window.open(url, '_blank');
+        });
+    }
+})();
+</script>
+<!-- ================== КОНЕЦ ВЕТРУЧ-ПАТЧА ================== -->
 </html>
