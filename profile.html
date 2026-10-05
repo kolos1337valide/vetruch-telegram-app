@@ -127,19 +127,47 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            max-width: 400px;
             margin-bottom: 18px;
             padding: 2px 2px;
         }
-        
-        .kcep-header { max-width: 400px; }
 
         .kcep-user-block { display: flex; align-items: center; gap: 12px; }
         .kcep-avatar-circle {
-            width: 48px; height: 48px; border-radius: 50%;
-            background: #102417; border: 2px solid #00e676;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #102417;
+            border: 2px solid #00e676;
             box-shadow: 0 0 15px rgba(0, 230, 118, 0.25);
-            display: flex; align-items: center; justify-content: center; font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
         }
+
+        #homeAvatarEmoji {
+            display: block;
+            width: 100%;
+            height: 100%;
+            line-height: 46px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        #homeAvatarImg {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
         .kcep-greeting { display: flex; flex-direction: column; gap: 2px; }
         .kcep-sub-text { font-size: 12px; color: #698c74; font-weight: 600; }
         .kcep-nick-text { font-size: 18px; font-weight: 900; color: #ffffff; }
@@ -429,6 +457,17 @@
             width: 64px; height: 64px; border-radius: 50%; border: 2px solid #00e676;
             box-shadow: 0 0 16px rgba(0, 230, 118, 0.35); display: flex; align-items: center;
             justify-content: center; background: #142a1c; font-size: 32px; flex-shrink: 0;
+            overflow: hidden;
+        }
+        #suboAvatar {
+            width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        #telegramAvatar {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
         .subo-user-info { display: flex; flex-direction: column; gap: 3px; }
         .subo-user-name { font-size: 18px; font-weight: 900; color: #ffffff; }
@@ -577,262 +616,55 @@
         }
         .nav-item.active .nav-icon { fill: #06150b; }
         .nav-item.active .nav-label { color: #00e676; }
-    
-        /* ================= ЗАДАНИЯ ================= */
-        #tab-tasks {
-            --t-g1: #00e676; --t-g2: #7c5cff;
-            --t-card-a: #0f2a21; --t-card-b: #15102f;
-            --t-border: rgba(255,255,255,0.07);
-            --t-title: #ffffff; --t-desc: #93b5a4;
-            --t-icon-bg: linear-gradient(135deg, rgba(0,230,118,0.24), rgba(124,92,255,0.26));
-            --t-icon-border: rgba(0,230,118,0.38);
-            --t-reward-bg: linear-gradient(135deg, rgba(0,230,118,0.18), rgba(124,92,255,0.20));
-            --t-reward-border: rgba(0,230,118,0.38);
-            --t-reward-color: #eafff3;
-            --t-btn-bg: linear-gradient(135deg, #00e676 0%, #00d4a0 55%, #7c5cff 135%);
-            --t-btn-color: #031a0e;
-            --t-btn-shadow: 0 6px 20px rgba(0,230,118,0.35);
-            --t-track: rgba(255,255,255,0.09);
-            --t-fill: linear-gradient(90deg, #00e676, #38bdf8, #7c5cff);
-            --t-label: #eafff3;
-            --t-status: #00e676;
-            --t-check-color: #031a0e;
-            --t-shadow: 0 10px 28px rgba(0,0,0,0.5);
-        }
-        #tab-tasks[data-theme="ocean"] {
-            --t-g1: #00e676; --t-g2: #22d3ee;
-            --t-card-a: #0c2b24; --t-card-b: #0a2034;
-            --t-icon-bg: linear-gradient(135deg, rgba(0,230,118,0.24), rgba(34,211,238,0.26));
-            --t-icon-border: rgba(34,211,238,0.40);
-            --t-reward-bg: linear-gradient(135deg, rgba(0,230,118,0.18), rgba(34,211,238,0.20));
-            --t-reward-border: rgba(34,211,238,0.40);
-            --t-btn-bg: linear-gradient(135deg, #00e676 0%, #00d9b8 55%, #22d3ee 135%);
-            --t-fill: linear-gradient(90deg, #00e676, #22d3ee, #38bdf8);
-        }
-        #tab-tasks[data-theme="mint"] {
-            --t-g1: #00c46a; --t-g2: #7dffc0;
-            --t-card-a: #f7fffb; --t-card-b: #d6f4e4;
-            --t-border: rgba(0,150,80,0.28);
-            --t-title: #0a2a1b; --t-desc: #3c6a54;
-            --t-icon-bg: linear-gradient(135deg, #ffffff, #c4efd7);
-            --t-icon-border: rgba(0,170,90,0.38);
-            --t-reward-bg: linear-gradient(135deg, #ffffff, #cff3e0);
-            --t-reward-border: rgba(0,170,90,0.45);
-            --t-reward-color: #08753f;
-            --t-btn-bg: linear-gradient(135deg, #00b862 0%, #00e676 60%, #7dffc0 130%);
-            --t-btn-color: #03180d;
-            --t-btn-shadow: 0 6px 18px rgba(0,196,106,0.38);
-            --t-track: rgba(0,120,70,0.16);
-            --t-fill: linear-gradient(90deg, #00b862, #00e676);
-            --t-label: #0a2a1b;
-            --t-status: #08a35a;
-            --t-check-color: #ffffff;
-            --t-shadow: 0 10px 26px rgba(0,0,0,0.45);
-        }
-
-        .tasks-title {
-            margin: 15px 0 18px 0; font-size: 22px; font-weight: 900;
-            background: linear-gradient(90deg, #ffffff 0%, #9dffcb 55%, #8be9ff 125%);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-        }
-        .task-card {
-            position: relative; border-radius: 20px; padding: 16px; margin-bottom: 14px;
-            display: flex; flex-direction: column; gap: 12px;
-            background: linear-gradient(160deg, var(--t-card-a), var(--t-card-b));
-            border: 1px solid var(--t-border);
-            box-shadow: var(--t-shadow), inset 0 1px 0 rgba(255,255,255,0.06);
-        }
-        .task-card::before {
-            content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1px;
-            background: linear-gradient(135deg, var(--t-g1), transparent 42%, var(--t-g2));
-            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            opacity: 0.75; pointer-events: none;
-        }
-        .task-card.done { opacity: 0.8; }
-        .task-top { display: flex; align-items: flex-start; gap: 12px; }
-        .task-icon {
-            width: 46px; height: 46px; border-radius: 15px; background: var(--t-icon-bg);
-            border: 1px solid var(--t-icon-border); display: flex; align-items: center;
-            justify-content: center; font-size: 22px; flex-shrink: 0;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-        }
-        .task-main { flex: 1; min-width: 0; }
-        .task-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 7px; }
-        .task-tag {
-            font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 8px;
-            border: 1px solid transparent; white-space: nowrap;
-        }
-        .task-tag.blue   { background: rgba(99,102,241,0.18);  color: #b4bffd; border-color: rgba(99,102,241,0.40); }
-        .task-tag.orange { background: rgba(251,146,60,0.16);  color: #fdba74; border-color: rgba(251,146,60,0.40); }
-        .task-tag.red    { background: rgba(239,68,68,0.18);   color: #fca5a5; border-color: rgba(239,68,68,0.40); }
-        .task-tag.amber  { background: rgba(250,204,21,0.16);  color: #fde047; border-color: rgba(250,204,21,0.40); }
-        .task-tag.purple { background: rgba(168,85,247,0.18);  color: #d8b4fe; border-color: rgba(168,85,247,0.40); }
-        .task-title { font-size: 15px; font-weight: 900; line-height: 1.25; color: var(--t-title); }
-        .task-reward {
-            font-size: 14px; font-weight: 900; color: var(--t-reward-color); white-space: nowrap;
-            display: flex; align-items: center; gap: 4px; flex-shrink: 0;
-            background: var(--t-reward-bg); border: 1px solid var(--t-reward-border);
-            padding: 5px 10px; border-radius: 12px;
-        }
-        .task-desc { font-size: 13px; line-height: 1.5; color: var(--t-desc); }
-        .task-status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: var(--t-status); }
-        .task-status.pending { color: #f5b301; }
-        .task-check {
-            width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center;
-            justify-content: center; font-size: 12px; font-weight: 900; color: var(--t-check-color);
-            background: linear-gradient(135deg, var(--t-g1), var(--t-g2));
-        }
-        .task-progress-row { display: flex; align-items: center; gap: 10px; }
-        .task-progress-track { flex: 1; height: 7px; background: var(--t-track); border-radius: 7px; overflow: hidden; }
-        .task-progress-fill { height: 100%; background: var(--t-fill); border-radius: 7px; box-shadow: 0 0 10px var(--t-g1); }
-        .task-progress-label { font-size: 12px; font-weight: 800; color: var(--t-label); }
-        .task-btn {
-            width: 100%; padding: 13px 18px; font-size: 14px; border-radius: 14px;
-            background: var(--t-btn-bg); color: var(--t-btn-color); box-shadow: var(--t-btn-shadow);
-        }
-
-        /* ===== ОКНО ЗАКАЗА (юзернейм + комментарий) ===== */
-        #orderModal {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(6px);
-            z-index: 100000;
-            display: none;
-            align-items: center; justify-content: center;
-            padding: 20px;
-        }
-        #orderModal.show { display: flex; }
-        .order-modal-box {
-            background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%);
-            border: 2px solid #00e676;
-            border-radius: 24px;
-            padding: 22px 20px;
-            width: 100%; max-width: 360px;
-            box-shadow: 0 10px 40px rgba(0,230,118,0.35);
-            animation: orderIn 0.25s ease;
-        }
-        @keyframes orderIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .order-modal-title {
-            font-size: 18px; font-weight: 900; text-align: center; margin-bottom: 6px;
-        }
-        .order-modal-sub {
-            font-size: 12px; color: #698c74; text-align: center;
-            line-height: 1.45; margin-bottom: 14px;
-        }
-        .order-modal-input {
-            width: 100%;
-            background: #06110a;
-            border: 1.5px solid #1b3823;
-            border-radius: 14px;
-            padding: 13px 14px;
-            color: #00e676;
-            font-size: 15px; font-weight: 800;
-            text-align: left; outline: none;
-            margin-bottom: 10px;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-        .order-modal-input:focus {
-            border-color: #00e676;
-            box-shadow: 0 0 12px rgba(0,230,118,0.3);
-        }
-        .order-modal-btn {
-            width: 100%; padding: 14px; border: none;
-            border-radius: 14px; font-size: 15px; font-weight: 900;
-            cursor: pointer; margin-bottom: 8px;
-        }
-        .order-modal-btn.green {
-            background: linear-gradient(135deg, #00e676 0%, #00b359 100%);
-            color: #041409;
-            box-shadow: 0 4px 20px rgba(0,230,118,0.4);
-        }
-        .order-modal-btn.gray { background: #10241a; color: #5a7d66; }
-        .order-modal-btn:active { transform: scale(0.97); }
-        .order-modal-btn:disabled { opacity: 0.5; }
 
         @keyframes autoHidePreloader {
-  to {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-}
+            to {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+        }
 
-#preloader {
-  animation: autoHidePreloader 0.3s ease 2s forwards;
-}
+        #preloader {
+            animation: autoHidePreloader 0.3s ease 2s forwards;
+        }
 
-    /* Магазин: карточки в стиле заданий */
-#tab-shop .game-select-card {
-    background: linear-gradient(135deg, #101d2a 0%, #0b171d 100%) !important;
-    border: 1px solid #253d57 !important;
-    border-radius: 20px !important;
-    box-shadow:
-        0 0 12px rgba(0, 230, 118, 0.10),
-        inset 0 0 18px rgba(25, 75, 100, 0.12);
-}
+        /* Магазин: карточки в стиле заданий */
+        #tab-shop .game-select-card {
+            background: linear-gradient(135deg, #101d2a 0%, #0b171d 100%) !important;
+            border: 1px solid #253d57 !important;
+            border-radius: 20px !important;
+            box-shadow:
+                0 0 12px rgba(0, 230, 118, 0.10),
+                inset 0 0 18px rgba(25, 75, 100, 0.12);
+        }
 
-/* Тёмно-изумрудные кнопки товаров */
-#tab-shop .game-card-btn {
-    width: 100%;
-    margin-top: 4px;
-    padding: 12px 6px;
-    border-radius: 12px;
-    border: 1px solid #087a4b !important;
-    background: linear-gradient(135deg, #075c3b, #06452f) !important;
-    color: #dffff0 !important;
-    font-weight: 900;
-    box-shadow: 0 0 12px rgba(0, 230, 118, 0.15);
-}
+        /* Тёмно-изумрудные кнопки товаров */
+        #tab-shop .game-card-btn {
+            width: 100%;
+            margin-top: 4px;
+            padding: 12px 6px;
+            border-radius: 12px;
+            border: 1px solid #087a4b !important;
+            background: linear-gradient(135deg, #075c3b, #06452f) !important;
+            color: #dffff0 !important;
+            font-weight: 900;
+            box-shadow: 0 0 12px rgba(0, 230, 118, 0.15);
+        }
 
-/* Подсветка кнопки при нажатии */
-#tab-shop .game-card-btn:active {
-    transform: scale(0.97);
-    background: linear-gradient(135deg, #087448, #07583b) !important;
-}
+        /* Подсветка кнопки при нажатии */
+        #tab-shop .game-card-btn:active {
+            transform: scale(0.97);
+            background: linear-gradient(135deg, #087448, #07583b) !important;
+        }
 
-/* Тонкая сине-фиолетовая подсветка рамки, как на карточке задания */
-#tab-shop .game-select-card:nth-child(odd) {
-    border-color: #31506a !important;
-}
+        #tab-shop .game-select-card:nth-child(odd) {
+            border-color: #31506a !important;
+        }
 
-#tab-shop .game-select-card:nth-child(even) {
-    border-color: #254b46 !important;
-}
-
-    #suboAvatar {
-    overflow: hidden;
-}
-
-#telegramAvatar {
-    display: none;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-#homeAvatar { overflow: hidden; }
-        
-.kcep-avatar-circle {
-    width: 46px;
-    height: 46px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-
-#homeAvatar { position: relative; }
-#homeAvatarEmoji { display: block; width: 100%; height: 100%; line-height: 46px; text-align: center; font-size: 24px; }
-#homeAvatarImg { display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
-
-
-
+        #tab-shop .game-select-card:nth-child(even) {
+            border-color: #254b46 !important;
+        }
     </style>
 </head>
 <body>
@@ -870,35 +702,36 @@
         </div>
     </div>
 
-   <div class="content">
-
-    <div class="kcep-header">
-    <div class="kcep-user-block">
-        <div class="kcep-avatar-circle" id="homeAvatar"><span id="homeAvatarEmoji">🐱</span><img id="homeAvatarImg" alt=""></div>
-        <div class="kcep-greeting">
-            <span class="kcep-sub-text">Добро пожаловать,</span>
-            <b class="kcep-nick-text" id="username">kolos.</b>
-        </div>
-    </div>
-    <div class="kcep-header-right">
-        <div class="kcep-bell-btn" onclick="openNoticeModal()">
-            <span>🔔</span>
-            <div class="bell-badge" id="noticeBadge" style="display: none;">1</div>
-        </div>
-        <div class="kcep-balance-pill">
-            <span>💎</span>
-            <span id="headerBalance">0</span>
-        </div>
-    </div>
-</div>
-
+    <div class="content">
 
         <!-- 1. ГЛАВНАЯ -->
-<div class="tab-page active" id="tab-home">
+        <div class="tab-page active" id="tab-home">
+            <div class="kcep-header">
+                <div class="kcep-user-block">
+                    <div class="kcep-avatar-circle" id="homeAvatar">
+                        <span id="homeAvatarEmoji">🐱</span>
+                        <img id="homeAvatarImg" alt="">
+                    </div>
+                    <div class="kcep-greeting">
+                        <span class="kcep-sub-text">Добро пожаловать,</span>
+                        <b class="kcep-nick-text" id="username">kolos.</b>
+                    </div>
+                </div>
 
-    <!-- дальше сразу карточки "ВСЕГО ВЫПЛАЧЕНО" и остальное -->
-    ...
+                <div class="kcep-header-right">
+                    <div class="kcep-bell-btn" onclick="openNoticeModal()">
+                        <span>🔔</span>
+                        <div class="bell-badge" id="noticeBadge" style="display: none;">1</div>
+                    </div>
+                    <div class="kcep-balance-pill">
+                        <span>💎</span>
+                        <span id="headerBalance">0</span>
+                    </div>
+                </div>
+            </div>
 
+            <div class="kcep-card kcep-main-stat">
+                <div class="kcep-stat-top-title">
                     <span>💵</span> ВСЕГО ВЫПЛАЧЕНО ЗРИТЕЛЯМ
                 </div>
 
@@ -1134,81 +967,80 @@
             <div id="tasksList"></div>
         </div>
 
-        <!-- 4. МАГАЗИН (ВСЕ ПРЕДМЕТЫ В ОДНОМ СТИЛЕ В ОДНОЙ ВКЛАДКЕ) -->
+        <!-- 4. МАГАЗИН -->
         <div class="tab-page" id="tab-shop">
-    <h2 style="margin: 15px 0 18px; font-size: 22px; font-weight: 900;">
-        🛍️ Магазин
-    </h2>
+            <h2 style="margin: 15px 0 18px; font-size: 22px; font-weight: 900;">
+                🛍️ Магазин
+            </h2>
 
-    <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;">
+            <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;">
 
-        <div class="game-select-card" style="display:block; padding:8px;">
-            <img src="iphone-duo.png" alt="iPhone Duo"
-                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
-            <b style="display:block; margin:8px 2px;">iPhone Duo</b>
-            <button class="game-card-btn gold"
-                onclick="buyStreamItem('iPhone Duo', 1500000)">1 500 000 💎</button>
+                <div class="game-select-card" style="display:block; padding:8px;">
+                    <img src="iphone-duo.png" alt="iPhone Duo"
+                         style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+                    <b style="display:block; margin:8px 2px;">iPhone Duo</b>
+                    <button class="game-card-btn gold"
+                        onclick="buyStreamItem('iPhone Duo', 1500000)">1 500 000 💎</button>
+                </div>
+
+                <div class="game-select-card" style="display:block; padding:8px;">
+                    <img src="rubles-5000.png" alt="5 000 рублей"
+                         style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+                    <b style="display:block; margin:8px 2px;">5 000 рублей</b>
+                    <button class="game-card-btn gold"
+                        onclick="buyStreamItem('5 000 рублей', 65000)">65 000 💎</button>
+                </div>
+
+                <div class="game-select-card" style="display:block; padding:8px;">
+                    <img src="rubles-1000.png" alt="1 000 рублей"
+                         style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+                    <b style="display:block; margin:8px 2px;">1 000 рублей</b>
+                    <button class="game-card-btn gold"
+                        onclick="buyStreamItem('1 000 рублей', 15000)">15 000 💎</button>
+                </div>
+
+                <div class="game-select-card" style="display:block; padding:8px;">
+                    <img src="rubles-2500.png" alt="2 500 рублей"
+                         style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+                    <b style="display:block; margin:8px 2px;">2 500 рублей</b>
+                    <button class="game-card-btn gold"
+                        onclick="buyStreamItem('2 500 рублей', 45000)">45 000 💎</button>
+                </div>
+
+                <div class="game-select-card" style="display:block; padding:8px;">
+                    <img src="bonus-10000.png" alt="Бонуска за 10 000 рублей"
+                         style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+                    <b style="display:block; margin:8px 2px;">Бонуска за 10 000 ₽</b>
+                    <button class="game-card-btn gold"
+                        onclick="buyStreamItem('Бонуска за 10 000 ₽', 100000)">100 000 💎</button>
+                </div>
+
+                <div class="game-select-card" style="display:block; padding:8px;">
+                    <img src="slot-streamer.png" alt="Выбрать слот для стримера"
+                         style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+                    <b style="display:block; margin:8px 2px;">Выбрать слот для стримера</b>
+                    <button class="game-card-btn gold"
+                        onclick="buyStreamItem('Выбрать слот для стримера', 5000)">5 000 💎</button>
+                </div>
+
+                <div class="game-select-card" style="display:block; padding:8px;">
+                    <img src="vip-og.png" alt="VIP либо OG в чате"
+                         style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+                    <b style="display:block; margin:8px 2px;">VIP либо OG в чате</b>
+                    <button class="game-card-btn gold"
+                        onclick="buyStreamItem('VIP либо OG в чате', 45000)">45 000 💎</button>
+                </div>
+
+                <div class="game-select-card" style="display:block; padding:8px;">
+                    <img src="iphone-18-pro-max.png" alt="iPhone 18 Pro Max"
+                         style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
+                    <b style="display:block; margin:8px 2px;">iPhone 18 Pro Max</b>
+                    <button class="game-card-btn gold"
+                        onclick="buyStreamItem('iPhone 18 Pro Max', 1300000)">1 300 000 💎</button>
+                </div>
+
+            </div>
         </div>
-
-        <div class="game-select-card" style="display:block; padding:8px;">
-            <img src="rubles-5000.png" alt="5 000 рублей"
-                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
-            <b style="display:block; margin:8px 2px;">5 000 рублей</b>
-            <button class="game-card-btn gold"
-                onclick="buyStreamItem('5 000 рублей', 65000)">65 000 💎</button>
-        </div>
-
-        <div class="game-select-card" style="display:block; padding:8px;">
-            <img src="rubles-1000.png" alt="1 000 рублей"
-                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
-            <b style="display:block; margin:8px 2px;">1 000 рублей</b>
-            <button class="game-card-btn gold"
-                onclick="buyStreamItem('1 000 рублей', 15000)">15 000 💎</button>
-        </div>
-
-        <div class="game-select-card" style="display:block; padding:8px;">
-            <img src="rubles-2500.png" alt="2 500 рублей"
-                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
-            <b style="display:block; margin:8px 2px;">2 500 рублей</b>
-            <button class="game-card-btn gold"
-                onclick="buyStreamItem('2 500 рублей', 45000)">45 000 💎</button>
-        </div>
-
-        <div class="game-select-card" style="display:block; padding:8px;">
-            <img src="bonus-10000.png" alt="Бонуска за 10 000 рублей"
-                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
-            <b style="display:block; margin:8px 2px;">Бонуска за 10 000 ₽</b>
-            <button class="game-card-btn gold"
-                onclick="buyStreamItem('Бонуска за 10 000 ₽', 100000)">100 000 💎</button>
-        </div>
-
-        <div class="game-select-card" style="display:block; padding:8px;">
-            <img src="slot-streamer.png" alt="Выбрать слот для стримера"
-                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
-            <b style="display:block; margin:8px 2px;">Выбрать слот для стримера</b>
-            <button class="game-card-btn gold"
-                onclick="buyStreamItem('Выбрать слот для стримера', 5000)">5 000 💎</button>
-        </div>
-
-        <div class="game-select-card" style="display:block; padding:8px;">
-            <img src="vip-og.png" alt="VIP либо OG в чате"
-                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
-            <b style="display:block; margin:8px 2px;">VIP либо OG в чате</b>
-            <button class="game-card-btn gold"
-                onclick="buyStreamItem('VIP либо OG в чате', 45000)">45 000 💎</button>
-        </div>
-
-        <div class="game-select-card" style="display:block; padding:8px;">
-            <img src="iphone-18-pro-max.png" alt="iPhone 18 Pro Max"
-                 style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
-            <b style="display:block; margin:8px 2px;">iPhone 18 Pro Max</b>
-            <button class="game-card-btn gold"
-                onclick="buyStreamItem('iPhone 18 Pro Max', 1300000)">1 300 000 💎</button>
-        </div>
-
-    </div>
-</div>
-
 
         <!-- 5. ПРОФИЛЬ -->
         <div class="tab-page" id="tab-profile">
@@ -1216,9 +1048,9 @@
             <div class="subo-user-card">
                 <div class="subo-avatar-wrap">
                     <div id="suboAvatar">
-    <img id="telegramAvatar" src="" alt="Аватар">
-</div>
-
+                        <span id="suboAvatarEmoji">🐱</span>
+                        <img id="telegramAvatar" src="" alt="Аватар">
+                    </div>
                 </div>
                 <div class="subo-user-info">
                     <div class="subo-user-name" id="suboName">kolos.</div>
@@ -1439,29 +1271,27 @@
         }
 
         const tg = window.Telegram?.WebApp;
-        
-if (tg) {
-    try { tg.expand(); } catch(e) {}
-}
-const avatarUrl = tg?.initDataUnsafe?.user?.photo_url;
-const avatar = document.getElementById("telegramAvatar");
-
-if (avatarUrl && avatar) {
-    avatar.src = avatarUrl;
-    avatar.style.display = "block";
-}
-const homeAvatarImg = document.getElementById("homeAvatarImg");
-if (avatarUrl && homeAvatarImg) {
-    homeAvatarImg.src = avatarUrl;
-    homeAvatarImg.style.display = "block";
-    document.getElementById("homeAvatarEmoji").style.display = "none";
-}
-
-
-
-
         if (tg) {
             try { tg.expand(); } catch(e) {}
+        }
+
+        // Загрузка аватарки из Telegram
+        const avatarUrl = tg?.initDataUnsafe?.user?.photo_url;
+        if (avatarUrl) {
+            const avatar = document.getElementById("telegramAvatar");
+            const suboEmoji = document.getElementById("suboAvatarEmoji");
+            if (avatar) {
+                avatar.src = avatarUrl;
+                avatar.style.display = "block";
+                if (suboEmoji) suboEmoji.style.display = "none";
+            }
+            const homeAvatarImg = document.getElementById("homeAvatarImg");
+            const homeAvatarEmoji = document.getElementById("homeAvatarEmoji");
+            if (homeAvatarImg) {
+                homeAvatarImg.src = avatarUrl;
+                homeAvatarImg.style.display = "block";
+                if (homeAvatarEmoji) homeAvatarEmoji.style.display = "none";
+            }
         }
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -1594,7 +1424,6 @@ if (avatarUrl && homeAvatarImg) {
         setTimeout(forceClosePreloader, 600);
 
         function switchTab(tabName, btnElement) {
-            // Обязательно прячем экран админки, чтобы он не накладывался на вкладки
             const adminScreen = document.getElementById('admin-screen-view');
             if (adminScreen) adminScreen.style.display = 'none';
 
@@ -1604,7 +1433,6 @@ if (avatarUrl && homeAvatarImg) {
             document.getElementById('tab-' + tabName)?.classList.add('active');
             if (btnElement) btnElement.classList.add('active');
             if (tabName === 'games') openGameScreen('hub');
-            if (tabName === 'shop') checkShopButtonState();
         }
 
         function scrollToTxBlock() {
@@ -1614,7 +1442,6 @@ if (avatarUrl && homeAvatarImg) {
 
         // ПРЯМОЕ ПЕРЕКЛЮЧЕНИЕ ИГР
         function openGameScreen(screen) {
-            // Прячем админку, если вдруг была открыта
             const adminScreen = document.getElementById('admin-screen-view');
             if (adminScreen) adminScreen.style.display = 'none';
 
@@ -1666,51 +1493,7 @@ if (avatarUrl && homeAvatarImg) {
         }
         updateBalances();
 
-        // ================= ПОКУПКА В МАГАЗИНЕ =================
-        function buyAutoCollectDirect() {
-            const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
-            if (isOwned) {
-                alert("✓ Этот предмет уже куплен и активен!");
-                return;
-            }
-
-            const price = 1000;
-            if (score < price) {
-                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                alert("❌ Недостаточно кристаллов! Для покупки нужно 1 000 💎");
-                return;
-            }
-
-            score -= price;
-            totalSpent += price;
-            localStorage.setItem(STORAGE_AUTO_KEY, 'true');
-            updateBalances();
-            checkShopButtonState();
-
-            addTransaction("Покупка: Авто-сбор", price, "minus");
-
-            const toast = document.getElementById('purchaseToast');
-            if (toast) {
-                toast.classList.add('show');
-                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
-            }
-        }
-
-        function checkShopButtonState() {
-            const isOwned = localStorage.getItem(STORAGE_AUTO_KEY) === 'true';
-            const btn = document.getElementById('btnShopBuyAutoCollect');
-            if (isOwned && btn) {
-                btn.innerText = "✓ Куплено";
-                btn.style.background = "#142a1c";
-                btn.style.color = "#4e735a";
-                btn.style.cursor = "default";
-            }
-        }
-
-        // ================= ЗАКАЗЫ СО СТРИМА (НАКИДЫ, БОНУСКА, КОЛЛ) =================
+        // ================= ЗАКАЗЫ СО СТРИМА =================
         const SERVER_URL = "https://ИМЯ-ТВОЕГО-СЕРВИСА.onrender.com";
         const SECRET_KEY = "vetruch_secret_2024";
 
@@ -1761,13 +1544,11 @@ if (avatarUrl && homeAvatarImg) {
             const itemPrice = currentOrderItem.price;
             const itemName = currentOrderItem.name;
 
-            // Списываем кристаллы
             score -= itemPrice;
             totalSpent += itemPrice;
             updateBalances();
             addTransaction(`Заказ: ${itemName}`, itemPrice, "minus");
 
-            // Сохраняем заказ в базу заказов для Админ-панели
             let orders = [];
             try { orders = JSON.parse(localStorage.getItem(STORAGE_ADMIN_ORDERS_KEY) || '[]'); } catch(e) {}
             const now = new Date();
@@ -1805,7 +1586,7 @@ if (avatarUrl && homeAvatarImg) {
                     })
                 });
             } catch (e) {
-                console.warn('Сервер Render недоступен, заказ сохранён локально в админке:', e);
+                console.warn('Сервер недоступен, заказ сохранён локально в админке:', e);
             }
 
             sendBtn.disabled = false;
@@ -1828,7 +1609,7 @@ if (avatarUrl && homeAvatarImg) {
             if (e.target.id === 'orderModal') closeOrderModal();
         });
 
-        // ================= АДМИН-ПАНЕЛЬ (ВНУТРИ МИНИ-АППА, БЕЗ САЙТА) =================
+        // ================= АДМИН-ПАНЕЛЬ =================
         function updateAdminOrdersIndicator() {
             let orders = [];
             try { orders = JSON.parse(localStorage.getItem(STORAGE_ADMIN_ORDERS_KEY) || '[]'); } catch(e) {}
@@ -1844,13 +1625,11 @@ if (avatarUrl && homeAvatarImg) {
         }
 
         function openAdminPanel() {
-            // Скрываем все вкладки и нижний бар
             document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
             const navbar = document.querySelector('.navbar');
             if (navbar) navbar.style.display = 'none';
 
-            // Показываем экран админки
             const adminScreen = document.getElementById('admin-screen-view');
             if (adminScreen) adminScreen.style.display = 'block';
 
@@ -1950,7 +1729,6 @@ if (avatarUrl && homeAvatarImg) {
                 return;
             }
 
-            // Начисление себе
             if (targetId === userId) {
                 score += amount;
                 totalEarned += amount;
@@ -1959,7 +1737,6 @@ if (avatarUrl && homeAvatarImg) {
                 addNotice("Пополнение баланса", `Вам начислено +${amount.toLocaleString('ru-RU')} 💎 от Администратора!`);
             }
 
-            // Сохраняем в историю начислений
             let boosts = [];
             try { boosts = JSON.parse(localStorage.getItem(STORAGE_ADMIN_BOOST_KEY) || '[]'); } catch(e) {}
             const now = new Date();
@@ -2916,7 +2693,6 @@ if (avatarUrl && homeAvatarImg) {
         document.addEventListener('DOMContentLoaded', () => {
             renderTransactions();
             renderGamesLiveFeed();
-            checkShopButtonState();
         });
     </script>
 
@@ -2942,9 +2718,6 @@ if (avatarUrl && homeAvatarImg) {
                 window.openGameScreen('hub');
             } else {
                 if (navbar) navbar.style.display = 'flex';
-            }
-            if (tabName === 'shop') {
-                if (typeof checkShopButtonState === 'function') checkShopButtonState();
             }
         };
 
@@ -3025,7 +2798,6 @@ if (avatarUrl && homeAvatarImg) {
 
         document.addEventListener('click', function(e) {
             const target = e.target;
-            // Срабатывает только для возврата из конкретных игр в хаб игр
             if (target && (target.classList.contains('back-to-hub') || (target.innerText || '').includes('Назад к играм'))) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
