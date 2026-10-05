@@ -70,6 +70,7 @@
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-size: 18px; cursor: pointer; position: relative;
         }
+        .kcep-bell-btn:active { transform: scale(0.92); }
         .bell-badge {
             position: absolute; top: -2px; right: -2px; background: #00e676; color: #041409;
             font-size: 10px; font-weight: 900; width: 17px; height: 17px; border-radius: 50%;
@@ -370,7 +371,7 @@
         .tx-amount.minus { color: #ff5252; }
         .empty-history { text-align: center; color: #4e735a; font-size: 14px; padding: 25px 10px; }
 
-        /* КАРТОЧКИ ЗАДАНИЙ (ИЗУМРУДНЫЙ СТИЛЬ) */
+        /* КАРТОЧКИ ЗАДАНИЙ */
         .tasks-title { margin: 15px 0 18px 0; font-size: 22px; font-weight: 900; color: #ffffff; }
         .task-card-item {
             background: #0c1810; border: 1px solid #183020; border-radius: 20px; padding: 16px;
@@ -410,7 +411,6 @@
             background: rgba(0, 0, 0, 0.85) !important; backdrop-filter: blur(6px) !important; z-index: 999999 !important;
             display: none !important; align-items: center !important; justify-content: center !important; padding: 20px !important;
         }
-        #orderModal.show { display: flex !important; }
         .order-modal-box {
             background: linear-gradient(135deg, #0e2b19 0%, #06140b 100%); border: 2px solid #00e676;
             border-radius: 24px; padding: 22px 20px; width: 100%; max-width: 360px;
@@ -837,7 +837,7 @@
             <div class="tx-list" id="transactionList"></div>
         </div>
 
-        <!-- 6. ЭКРАН АДМИН-ПАНЕЛИ (ВНУТРИ МИНИ-АППА) -->
+        <!-- 6. ЭКРАН АДМИН-ПАНЕЛИ -->
         <div id="admin-screen-view" style="display: none; width: 100%; max-width: 420px; animation: fadeIn 0.25s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
                 <button type="button" class="admin-back-btn" onclick="closeAdminPanel()" style="background: #0f2216; border: 1px solid #1a4226; color: #69f0ae; padding: 8px 14px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">← Назад в профиль</button>
@@ -894,8 +894,8 @@
 
     </div>
 
-    <!-- ОКНО ЗАКАЗА - СТРОГО ОДНО, ПЕРЕД КОНЦОМ BODY -->
-    <div id="orderModal">
+    <!-- ОКНО ЗАКАЗА - СТРОГО ИЗОЛИРОВАННОЕ (С ПРЯМЫМ ДВОЙНЫМ ИНЛАЙН-БЛОКОМ СКРЫТИЯ) -->
+    <div id="orderModal" style="display: none !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 999999 !important;">
         <div class="order-modal-box">
             <div class="order-modal-title" id="orderModalTitle">Заказ</div>
             <div class="order-modal-sub">Укажите ваш <b>Telegram юзернейм</b> и комментарий к заказу.</div>
@@ -1012,6 +1012,9 @@
         function switchTab(tabName, btnElement) {
             const adminScreen = document.getElementById('admin-screen-view');
             if (adminScreen) adminScreen.style.display = 'none';
+            const navbar = document.querySelector('.navbar');
+            if (navbar) navbar.style.display = 'flex';
+
             if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
             document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
@@ -1053,7 +1056,7 @@
         }
         updateBalances();
 
-        /* ЗАКАЗЫ */
+        /* ЗАКАЗЫ: ОТКРЫТИЕ И ЗАКРЫТИЕ С ГАРАНТИЕЙ СКРЫТИЯ */
         let currentOrderItem = null;
         function buyStreamItem(name, price) {
             if (score < price) {
@@ -1067,11 +1070,17 @@
             const commentInput = document.getElementById('orderCommentInput');
             userInput.value = tg?.initDataUnsafe?.user?.username ? '@' + tg.initDataUnsafe.user.username : '';
             commentInput.value = '';
-            document.getElementById('orderModal').classList.add('show');
+            
+            const modal = document.getElementById('orderModal');
+            modal.style.setProperty('display', 'flex', 'important');
             setTimeout(() => { if (!userInput.value) userInput.focus(); else commentInput.focus(); }, 300);
         }
 
-        function closeOrderModal() { document.getElementById('orderModal').classList.remove('show'); currentOrderItem = null; }
+        function closeOrderModal() {
+            const modal = document.getElementById('orderModal');
+            modal.style.setProperty('display', 'none', 'important');
+            currentOrderItem = null;
+        }
 
         function confirmOrder() {
             if (!currentOrderItem) return;
@@ -1535,9 +1544,18 @@
             window.addEventListener('pointercancel', () => { if (isHoldingBalloon) stopBalloonPump(); });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderTransactions(); renderGamesLiveFeed(); renderTasks(); updateNoticeBadge();
-        });
+        /* НАДЁЖНЫЙ ЗАПУСК ИНИЦИАЛИЗАЦИИ */
+        function initApp() {
+            renderTransactions();
+            renderGamesLiveFeed();
+            renderTasks();
+            updateNoticeBadge();
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
 
         /* ПЕРЕХОДЫ ИЗ ХАБА ИГР */
         document.querySelectorAll('#games-hub-view .game-select-card').forEach(card => {
