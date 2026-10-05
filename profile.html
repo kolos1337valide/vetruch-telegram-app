@@ -1431,6 +1431,13 @@ if (avatarUrl && avatar) {
     avatar.src = avatarUrl;
     avatar.style.display = "block";
 }
+const homeAvatarImg = document.getElementById("homeAvatarImg");
+if (avatarUrl && homeAvatarImg) {
+    homeAvatarImg.src = avatarUrl;
+    homeAvatarImg.style.display = "block";
+}
+
+
 
         if (tg) {
             try { tg.expand(); } catch(e) {}
