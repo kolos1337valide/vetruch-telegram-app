@@ -2099,6 +2099,64 @@ body {
 }
 </style>
 
+    <style>
+/* Убираем серый прямоугольник со строки цены */
+#tab-shop .shop-buy-price,
+#tab-shop .shop-buy-price > span:last-child {
+    background: none !important;
+    background-image: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #e1e4e8 !important;
+    color: #e1e4e8 !important;
+    text-shadow: none !important;
+    animation: none !important;
+}
+
+/* Цена остаётся бело-серой */
+#tab-shop .shop-buy-price > span:last-child {
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    line-height: 19px !important;
+}
+
+/* Монетка остаётся обычной картинкой */
+#tab-shop .shop-buy-price img,
+#tab-shop .shop-coin-icon {
+    background: transparent !important;
+    -webkit-text-fill-color: initial !important;
+    object-fit: contain !important;
+}
+
+/* Переливание оставляем только на слове «КУПИТЬ» */
+#tab-shop .shop-buy-title {
+    background: linear-gradient(
+        90deg,
+        #111111 0%,
+        #333333 25%,
+        #ffffff 50%,
+        #333333 75%,
+        #111111 100%
+    ) !important;
+    background-size: 300% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    animation: buyBlackWhiteShine 1.8s linear infinite !important;
+}
+
+@keyframes buyBlackWhiteShine {
+    from {
+        background-position: 300% center;
+    }
+
+    to {
+        background-position: -300% center;
+    }
+}
+</style>
+
     
 </head>
 <body>
