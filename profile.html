@@ -1672,108 +1672,6 @@ body {
 }
 </style>
 
-    <style>
-/* Только кнопки во вкладке «Магазин» */
-#tab-shop .game-card-btn {
-    width: calc(100% - 16px) !important;
-    height: 58px !important;
-    min-height: 58px !important;
-    margin: 0 8px 8px !important;
-    padding: 6px 12px !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 2px !important;
-
-    border: none !important;
-    outline: none !important;
-    border-radius: 30px !important;
-
-    background: linear-gradient(
-        100deg,
-        #12d5e8 0%,
-        #08bde9 45%,
-        #176cf5 100%
-    ) !important;
-
-    color: #ffffff !important;
-    font-family: Arial, sans-serif !important;
-    text-align: center !important;
-    box-shadow: none !important;
-}
-
-/* Убираем старую псевдонадпись */
-#tab-shop .game-card-btn::before {
-    content: none !important;
-}
-
-/* Надпись сверху */
-#tab-shop .game-card-btn::after {
-    content: "КУПИТЬ" !important;
-    display: block !important;
-    order: -1 !important;
-    color: #dce9ef !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    line-height: 14px !important;
-}
-
-/* Цена и монетки */
-#tab-shop .game-card-btn {
-    font-size: 20px !important;
-    font-weight: 900 !important;
-    line-height: 22px !important;
-    white-space: nowrap !important;
-}
-</style>
-
-    <style>
-#tab-shop .shop-buy-button {
-    width: calc(100% - 16px) !important;
-    height: 58px !important;
-    min-height: 58px !important;
-    margin: 0 8px 8px !important;
-    padding: 5px 8px !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 1px !important;
-
-    border: none !important;
-    outline: none !important;
-    border-radius: 30px !important;
-    background: linear-gradient(to right, #00c6ff, #0072ff) !important;
-    color: #fff !important;
-    text-align: center !important;
-}
-
-#tab-shop .shop-buy-title {
-    color: #dbe5eb !important;
-    font: 700 12px/14px Arial, sans-serif !important;
-}
-
-#tab-shop .shop-buy-price {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 5px !important;
-    color: #fff !important;
-    font: 900 20px/22px Arial, sans-serif !important;
-    white-space: nowrap !important;
-}
-
-#tab-shop .shop-buy-price img {
-    width: 17px !important;
-    height: 17px !important;
-    object-fit: contain !important;
-    border-radius: 0 !important;
-}
-</style>
-
     
 </head>
 <body>
@@ -1888,7 +1786,7 @@ body {
             <div class="kcep-card kcep-stream-row">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span class="kcep-stream-dot"></span>
-                    <span style="font-size: 13px; font-weight: 700; color: #e0f2e9;">Kick Стрим: vetruch</span>
+                    <span style="font-size: 13px; font-weight: 700; color: #e0f2e9;">Kick Стрим: kolos.</span>
                 </div>
                 <div class="kcep-stream-badge">ОФЛАЙН</div>
             </div>
@@ -2043,13 +1941,7 @@ body {
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="iphone-18-pro-max.png" alt="iPhone 18 Pro Max" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">iPhone 18 Pro Max</b>
-                    <button class="game-card-btn gold shop-buy-button" onclick="buyStreamItem('iPhone 18 Pro Max', 1300000)">
-    <span class="shop-buy-title">КУПИТЬ</span>
-    <span class="shop-buy-price">
-        <img src="coins1.png" alt="">
-        <span>1 300 000</span>
-    </span>
-</button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('iPhone 18 Pro Max', 1300000)">💎 1 300 000</button>
                 </div>
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="iphone-duo.png" alt="iPhone Duo" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
