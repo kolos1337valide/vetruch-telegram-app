@@ -716,6 +716,41 @@
 }
 </style>
 
+<style>
+/* Нижняя панель навигации — в стиле карточек заданий */
+.navbar {
+    background:
+        linear-gradient(145deg, #0b1420, #101020) padding-box,
+        linear-gradient(125deg, #087d86, #28516e 55%, #7135a1) border-box !important;
+    border: 1px solid transparent !important;
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.35),
+        0 0 10px rgba(34, 190, 204, 0.08) !important;
+}
+
+/* Неактивные пункты */
+.nav-item {
+    color: #78909c !important;
+}
+
+/* Выбранная вкладка */
+.nav-item.active {
+    color: #00e6a0 !important;
+}
+
+.nav-item.active .nav-icon-container {
+    background: linear-gradient(135deg, #00dc91, #00cdbb 55%, #319bd5) !important;
+    box-shadow: 0 0 16px rgba(0, 210, 190, 0.35) !important;
+}
+
+.nav-item.active .nav-icon {
+    fill: #06131a !important;
+}
+
+.nav-item.active .nav-label {
+    color: #00e6a0 !important;
+}
+</style>
 
 
 </head>
