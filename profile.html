@@ -903,6 +903,46 @@
 }
 </style>
 
+    <style>
+/* Верхняя панель видна на всех вкладках */
+.content > .kcep-header {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    flex-shrink: 0 !important;
+    margin: 0 auto 18px !important;
+    padding: 8px 10px !important;
+    border: none !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg, #0b1420, #101020) !important;
+    box-shadow: none !important;
+}
+
+/* На других вкладках скрываем только аватар и приветствие */
+.content > .kcep-header.other-tab .kcep-user-block {
+    display: none !important;
+}
+
+/* На других вкладках прижимаем баланс и колокольчик вправо */
+.content > .kcep-header.other-tab {
+    justify-content: flex-end !important;
+}
+
+.content > .kcep-header.other-tab .kcep-header-right {
+    margin-left: auto !important;
+}
+
+/* Не даём верхним элементам сжиматься */
+.content > .kcep-header .kcep-header-right {
+    flex-shrink: 0 !important;
+}
+
+.content > .kcep-header .kcep-bell-btn,
+.content > .kcep-header .kcep-balance-pill {
+    white-space: nowrap !important;
+}
+</style>
+
     
 </head>
 <body>
@@ -2011,5 +2051,42 @@
             }
         });
     </script>
+
+<script>
+/* Верхняя панель: колокольчик и баланс на всех вкладках */
+(function () {
+    const header = document.querySelector('#tab-home .kcep-header');
+    const content = document.querySelector('.content');
+
+    if (!header || !content) return;
+
+    // Перемещаем шапку из главной вкладки в общий контейнер
+    content.insertBefore(header, content.firstChild);
+
+    function updateUniversalHeader() {
+        const activeTab = document.querySelector('.tab-page.active');
+
+        if (activeTab && activeTab.id === 'tab-home') {
+            header.classList.remove('other-tab');
+        } else {
+            header.classList.add('other-tab');
+        }
+    }
+
+    // Следим за переключением вкладок
+    const observer = new MutationObserver(updateUniversalHeader);
+
+    document.querySelectorAll('.tab-page').forEach(tab => {
+        observer.observe(tab, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    });
+
+    updateUniversalHeader();
+})();
+</script>
+
+    
 </body>
 </html>
