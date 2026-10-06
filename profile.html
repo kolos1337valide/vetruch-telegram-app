@@ -873,6 +873,35 @@
     box-shadow: none !important;
 }
 </style>
+    
+<style>
+/* Переливающиеся цифры баланса */
+#centerBalanceAnim {
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #b9f8ff 25%,
+        #36d9ff 50%,
+        #ffffff 75%,
+        #b9f8ff 100%
+    ) !important;
+    background-size: 250% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    animation: balanceBlueShine 3s linear infinite !important;
+    text-shadow: 0 0 12px rgba(80, 220, 255, 0.35) !important;
+}
+
+@keyframes balanceBlueShine {
+    from {
+        background-position: 250% center;
+    }
+    to {
+        background-position: -250% center;
+    }
+}
+</style>
 
     
 </head>
