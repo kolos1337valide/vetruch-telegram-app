@@ -1216,6 +1216,46 @@ body {
 }
 </style>
 
+    <style>
+/* Кнопки магазина: «Купить» сверху, цена снизу */
+#tab-shop .game-card-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+
+    min-height: 48px !important;
+    padding: 6px 8px !important;
+
+    border: none !important;
+    outline: none !important;
+    border-radius: 12px !important;
+
+    color: #ffffff !important;
+    font-family: 'Roboto Condensed', Arial, sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.05 !important;
+}
+
+/* Надпись сверху */
+#tab-shop .game-card-btn::before {
+    content: "КУПИТЬ" !important;
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.4px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Небольшая реакция при нажатии */
+#tab-shop .game-card-btn:active {
+    transform: scale(0.97) !important;
+}
+</style>
+
     
 </head>
 <body>
