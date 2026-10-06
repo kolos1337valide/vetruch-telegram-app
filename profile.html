@@ -1412,6 +1412,82 @@ body {
 }
 </style>
 
+    <style>
+/* Карточки магазина */
+#tab-shop .game-select-card {
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 272px !important;
+    min-height: 272px !important;
+    padding: 0 !important;
+    border-radius: 16px !important;
+}
+
+/* Картинка до краёв карточки */
+#tab-shop .game-select-card > img {
+    display: block !important;
+    width: 100% !important;
+    height: 154px !important;
+    min-height: 154px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: cover !important;
+    border-radius: 15px 15px 0 0 !important;
+    flex-shrink: 0 !important;
+}
+
+/* Плавное растворение картинки в фоне */
+#tab-shop .game-select-card::after {
+    content: "" !important;
+    position: absolute !important;
+    z-index: 1 !important;
+    top: 105px !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 55px !important;
+    pointer-events: none !important;
+    background: linear-gradient(
+        to bottom,
+        rgba(11, 20, 32, 0),
+        rgba(11, 20, 32, 0.82),
+        #0b1420 100%
+    ) !important;
+}
+
+/* Название товара */
+#tab-shop .game-select-card > b {
+    position: relative !important;
+    z-index: 2 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 7px 10px 2px !important;
+
+    overflow: hidden !important;
+    color: #ffffff !important;
+    font-family: 'Roboto Condensed', Arial, sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    line-height: 18px !important;
+    text-align: left !important;
+}
+
+/* Кнопка покупки */
+#tab-shop .game-select-card > .game-card-btn {
+    position: relative !important;
+    z-index: 3 !important;
+    width: calc(100% - 16px) !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: auto 8px 8px !important;
+    flex-shrink: 0 !important;
+}
+</style>
+
     
 </head>
 <body>
