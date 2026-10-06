@@ -1672,6 +1672,63 @@ body {
 }
 </style>
 
+    <style>
+/* Только кнопки во вкладке «Магазин» */
+#tab-shop .game-card-btn {
+    width: calc(100% - 16px) !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    margin: 0 8px 8px !important;
+    padding: 6px 12px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+
+    border: none !important;
+    outline: none !important;
+    border-radius: 30px !important;
+
+    background: linear-gradient(
+        100deg,
+        #12d5e8 0%,
+        #08bde9 45%,
+        #176cf5 100%
+    ) !important;
+
+    color: #ffffff !important;
+    font-family: Arial, sans-serif !important;
+    text-align: center !important;
+    box-shadow: none !important;
+}
+
+/* Убираем старую псевдонадпись */
+#tab-shop .game-card-btn::before {
+    content: none !important;
+}
+
+/* Надпись сверху */
+#tab-shop .game-card-btn::after {
+    content: "КУПИТЬ" !important;
+    display: block !important;
+    order: -1 !important;
+    color: #dce9ef !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 14px !important;
+}
+
+/* Цена и монетки */
+#tab-shop .game-card-btn {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    line-height: 22px !important;
+    white-space: nowrap !important;
+}
+</style>
+
     
 </head>
 <body>
