@@ -1006,6 +1006,30 @@ body {
 }
 </style>
 
+    <style>
+#totalEarnedDisplay {
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #ffffff,
+        #8fffe0,
+        #45dfff,
+        #00e6a0,
+        #ffffff
+    ) !important;
+    background-size: 250% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    animation: earnedBalanceShine 3s linear infinite !important;
+    text-shadow: 0 0 12px rgba(54, 217, 255, 0.35) !important;
+}
+
+@keyframes earnedBalanceShine {
+    from { background-position: 250% center; }
+    to { background-position: -250% center; }
+}
+</style>
+
     
 </head>
 <body>
