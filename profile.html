@@ -2867,5 +2867,70 @@ body {
 })();
 </script>
 
+<script>
+(function replaceCrystalIcons() {
+    const iconPath = 'coins.png';
+
+    function makeIcon() {
+        const img = document.createElement('img');
+        img.src = iconPath;
+        img.alt = '';
+        img.className = 'currency-icon';
+        return img;
+    }
+
+    function replaceInElement(element) {
+        if (!element || element.closest('script, style, textarea, input')) return;
+
+        const walker = document.createTreeWalker(
+            element,
+            NodeFilter.SHOW_TEXT
+        );
+
+        const textNodes = [];
+        let node;
+
+        while (node = walker.nextNode()) {
+            if (node.nodeValue.includes('💎')) {
+                textNodes.push(node);
+            }
+        }
+
+        textNodes.forEach(textNode => {
+            const parts = textNode.nodeValue.split('💎');
+            const fragment = document.createDocumentFragment();
+
+            parts.forEach((part, index) => {
+                if (part) {
+                    fragment.appendChild(document.createTextNode(part));
+                }
+
+                if (index < parts.length - 1) {
+                    fragment.appendChild(makeIcon());
+                }
+            });
+
+            textNode.parentNode.replaceChild(fragment, textNode);
+        });
+    }
+
+    function replaceAllIcons() {
+        replaceInElement(document.body);
+    }
+
+    replaceAllIcons();
+
+    const observer = new MutationObserver(() => {
+        replaceAllIcons();
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+})();
+</script>
+
+    
 </body>
 </html>
