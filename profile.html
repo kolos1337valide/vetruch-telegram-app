@@ -1142,6 +1142,37 @@ body {
 }
 </style>
 
+    <style>
+/* Кнопки магазина — насыщенный кристально-голубой цвет */
+#tab-shop .game-card-btn {
+    border: none !important;
+    outline: none !important;
+    background: linear-gradient(
+        105deg,
+        #00eaff 0%,
+        #00bfff 50%,
+        #3478ff 100%
+    ) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    font-weight: 700 !important;
+}
+
+/* Убираем рамку при фокусе и нажатии */
+#tab-shop .game-card-btn:focus,
+#tab-shop .game-card-btn:active {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Кристалл и цена внутри кнопки */
+#tab-shop .game-card-btn span,
+#tab-shop .game-card-btn strong {
+    color: #ffffff !important;
+}
+</style>
+
     
 </head>
 <body>
