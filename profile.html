@@ -2157,6 +2157,44 @@ body {
 }
 </style>
 
+    <style>
+/* Слово «КУПИТЬ»: тёмный верх → белый низ */
+#tab-shop .shop-buy-title {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 70px !important;
+
+    background: linear-gradient(
+        to bottom,
+        #69737d 0%,
+        #bfc7ce 35%,
+        #ffffff 75%,
+        #ffffff 100%
+    ) !important;
+    background-size: 100% 100% !important;
+
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    line-height: 13px !important;
+    letter-spacing: 0.8px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+
+    transform: scaleX(1.12) !important;
+    transform-origin: center !important;
+
+    /* Убираем старую анимацию и тень */
+    animation: none !important;
+    text-shadow: none !important;
+}
+</style>
+
     
 </head>
 <body>
