@@ -1102,6 +1102,46 @@ body {
 }
 </style>
 
+    <style>
+/* Заголовок «Задания» в стиле заголовка «Магазин» */
+#tab-tasks > h2 {
+    display: inline-block !important;
+    font-family: 'Roboto Condensed', Arial, sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.2px !important;
+
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #d9fff0 25%,
+        #65f5c0 50%,
+        #00d98b 70%,
+        #ffffff 100%
+    ) !important;
+    background-size: 250% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+
+    animation: tasksTitleShine 3s linear infinite !important;
+    text-shadow: 0 0 12px rgba(72, 240, 180, 0.3) !important;
+
+    transform: scaleX(1.24) !important;
+    transform-origin: left center !important;
+}
+
+@keyframes tasksTitleShine {
+    from {
+        background-position: 250% center;
+    }
+
+    to {
+        background-position: -250% center;
+    }
+}
+</style>
+
     
 </head>
 <body>
