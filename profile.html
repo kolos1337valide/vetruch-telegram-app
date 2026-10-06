@@ -1706,6 +1706,22 @@ body {
 }
 </style>
 
+    <style>
+/* Убираем лишнюю автоматическую надпись «КУПИТЬ» */
+#tab-shop .shop-buy-button::before,
+#tab-shop .shop-buy-button::after,
+#tab-shop .game-card-btn::before,
+#tab-shop .game-card-btn::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Оставляем только одну настоящую надпись */
+#tab-shop .shop-buy-title {
+    display: block !important;
+}
+</style>
+
     
 </head>
 <body>
