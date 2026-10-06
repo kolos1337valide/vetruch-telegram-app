@@ -1798,9 +1798,9 @@ body {
 }
 </style>
 
-    <style>
-/* Только размер и шрифт кнопок магазина */
-/* Фон кнопок не изменяется */
+   <style>
+/* Только текст и размеры внутри кнопок магазина */
+/* Фон кнопок НЕ изменяется */
 
 #tab-shop .shop-buy-button {
     height: 48px !important;
@@ -1817,26 +1817,42 @@ body {
     text-align: center !important;
 }
 
-/* Убираем возможные дополнительные надписи */
+/* Убираем старые автоматические надписи */
 #tab-shop .shop-buy-button::before,
 #tab-shop .shop-buy-button::after {
     content: none !important;
     display: none !important;
 }
 
-/* КУПИТЬ */
+/* Слово «КУПИТЬ» */
 #tab-shop .shop-buy-title {
     display: block !important;
     width: 100% !important;
-    height: 12px !important;
+    height: 13px !important;
 
-    color: #d9dde2 !important;
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #aeb8c2 0%,
+        #ffffff 25%,
+        #dce3e8 50%,
+        #ffffff 75%,
+        #aeb8c2 100%
+    ) !important;
+    background-size: 250% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+
     font-family: Arial, Helvetica, sans-serif !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
     font-weight: 900 !important;
-    line-height: 12px !important;
-    letter-spacing: 0 !important;
+    line-height: 13px !important;
+    letter-spacing: 0.15px !important;
     text-align: center !important;
+
+    transform: scaleX(1.15) !important;
+    transform-origin: center !important;
+    animation: shopTextShine 2.4s linear infinite !important;
 }
 
 /* Монетка и цена */
@@ -1846,40 +1862,68 @@ body {
     justify-content: center !important;
     gap: 4px !important;
     width: 100% !important;
-    height: 20px !important;
+    height: 22px !important;
 
-    color: #e1e4e8 !important;
+    color: transparent !important;
     font-family: Arial, Helvetica, sans-serif !important;
-    font-size: 17px !important;
+    font-size: 18px !important;
     font-weight: 900 !important;
-    line-height: 20px !important;
-    letter-spacing: -0.35px !important;
+    line-height: 22px !important;
+    letter-spacing: -0.3px !important;
     white-space: nowrap !important;
+
+    transform: scaleX(1.08) !important;
+    transform-origin: center !important;
 }
 
-/* Текст цены */
+/* Переливание именно цифр */
 #tab-shop .shop-buy-price > span:last-child {
-    color: #e1e4e8 !important;
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #aeb8c2 0%,
+        #ffffff 25%,
+        #dce3e8 50%,
+        #ffffff 75%,
+        #aeb8c2 100%
+    ) !important;
+    background-size: 250% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+
     font-family: Arial, Helvetica, sans-serif !important;
-    font-size: 17px !important;
+    font-size: 18px !important;
     font-weight: 900 !important;
-    line-height: 20px !important;
-    letter-spacing: -0.35px !important;
+    line-height: 22px !important;
+    letter-spacing: -0.3px !important;
+
+    animation: shopTextShine 2.4s linear infinite !important;
 }
 
-/* Маленькая монетка перед цифрами */
+/* Размер монетки */
 #tab-shop .shop-buy-price img,
 #tab-shop .shop-coin-icon {
-    width: 13px !important;
-    height: 13px !important;
-    min-width: 13px !important;
-    min-height: 13px !important;
-    max-width: 13px !important;
-    max-height: 13px !important;
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
     margin: 0 !important;
     padding: 0 !important;
     object-fit: contain !important;
     border-radius: 0 !important;
+}
+
+/* Анимация бело-серого перелива */
+@keyframes shopTextShine {
+    from {
+        background-position: 250% center;
+    }
+
+    to {
+        background-position: -250% center;
+    }
 }
 </style>
 
