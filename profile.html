@@ -461,7 +461,117 @@
             border: 1px solid #087a4b !important; background: linear-gradient(135deg, #075c3b, #06452f) !important;
             color: #dffff0 !important; font-weight: 900;
         }
-    </style>
+    <style>
+/* НОВЫЙ ДИЗАЙН ВКЛАДКИ «ЗАДАНИЯ» */
+.tasks-title {
+    margin: 8px 0 12px !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #f2f5ff !important;
+}
+
+.task-card-item {
+    position: relative;
+    gap: 9px !important;
+    margin-bottom: 9px !important;
+    padding: 11px !important;
+    border: 1px solid transparent !important;
+    border-radius: 15px !important;
+    background:
+        linear-gradient(145deg, #0b1420, #101020) padding-box,
+        linear-gradient(125deg, #087d86, #28516e 55%, #7135a1) border-box !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,.35), 0 0 10px rgba(34,190,204,.08) !important;
+}
+
+.task-card-header {
+    align-items: center !important;
+    gap: 7px !important;
+}
+
+.task-card-left {
+    gap: 8px !important;
+}
+
+.task-card-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 11px !important;
+    background: linear-gradient(145deg, #102b36, #19253b) !important;
+    border: 1px solid rgba(49,205,211,.25) !important;
+    box-shadow: 0 0 10px rgba(0,220,205,.1) !important;
+    font-size: 18px !important;
+}
+
+.task-card-info {
+    gap: 3px !important;
+}
+
+.task-card-tag {
+    padding: 2px 6px !important;
+    border-radius: 5px !important;
+    font-size: 9px !important;
+}
+
+.task-card-tag.blue {
+    background: rgba(45,105,177,.2) !important;
+    color: #9bbcff !important;
+    border-color: rgba(79,143,255,.3) !important;
+}
+
+.task-card-tag.orange {
+    background: rgba(175,116,36,.18) !important;
+    color: #ffc36b !important;
+    border-color: rgba(255,177,61,.3) !important;
+}
+
+.task-card-tag.red {
+    background: rgba(160,43,55,.2) !important;
+    color: #ff8b91 !important;
+    border-color: rgba(255,80,95,.35) !important;
+}
+
+.task-card-tag.purple {
+    background: rgba(116,63,165,.22) !important;
+    color: #d4a3ff !important;
+    border-color: rgba(177,104,235,.35) !important;
+}
+
+.task-card-title {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    color: #f2f4fb !important;
+}
+
+.task-card-reward {
+    padding: 4px 7px !important;
+    border-radius: 9px !important;
+    background: linear-gradient(135deg, #102b34, #14203a) !important;
+    border: 1px solid rgba(31,205,190,.3) !important;
+    color: #d7faff !important;
+    font-size: 11px !important;
+    box-shadow: 0 0 9px rgba(0,220,205,.1) !important;
+}
+
+.task-card-desc {
+    font-size: 10.5px !important;
+    line-height: 1.4 !important;
+    color: #8fa6b5 !important;
+}
+
+.task-action-btn {
+    padding: 10px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(105deg, #00dc91, #00cdbb 55%, #319bd5) !important;
+    color: #06131a !important;
+    font-size: 12px !important;
+    box-shadow: 0 4px 12px rgba(0,210,170,.22) !important;
+}
+
+.task-action-btn:active {
+    transform: scale(.98) !important;
+}
+</style>
+
 </head>
 <body>
 
