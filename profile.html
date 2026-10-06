@@ -1722,6 +1722,82 @@ body {
 }
 </style>
 
+    <style>
+/* Только шрифт и текст кнопок магазина */
+/* Фон кнопок здесь НЕ меняется */
+
+#tab-shop .shop-buy-button {
+    font-family: Arial, Helvetica, sans-serif !important;
+    text-align: center !important;
+}
+
+/* Убираем возможную лишнюю надпись из старых CSS */
+#tab-shop .shop-buy-button::before,
+#tab-shop .shop-buy-button::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Слово «КУПИТЬ» */
+#tab-shop .shop-buy-title {
+    display: block !important;
+    width: 100% !important;
+    height: 14px !important;
+
+    color: #d7dbe2 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 14px !important;
+    letter-spacing: 0 !important;
+    text-align: center !important;
+}
+
+/* Строка с монеткой и ценой */
+#tab-shop .shop-buy-price {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    width: 100% !important;
+    height: 20px !important;
+
+    color: #ffffff !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    line-height: 20px !important;
+    letter-spacing: -0.35px !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+}
+
+/* Монетка перед цифрами */
+#tab-shop .shop-buy-price img,
+#tab-shop .shop-coin-icon {
+    display: inline-block !important;
+    width: 13px !important;
+    height: 13px !important;
+    min-width: 13px !important;
+    min-height: 13px !important;
+    max-width: 13px !important;
+    max-height: 13px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: contain !important;
+    border-radius: 0 !important;
+}
+
+/* Чтобы цифры не переносились */
+#tab-shop .shop-buy-price > span:last-child {
+    white-space: nowrap !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.35px !important;
+}
+</style>
+
     
 </head>
 <body>
