@@ -1927,6 +1927,79 @@ body {
 }
 </style>
 
+    <style>
+/* Цифры — немного меньше */
+#tab-shop .shop-buy-price,
+#tab-shop .shop-buy-price > span:last-child {
+    font-size: 16px !important;
+    line-height: 19px !important;
+    letter-spacing: -0.2px !important;
+    font-weight: 900 !important;
+}
+
+/* Яркий бело-серый перелив слова «КУПИТЬ» */
+#tab-shop .shop-buy-title {
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #8d969e 0%,
+        #ffffff 18%,
+        #f8fbff 35%,
+        #aeb8c2 50%,
+        #ffffff 68%,
+        #f8fbff 82%,
+        #8d969e 100%
+    ) !important;
+    background-size: 300% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.25px !important;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.45) !important;
+
+    animation: strongShopTitleShine 1.8s linear infinite !important;
+}
+
+/* Более заметный перелив цифр */
+#tab-shop .shop-buy-price > span:last-child {
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #a3adb6 0%,
+        #ffffff 25%,
+        #dce4ea 50%,
+        #ffffff 75%,
+        #a3adb6 100%
+    ) !important;
+    background-size: 280% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.3) !important;
+
+    animation: strongShopPriceShine 2.2s linear infinite !important;
+}
+
+@keyframes strongShopTitleShine {
+    from {
+        background-position: 280% center;
+    }
+    to {
+        background-position: -280% center;
+    }
+}
+
+@keyframes strongShopPriceShine {
+    from {
+        background-position: 280% center;
+    }
+    to {
+        background-position: -280% center;
+    }
+}
+</style>
+
     
 </head>
 <body>
