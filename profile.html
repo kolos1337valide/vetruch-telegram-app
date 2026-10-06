@@ -816,14 +816,13 @@
     outline: none !important;
     border-radius: 12px !important;
 
-    background: linear-gradient(105deg, #00cfff, #00a8ff 55%, #4778ff) !important;
+    background: linear-gradient(105deg, #08c995, #009b70) !important;
     color: #ffffff !important;
     font-weight: 900 !important;
 
-    box-shadow:
-        0 4px 16px rgba(0, 174, 255, 0.38),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+    box-shadow: none !important;
 }
+
 
 #tab-shop .game-card-btn:active {
     transform: scale(0.97) !important;
@@ -838,6 +837,26 @@
 }
 </style>
 
+<style>
+/* Верхняя панель без обводки */
+.kcep-header {
+    border: none !important;
+    outline: none !important;
+}
+
+/* Кнопка уведомлений и баланс без обводки */
+.kcep-bell-btn,
+.kcep-balance-pill {
+    border: none !important;
+    outline: none !important;
+}
+
+/* Сохраняем фон и свечение */
+.kcep-bell-btn,
+.kcep-balance-pill {
+    background: linear-gradient(145deg, #102b36, #19253b) !important;
+    box-shadow: 0 0 12px rgba(0, 220, 205, 0.16) !important;
+}
     
 </head>
 <body>
