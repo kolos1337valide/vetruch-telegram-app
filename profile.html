@@ -2050,6 +2050,55 @@ body {
 }
 </style>
 
+    <style>
+/* Контрастный чёрно-белый перелив слова «КУПИТЬ» */
+#tab-shop .shop-buy-title {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 70px !important;
+
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+
+    background: linear-gradient(
+        90deg,
+        #111111 0%,
+        #222222 22%,
+        #ffffff 42%,
+        #ffffff 55%,
+        #333333 74%,
+        #050505 100%
+    ) !important;
+    background-size: 300% 100% !important;
+
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    line-height: 13px !important;
+    letter-spacing: 0.8px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+
+    transform: scaleX(1.12) !important;
+    transform-origin: center !important;
+    text-shadow: none !important;
+
+    animation: buyBlackWhiteShine 1.8s linear infinite !important;
+}
+
+@keyframes buyBlackWhiteShine {
+    0% {
+        background-position: 300% center;
+    }
+
+    100% {
+        background-position: -300% center;
+    }
+}
+</style>
+
     
 </head>
 <body>
