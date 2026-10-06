@@ -1672,6 +1672,40 @@ body {
 }
 </style>
 
+    <style>
+/* Исправление огромной монетки только в магазине */
+#tab-shop .game-card-btn img,
+#tab-shop .shop-buy-price img,
+#tab-shop .shop-coin-icon,
+#tab-shop .currency-icon {
+    display: inline-block !important;
+    width: 17px !important;
+    height: 17px !important;
+    max-width: 17px !important;
+    max-height: 17px !important;
+    min-width: 17px !important;
+    min-height: 17px !important;
+
+    flex: 0 0 17px !important;
+    object-fit: contain !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    position: static !important;
+}
+
+/* Строка монетки и цены */
+#tab-shop .shop-buy-price {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    width: 100% !important;
+    height: 24px !important;
+    overflow: hidden !important;
+}
+</style>
+
     
 </head>
 <body>
@@ -1941,9 +1975,10 @@ body {
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="iphone-18-pro-max.png" alt="iPhone 18 Pro Max" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">iPhone 18 Pro Max</b>
-                    <button class="game-card-btn gold shop-buy-button"
+                   <button class="game-card-btn gold shop-buy-button"
         onclick="buyStreamItem('iPhone 18 Pro Max', 1300000)">
     <span class="shop-buy-title">КУПИТЬ</span>
+
     <span class="shop-buy-price">
         <img class="shop-coin-icon" src="coins1.png" alt="">
         <span>1 300 000</span>
