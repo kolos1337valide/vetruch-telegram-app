@@ -2000,6 +2000,56 @@ body {
 }
 </style>
 
+<style>
+/* Слово «КУПИТЬ»: шире и с заметным переливом */
+#tab-shop .shop-buy-title {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 70px !important;
+
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #8b969f 0%,
+        #ffffff 18%,
+        #ffffff 35%,
+        #aeb8c2 50%,
+        #ffffff 68%,
+        #ffffff 82%,
+        #8b969f 100%
+    ) !important;
+    background-size: 350% 100% !important;
+
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    line-height: 13px !important;
+    letter-spacing: 0.8px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+
+    transform: scaleX(1.12) !important;
+    transform-origin: center !important;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.55) !important;
+
+    animation: visibleBuyShine 1.5s linear infinite !important;
+}
+
+@keyframes visibleBuyShine {
+    0% {
+        background-position: 350% center;
+    }
+
+    100% {
+        background-position: -350% center;
+    }
+}
+</style>
+
     
 </head>
 <body>
