@@ -1052,7 +1052,47 @@ body {
 }
 </style>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@500;600;700;800&display=swap');
 
+#tab-shop > h2 {
+    font-family: 'Roboto Condensed', Arial, sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.2px !important;
+}
+</style>
+
+    <style>
+/* Переливающийся заголовок «Магазин» */
+#tab-shop > h2 {
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #d9fff0 25%,
+        #65f5c0 50%,
+        #00d98b 70%,
+        #ffffff 100%
+    ) !important;
+    background-size: 250% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+
+    animation: shopTitleShine 3s linear infinite !important;
+    text-shadow: 0 0 12px rgba(72, 240, 180, 0.3) !important;
+}
+
+@keyframes shopTitleShine {
+    from {
+        background-position: 250% center;
+    }
+    to {
+        background-position: -250% center;
+    }
+}
+</style>
+
+    
 </head>
 <body>
 
