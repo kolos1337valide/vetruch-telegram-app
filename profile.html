@@ -1578,6 +1578,71 @@ body {
 }
 </style>
 
+    <style>
+/* ВСЕ КНОПКИ МАГАЗИНА */
+#tab-shop .game-card-btn {
+    width: calc(100% - 16px) !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: 0 8px 8px !important;
+    padding: 5px 8px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1px !important;
+
+    border: none !important;
+    outline: none !important;
+    border-radius: 14px !important;
+
+    background: linear-gradient(
+        to right,
+        #00c6ff 0%,
+        #0072ff 100%
+    ) !important;
+
+    color: #d7dbe2 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    line-height: 17px !important;
+    letter-spacing: -0.2px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
+}
+
+/* Надпись «КУПИТЬ» сверху */
+#tab-shop .game-card-btn::before {
+    content: "КУПИТЬ" !important;
+    display: block !important;
+    height: 11px !important;
+
+    color: #d7dbe2 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 900 !important;
+    line-height: 11px !important;
+    letter-spacing: 0 !important;
+}
+
+/* Все кнопки без обводки при фокусе и нажатии */
+#tab-shop .game-card-btn:focus,
+#tab-shop .game-card-btn:active {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Эффект нажатия */
+#tab-shop .game-card-btn:active {
+    transform: scale(0.97) !important;
+    filter: brightness(1.08) !important;
+}
+</style>
+
     
 </head>
 <body>
