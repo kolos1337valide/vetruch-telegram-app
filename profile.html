@@ -1305,6 +1305,70 @@ body {
 }
 </style>
 
+    <style>
+/* Кнопки магазина — киберпанк-капсула */
+#tab-shop .game-card-btn {
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 5px 10px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1px !important;
+
+    border: none !important;
+    outline: none !important;
+    border-radius: 14px !important;
+
+    background: linear-gradient(
+        105deg,
+        #08d9e8 0%,
+        #08c9ef 42%,
+        #287cff 100%
+    ) !important;
+
+    color: #ffffff !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+
+    box-shadow:
+        0 4px 12px rgba(0, 190, 255, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Верхняя строка */
+#tab-shop .game-card-btn::before {
+    content: "КУПИТЬ" !important;
+    display: block !important;
+
+    height: 11px !important;
+    color: #ffffff !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 9px !important;
+    font-weight: 900 !important;
+    line-height: 11px !important;
+    letter-spacing: 0 !important;
+}
+
+/* Нижняя строка с кристаллом и ценой */
+#tab-shop .game-card-btn {
+    font-size: 16px !important;
+    line-height: 17px !important;
+    letter-spacing: -0.2px !important;
+}
+
+/* Нажатие */
+#tab-shop .game-card-btn:active {
+    transform: scale(0.97) !important;
+    filter: brightness(1.08) !important;
+}
+</style>
+
     
 </head>
 <body>
