@@ -1369,6 +1369,49 @@ body {
 }
 </style>
 
+    <style>
+/* Все карточки магазина одинаковой высоты */
+#tab-shop .game-select-card {
+    height: 272px !important;
+    min-height: 272px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 8px !important;
+}
+
+/* Картинки остаются одинакового размера */
+#tab-shop .game-select-card > img {
+    display: block !important;
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover !important;
+    flex-shrink: 0 !important;
+}
+
+/* Одинаковая высота блока с названием */
+#tab-shop .game-select-card > b {
+    display: flex !important;
+    align-items: flex-start !important;
+
+    min-height: 38px !important;
+    height: 38px !important;
+
+    margin: 8px 2px !important;
+    line-height: 19px !important;
+    overflow: hidden !important;
+}
+
+/* Кнопка всегда внизу карточки */
+#tab-shop .game-select-card > .game-card-btn {
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin-top: auto !important;
+    flex-shrink: 0 !important;
+}
+</style>
+
     
 </head>
 <body>
