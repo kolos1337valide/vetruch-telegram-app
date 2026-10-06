@@ -461,8 +461,8 @@
             border: 1px solid #087a4b !important; background: linear-gradient(135deg, #075c3b, #06452f) !important;
             color: #dffff0 !important; font-weight: 900;
         }
-     <style>
-        
+    </style>
+
     <style>
 /* НОВЫЙ ДИЗАЙН ВКЛАДКИ «ЗАДАНИЯ» */
 .tasks-title {
@@ -574,7 +574,7 @@
 }
 </style>
 
-    <style>
+<style>
 /* ГЛАВНАЯ — дизайн как во вкладке «Задания» */
 
 /* Основные карточки главной */
@@ -820,13 +820,10 @@
     box-shadow: none !important;
 }
 
-
-
 #tab-shop .game-card-btn:active {
     transform: scale(0.97) !important;
     filter: brightness(1.12) !important;
 }
-
 
 /* Цена на кнопке */
 #tab-shop .game-card-btn span,
@@ -845,7 +842,7 @@
 }
 </style>
 
-    <style>
+<style>
 #tab-shop > h2 {
     color: #d8e5e1 !important;
 }
@@ -864,7 +861,7 @@
 }
 </style>
 
-    <style>
+<style>
 /* Верхняя панель без внешней рамки */
 .kcep-header {
     border: none !important;
@@ -903,7 +900,7 @@
 }
 </style>
 
-    <style>
+<style>
 /* Верхняя панель видна на всех вкладках */
 .content > .kcep-header {
     display: flex !important;
@@ -943,7 +940,7 @@
 }
 </style>
 
-    <style>
+<style>
 .content > .kcep-header.other-tab {
     background: transparent !important;
     border: none !important;
@@ -978,7 +975,7 @@
 }
 </style>
 
-    <style>
+<style>
 /* Карточка пользователя во вкладке «Профиль» */
 #tab-profile .subo-user-card {
     background: linear-gradient(145deg, #0b1420, #101020) !important;
@@ -1006,7 +1003,7 @@ body {
 }
 </style>
 
-    <style>
+<style>
 #totalEarnedDisplay {
     color: transparent !important;
     background: linear-gradient(
@@ -1030,55 +1027,6 @@ body {
 }
 </style>
 
-    <style>
-/* Кнопки «Играть» во вкладке «Игры» */
-#tab-games .game-card-btn {
-    background: linear-gradient(
-        105deg,
-        #00dc91 0%,
-        #00cdbb 55%,
-        #319bd5 100%
-    ) !important;
-
-    border: none !important;
-    outline: none !important;
-    color: #06131a !important;
-    box-shadow: 0 4px 14px rgba(0, 210, 170, 0.28) !important;
-}
-
-/* Эффект нажатия */
-#tab-games .game-card-btn:active {
-    transform: scale(0.97) !important;
-    filter: brightness(1.1) !important;
-}
-</style>
-
-    <style>
-/* Карточки игр в стиле вкладки «Задания» */
-#tab-games .game-select-card {
-    background:
-        linear-gradient(145deg, #0b1420, #101020) padding-box,
-        linear-gradient(125deg, #087d86, #28516e 55%, #7135a1) border-box !important;
-
-    border: 1px solid transparent !important;
-    border-radius: 15px !important;
-
-    box-shadow:
-        0 5px 15px rgba(0, 0, 0, 0.35),
-        0 0 10px rgba(34, 190, 204, 0.08) !important;
-}
-
-/* Текст внутри карточек */
-#tab-games .game-select-card b {
-    color: #f2f4fb !important;
-}
-
-#tab-games .game-select-card p {
-    color: #8fa6b5 !important;
-}
-</style>
-
-    
 </head>
 <body>
 
@@ -1138,38 +1086,36 @@ body {
             </div>
 
             <div class="kcep-card kcep-main-stat">
-    <div class="kcep-stat-top-title">
-        <span>💎</span> МОНЕТ ЗАРАБОТАНО
-    </div>
+                <div class="kcep-stat-top-title">
+                    <span>💎</span> МОНЕТ ЗАРАБОТАНО
+                </div>
 
-    <div class="kcep-huge-amount" id="hugeRewardWrap">
-    <span style="font-size: 30px;">💎</span>
-    <span id="totalEarnedDisplay">0</span>
-</div>
+                <div class="kcep-huge-amount" id="hugeRewardWrap">
+                    <span style="font-size: 30px;">💎</span>
+                    <span id="totalEarnedDisplay">0</span>
+                </div>
 
+                <div class="kcep-sub-stats-grid">
+                    <div class="kcep-col">
+                        <div class="kcep-col-val">
+                            <span style="color: #00e676;">👥</span>
+                            <span id="userCountDisplay">0</span>
+                        </div>
+                        <div class="kcep-col-lbl">ПОЛЬЗОВАТЕЛЕЙ</div>
+                    </div>
 
-    <div class="kcep-sub-stats-grid">
-        <div class="kcep-col">
-            <div class="kcep-col-val">
-                <span style="color: #00e676;">👥</span>
-                <span id="userCountDisplay">0</span>
+                    <div class="kcep-divider"></div>
+
+                    <div class="kcep-col">
+                        <div class="kcep-col-val">
+                            <span style="color: #00e676;">💵</span>
+                            <span id="hugeRewardAnim">0</span>
+                            <span style="color: #ffca28;">₽</span>
+                        </div>
+                        <div class="kcep-col-lbl">ВСЕГО ВЫПЛАЧЕНО</div>
+                    </div>
+                </div>
             </div>
-            <div class="kcep-col-lbl">ПОЛЬЗОВАТЕЛЕЙ</div>
-        </div>
-
-        <div class="kcep-divider"></div>
-
-        <div class="kcep-col">
-            <div class="kcep-col-val">
-                <span style="color: #00e676;">💵</span>
-                <span id="hugeRewardAnim">0</span>
-                <span style="color: #ffca28;">₽</span>
-            </div>
-            <div class="kcep-col-lbl">ВСЕГО ВЫПЛАЧЕНО</div>
-        </div>
-    </div>
-</div>
-
 
             <div class="kcep-card kcep-user-balance-card">
                 <div class="balance-card-sub">
@@ -1209,7 +1155,7 @@ body {
         <!-- 2. ИГРЫ -->
         <div class="tab-page" id="tab-games">
             <div id="games-hub-view">
-                <h2 style="margin-bottom: 16px; font-size: 22px;"> Выбор игры</h2>
+                <h2 style="margin-bottom: 16px; font-size: 22px;">🎮 Выбор игры</h2>
                 
                 <div class="game-select-card" onclick="openGameScreen('dice')">
                     <div>
@@ -1338,53 +1284,53 @@ body {
 
         <!-- 3. ЗАДАНИЯ -->
         <div class="tab-page" id="tab-tasks">
-            <h2 class="tasks-title"> Задания</h2>
+            <h2 class="tasks-title">📋 Задания</h2>
             <div id="tasksList"></div>
         </div>
 
         <!-- 4. МАГАЗИН -->
         <div class="tab-page" id="tab-shop">
-            <h2 style="margin: 15px 0 18px; font-size: 22px; font-weight: 900;"> Магазин</h2>
+            <h2 style="margin: 15px 0 18px; font-size: 22px; font-weight: 900;">🛍️ Магазин</h2>
             <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;">
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="iphone-duo.png" alt="iPhone Duo" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">iPhone Duo</b>
-                    <button class="game-card-btn gold" onclick="buyStreamItem('iPhone Duo', 1500000)">💎 1 500 000 </button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('iPhone Duo', 1500000)">💎 1 500 000</button>
                 </div>
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="rubles-5000.png" alt="5 000 рублей" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">5 000 рублей</b>
-                    <button class="game-card-btn gold" onclick="buyStreamItem('5 000 рублей', 65000)">💎 65 000 </button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('5 000 рублей', 65000)">💎 65 000</button>
                 </div>
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="rubles-1000.png" alt="1 000 рублей" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">1 000 рублей</b>
-                    <button class="game-card-btn gold" onclick="buyStreamItem('1 000 рублей', 15000)">💎 15 000 </button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('1 000 рублей', 15000)">💎 15 000</button>
                 </div>
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="rubles-2500.png" alt="2 500 рублей" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">2 500 рублей</b>
-                    <button class="game-card-btn gold" onclick="buyStreamItem('2 500 рублей', 45000)">💎 45 000 </button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('2 500 рублей', 45000)">💎 45 000</button>
                 </div>
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="bonus-10000.png" alt="Бонуска за 10 000 рублей" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">Бонуска за 10 000 ₽</b>
-                    <button class="game-card-btn gold" onclick="buyStreamItem('Бонуска за 10 000 ₽', 100000)">💎 100 000 </button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('Бонуска за 10 000 ₽', 100000)">💎 100 000</button>
                 </div>
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="slot-streamer.png" alt="Выбрать слот для стримера" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">Выбрать слот для стримера</b>
-                    <button class="game-card-btn gold" onclick="buyStreamItem('Выбрать слот для стримера', 5000)">💎 5 000 </button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('Выбрать слот для стримера', 5000)">💎 5 000</button>
                 </div>
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="vip-og.png" alt="VIP либо OG в чате" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">VIP либо OG в чате</b>
-                    <button class="game-card-btn gold" onclick="buyStreamItem('VIP либо OG в чате', 45000)">💎 45 000 </button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('VIP либо OG в чате', 45000)">💎 45 000</button>
                 </div>
                 <div class="game-select-card" style="display:block; padding:8px;">
                     <img src="iphone-18-pro-max.png" alt="iPhone 18 Pro Max" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;">
                     <b style="display:block; margin:8px 2px;">iPhone 18 Pro Max</b>
-                    <button class="game-card-btn gold" onclick="buyStreamItem('iPhone 18 Pro Max', 1300000)">💎 1 300 000 </button>
+                    <button class="game-card-btn gold" onclick="buyStreamItem('iPhone 18 Pro Max', 1300000)">💎 1 300 000</button>
                 </div>
             </div>
         </div>
@@ -1640,6 +1586,7 @@ body {
             }
         }, 30);
 
+        /* ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (БЕЗ РЕКУРСИИ С ИГРАМИ) */
         function switchTab(tabName, btnElement) {
             const adminScreen = document.getElementById('admin-screen-view');
             if (adminScreen) adminScreen.style.display = 'none';
@@ -1651,24 +1598,60 @@ body {
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tab-' + tabName)?.classList.add('active');
             if (btnElement) btnElement.classList.add('active');
-            if (tabName === 'games') openGameScreen('hub');
+
+            if (tabName === 'games') {
+                const hub = document.getElementById('games-hub-view');
+                const dice = document.getElementById('game-dice-view');
+                const card = document.getElementById('game-card-view');
+                const balloon = document.getElementById('game-balloon-view');
+                if (hub) hub.style.display = 'block';
+                if (dice) dice.style.display = 'none';
+                if (card) card.style.display = 'none';
+                if (balloon) balloon.style.display = 'none';
+                renderGamesLiveFeed();
+            }
         }
 
         function scrollToTxBlock() { document.getElementById('txAnchor')?.scrollIntoView({ behavior: 'smooth' }); }
 
+        /* ИСПРАВЛЕННОЕ ОТКРЫТИЕ ЭКРАНОВ ИГР */
         function openGameScreen(screen) {
-            document.getElementById('admin-screen-view').style.display = 'none';
-            switchTab('games', document.querySelectorAll('.nav-item')[1]);
+            const adminScreen = document.getElementById('admin-screen-view');
+            if (adminScreen) adminScreen.style.display = 'none';
+            const navbar = document.querySelector('.navbar');
+            if (navbar) navbar.style.display = 'flex';
+
+            document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+
+            const gamesTab = document.getElementById('tab-games');
+            if (gamesTab) gamesTab.classList.add('active');
+            const gamesNavBtn = document.querySelectorAll('.nav-item')[1];
+            if (gamesNavBtn) gamesNavBtn.classList.add('active');
+
             const hub = document.getElementById('games-hub-view');
             const dice = document.getElementById('game-dice-view');
             const card = document.getElementById('game-card-view');
             const balloon = document.getElementById('game-balloon-view');
-            hub.style.display = 'none'; dice.style.display = 'none'; card.style.display = 'none'; balloon.style.display = 'none';
 
-            if (screen === 'hub') { hub.style.display = 'block'; renderGamesLiveFeed(); }
-            else if (screen === 'dice') { dice.style.display = 'block'; }
-            else if (screen === 'card') { card.style.display = 'block'; initCardGameUI(); }
-            else if (screen === 'balloon') { balloon.style.display = 'block'; resetBalloonUI(); }
+            if (hub) hub.style.display = 'none';
+            if (dice) dice.style.display = 'none';
+            if (card) card.style.display = 'none';
+            if (balloon) balloon.style.display = 'none';
+
+            if (screen === 'hub') {
+                if (hub) hub.style.display = 'block';
+                renderGamesLiveFeed();
+            } else if (screen === 'dice') {
+                if (dice) dice.style.display = 'block';
+                renderTargets();
+            } else if (screen === 'card') {
+                if (card) card.style.display = 'block';
+                initCardGameUI();
+            } else if (screen === 'balloon') {
+                if (balloon) balloon.style.display = 'block';
+                resetBalloonUI();
+            }
             if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
@@ -2181,6 +2164,7 @@ body {
             renderGamesLiveFeed();
             renderTasks();
             updateNoticeBadge();
+            renderTargets();
         }
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initApp);
@@ -2236,6 +2220,5 @@ body {
 })();
 </script>
 
-    
 </body>
 </html>
