@@ -575,29 +575,120 @@
 </style>
 
     <style>
-/* ГЛАВНАЯ — цвет карточек в стиле вкладки «Задания» */
-#tab-home .kcep-card,
-#tab-home .kcep-streak-card,
-#tab-home .streamer-card,
-#tab-home .game-promo-card,
-#tab-home .home-card {
+/* ГЛАВНАЯ — дизайн как во вкладке «Задания» */
+
+/* Основные карточки главной */
+.kcep-card,
+.kcep-user-balance-card,
+.kcep-main-stat,
+.kcep-streak-card,
+.cases-card,
+.promo-box,
+.referral-card,
+.subo-stat-card,
+.admin-box,
+.tx-card {
     background:
         linear-gradient(145deg, #0b1420, #101020) padding-box,
         linear-gradient(125deg, #087d86, #28516e 55%, #7135a1) border-box !important;
+
+    border: 1px solid transparent !important;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.35),
+        0 0 10px rgba(34, 190, 204, 0.08) !important;
+}
+
+/* Карточка «Всего выплачено» */
+.kcep-main-stat {
+    border-radius: 24px !important;
+}
+
+/* Карточка «Твой баланс» */
+.kcep-user-balance-card {
+    border-radius: 20px !important;
+}
+
+/* Карточка серии наград */
+.kcep-streak-card {
+    border-radius: 20px !important;
+}
+
+/* Иконки внутри карточек */
+.kcep-card .kcep-icon,
+.kcep-streak-icon,
+.cases-icon,
+.ref-icon {
+    background:
+        linear-gradient(145deg, #102b36, #19253b) !important;
+
+    border-color: rgba(49, 205, 211, 0.3) !important;
+    box-shadow: 0 0 10px rgba(0, 220, 205, 0.1) !important;
+}
+
+/* Текст описаний */
+.kcep-card .kcep-card-sub,
+.kcep-card .kcep-sub-text,
+.kcep-streak-text,
+.cases-subtitle,
+.ref-sub,
+.promo-description {
+    color: #8fa6b5 !important;
+}
+
+/* Кнопки и зелёные элементы главной */
+.kcep-card button,
+.kcep-streak-card button,
+.promo-submit-btn,
+.admin-btn {
+    background:
+        linear-gradient(105deg, #00dc91, #00cdbb 55%, #319bd5) !important;
+
+    color: #06131a !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0, 210, 170, 0.22) !important;
+}
+
+/* Заголовки карточек */
+.kcep-card h1,
+.kcep-card h2,
+.kcep-card h3,
+.kcep-card strong,
+.kcep-streak-title,
+.cases-title,
+.ref-title {
+    color: #f2f4fb !important;
+}
+
+/* Поле промокода */
+.promo-field,
+.admin-field {
+    background: #0b1420 !important;
+    border: 1px solid #28516e !important;
+    color: #ffffff !important;
+}
+
+/* Карточка стрима */
+.streamer-card {
+    background:
+        linear-gradient(145deg, #0b1420, #101020) padding-box,
+        linear-gradient(125deg, #087d86, #28516e 55%, #7135a1) border-box !important;
+
     border: 1px solid transparent !important;
     box-shadow:
         0 5px 15px rgba(0, 0, 0, 0.35),
         0 0 10px rgba(34, 190, 204, 0.08) !important;
 }
 
-/* Карточки с собственным фоном: перекрашиваем только фон */
-#tab-home .kcep-user-balance-card {
-    background:
-        linear-gradient(145deg, #0b1420, #101020) padding-box,
-        linear-gradient(125deg, #087d86, #28516e 55%, #7135a1) border-box !important;
-    border: 1px solid transparent !important;
+/* Активное нажатие на кнопки */
+.kcep-card button:active,
+.kcep-streak-card button:active,
+.promo-submit-btn:active,
+.admin-btn:active {
+    transform: scale(0.98) !important;
 }
 </style>
+
 
 
 </head>
